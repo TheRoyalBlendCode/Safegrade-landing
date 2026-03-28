@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://safegrade.co.uk/sitemap.xml

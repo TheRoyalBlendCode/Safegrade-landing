@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — SafeGrade</title>
+<meta name="description" content="Writing advice, referencing guides, and honest answers for UK university students.">
+<link rel="canonical" href="https://safegrade.co.uk/blog/">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1A2236;--terra:#C4703F;--parchment:#F8F5F0;--linen:#E5E0D6;--stone:#8A7E6E;--green:#6B8E5A;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--ink);}
+nav{background:rgba(248,245,240,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(26,34,54,.08);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.nav-logo-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);}
+.nav-logo-name em{font-style:italic;}
+.nav-cta{background:var(--ink);color:var(--parchment);padding:8px 16px;border-radius:6px;font-weight:500;font-size:13px;text-decoration:none;}
+.hero{background:var(--ink);padding:64px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;bottom:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(196,112,63,.15) 0%,transparent 65%);}
+.hero-eyebrow{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,245,240,.35);margin-bottom:12px;position:relative;z-index:1;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:#F8F5F0;letter-spacing:-.025em;position:relative;z-index:1;}
+.hero-title em{font-style:italic;color:#E8A880;}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(248,245,240,.45);margin-top:10px;position:relative;z-index:1;}
+.posts{max-width:760px;margin:0 auto;padding:56px 40px 80px;display:flex;flex-direction:column;gap:20px;}
+.post-card{background:white;border:1px solid rgba(26,34,54,.07);border-radius:14px;padding:28px 32px;text-decoration:none;display:block;transition:transform .15s,box-shadow .15s;}
+.post-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(26,34,54,.08);}
+.pc-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.pc-tag{font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:3px;}
+.tag-integrity{background:rgba(26,34,54,.08);color:var(--stone);}
+.tag-writing{background:rgba(196,112,63,.1);color:#8A3A10;}
+.tag-referencing{background:rgba(107,142,90,.1);color:#2E5C22;}
+.tag-comparison{background:rgba(74,123,157,.1);color:#1A4A6E;}
+.tag-detection{background:rgba(107,142,90,.1);color:#2E5C22;}
+.tag-grade{background:rgba(196,112,63,.1);color:#8A3A10;}
+.pc-date{font-size:12px;font-weight:300;color:var(--stone);}
+.pc-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:8px;letter-spacing:-.01em;}
+.pc-desc{font-size:14px;font-weight:300;color:var(--stone);line-height:1.65;}
+.pc-read{font-size:12px;font-weight:500;color:var(--terra);margin-top:12px;}
+footer{background:var(--ink);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:15px;color:rgba(248,245,240,.4);}
+.footer-logo em{font-style:italic;}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;}
+.footer-links a{font-size:11.5px;font-weight:300;color:rgba(248,245,240,.3);text-decoration:none;}
+@media(max-width:600px){nav{padding:12px 20px;}.posts{padding:32px 20px 60px;}footer{padding:20px;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="20" height="24" viewBox="0 0 100 118" fill="none"><path fill="#1A2236" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/><path fill="none" stroke="#C4703F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/></svg>
+    <span class="nav-logo-name">Safe<em>Grade</em></span>
+  </a>
+  <a href="https://app.safegrade.co.uk" class="nav-cta">Scan my essay free</a>
+</nav>
+<div class="hero">
+  <div class="hero-eyebrow">SafeGrade Blog</div>
+  <h1 class="hero-title">Honest answers for<br><em>UK students.</em></h1>
+  <p class="hero-sub">Writing advice, referencing guides, and everything you need before submission.</p>
+</div>
+<div class="posts">
+
+  <a href="/blog/perplexity-burstiness-ai-detection-explained.html" class="post-card">
+    <div class="pc-meta">
+      <span class="pc-tag tag-detection">How Detection Works</span>
+      <span class="pc-date">5 May 2026</span>
+    </div>
+    <div class="pc-title">What is perplexity and burstiness in AI detection? Explained simply</div>
+    <div class="pc-desc">Every AI detection tool uses these two signals. Here's what they actually measure, why they matter for your essay, and how to improve both scores.</div>
+    <div class="pc-read">5 min read →</div>
+  </a>
+
+  <a href="/blog/gptzero-vs-safegrade-uk-students.html" class="post-card">
+    <div class="pc-meta">
+      <span class="pc-tag tag-comparison">Tool Comparison</span>
+      <span class="pc-date">28 April 2026</span>
+    </div>
+    <div class="pc-title">GPTZero vs SafeGrade — which is better for UK students?</div>
+    <div class="pc-desc">An honest comparison. What each tool does, where each falls short, and which is right for your situation.</div>
+    <div class="pc-read">6 min read →</div>
+  </a>
+
+  <a href="/blog/how-to-improve-essay-grade-uk.html" class="post-card">
+    <div class="pc-meta">
+      <span class="pc-tag tag-grade">Grade Improvement</span>
+      <span class="pc-date">21 April 2026</span>
+    </div>
+    <div class="pc-title">How to improve your essay grade before submission — UK students 2026</div>
+    <div class="pc-desc">The practical pre-submission checklist that UK students use to push their essays from a 2:2 to a 2:1. What to fix, in what order, and how to do it quickly.</div>
+    <div class="pc-read">7 min read →</div>
+  </a>
+
+  <a href="/blog/free-harvard-referencing-checker.html" class="post-card">
+    <div class="pc-meta">
+      <span class="pc-tag tag-referencing">Referencing</span>
+      <span class="pc-date">14 April 2026</span>
+    </div>
+    <div class="pc-title">Free Harvard referencing checker — what it checks and how to use one</div>
+    <div class="pc-desc">Referencing errors cost marks. Here's what a Harvard referencing checker actually looks for, the 7 mistakes UK students make most often, and how to fix them before submission.</div>
+    <div class="pc-read">8 min read →</div>
+  </a>
+
+  <a href="/blog/ai-essay-phrases-to-avoid.html" class="post-card">
+    <div class="pc-meta">
+      <span class="pc-tag tag-writing">Writing Tips</span>
+      <span class="pc-date">7 April 2026</span>
+    </div>
+    <div class="pc-title">10 AI essay phrases that get students flagged — and how to fix every one</div>
+    <div class="pc-desc">Your marker has read thousands of essays. These phrases appear so often in AI-generated work that they've become a fingerprint. Here are the 10 most common with specific rewrites for each.</div>
+    <div class="pc-read">6 min read →</div>
+  </a>
+
+  <a href="/blog/will-my-university-detect-ai-in-my-essay.html" class="post-card">
+    <div class="pc-meta">
+      <span class="pc-tag tag-integrity">Academic Integrity</span>
+      <span class="pc-date">24 March 2026</span>
+    </div>
+    <div class="pc-title">Will my university detect AI in my essay? The honest answer for UK students.</div>
+    <div class="pc-desc">How Turnitin AI detection actually works in 2026, what it catches, why false positives happen, and what to do before you submit.</div>
+    <div class="pc-read">7 min read →</div>
+  </a>
+
+</div>
+<footer>
+  <span class="footer-logo">Safe<em>Grade</em></span>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="https://app.safegrade.co.uk">Open app</a>
+    <a href="mailto:help@safegrade.co.uk">help@safegrade.co.uk</a>
+  </div>
+</footer>
+</body>
+</html>

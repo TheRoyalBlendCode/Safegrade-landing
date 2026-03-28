@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will my university detect AI in my essay? (UK students 2026) | SafeGrade</title>
+<meta name="description" content="The honest answer for UK students: how Turnitin AI detection actually works in 2026, what it catches, why false positives happen, and what to do before you submit.">
+<meta property="og:title" content="Will my university detect AI in my essay? (UK 2026)">
+<meta property="og:description" content="The honest answer for UK students: how Turnitin AI detection actually works, what it catches, and what to do before you submit.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://safegrade.co.uk/blog/will-my-university-detect-ai-in-my-essay.html">
+<link rel="canonical" href="https://safegrade.co.uk/blog/will-my-university-detect-ai-in-my-essay.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Will my university detect AI in my essay? (UK students 2026)",
+  "description": "The honest answer for UK students on how Turnitin AI detection works in 2026, what it catches, and what to do before you submit.",
+  "datePublished": "2026-03-24",
+  "dateModified": "2026-03-24",
+  "author": { "@type": "Organization", "name": "SafeGrade" },
+  "publisher": { "@type": "Organization", "name": "SafeGrade", "url": "https://safegrade.co.uk" },
+  "url": "https://safegrade.co.uk/blog/will-my-university-detect-ai-in-my-essay.html"
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A2236;--terra:#C4703F;--parchment:#F8F5F0;--linen:#E5E0D6;
+  --stone:#8A7E6E;--green:#6B8E5A;--max:720px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* ── NAV ── */
+nav{
+  background:rgba(248,245,240,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(26,34,54,.08);
+  padding:14px 40px;position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.nav-logo-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);font-weight:400;}
+.nav-logo-name em{font-style:italic;}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-right a{font-size:13px;color:var(--stone);text-decoration:none;}
+.nav-right a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink);color:var(--parchment)!important;padding:8px 16px;border-radius:6px;font-weight:500!important;font-size:13px!important;}
+
+/* ── HERO ── */
+.post-hero{
+  background:var(--ink);
+  padding:72px 40px 64px;
+  position:relative;overflow:hidden;
+}
+.post-hero::before{
+  content:'';position:absolute;bottom:-100px;right:-100px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,112,63,.18) 0%,transparent 65%);
+}
+.post-hero::after{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(248,245,240,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(248,245,240,.025) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;
+}
+.hero-inner{max-width:var(--max);margin:0 auto;position:relative;z-index:1;}
+.post-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.post-tag{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;background:rgba(196,112,63,.15);color:#E8A880;padding:4px 10px;border-radius:3px;}
+.post-date{font-size:12px;font-weight:300;color:rgba(248,245,240,.35);}
+.post-read{font-size:12px;font-weight:300;color:rgba(248,245,240,.35);}
+.post-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,4vw,46px);font-weight:700;
+  line-height:1.08;letter-spacing:-.025em;
+  color:#F8F5F0;margin-bottom:16px;
+}
+.post-title em{font-style:italic;color:#E8A880;}
+.post-intro{font-size:16px;font-weight:300;color:rgba(248,245,240,.55);line-height:1.7;max-width:580px;}
+
+/* ── CONTENT ── */
+.post-body{max-width:var(--max);margin:0 auto;padding:56px 40px 80px;}
+
+/* TOC */
+.toc{
+  background:white;border:1px solid rgba(26,34,54,.08);
+  border-left:3px solid var(--terra);
+  border-radius:0 10px 10px 0;
+  padding:20px 24px;margin-bottom:48px;
+}
+.toc-label{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--stone);margin-bottom:12px;}
+.toc ol{padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.toc li{font-size:13.5px;font-weight:300;color:var(--stone);}
+.toc a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+.toc a:hover{border-color:var(--terra);}
+
+/* Headings */
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,2.5vw,28px);font-weight:700;
+  letter-spacing:-.015em;line-height:1.15;
+  color:var(--ink);margin:52px 0 16px;
+  padding-top:8px;
+}
+h2 em{font-style:italic;color:var(--terra);}
+h3{font-size:17px;font-weight:500;color:var(--ink);margin:28px 0 10px;}
+
+/* Body text */
+p{font-size:16px;font-weight:300;color:#2E3A50;line-height:1.8;margin-bottom:20px;}
+p strong{font-weight:500;color:var(--ink);}
+p em{font-style:italic;}
+
+/* Lists */
+ul,ol{padding-left:24px;margin-bottom:20px;}
+li{font-size:15.5px;font-weight:300;color:#2E3A50;line-height:1.75;margin-bottom:6px;}
+li strong{font-weight:500;color:var(--ink);}
+
+/* Callout boxes */
+.callout{border-radius:0 10px 10px 0;padding:16px 20px;margin:28px 0;}
+.callout-terra{background:rgba(196,112,63,.07);border-left:3px solid var(--terra);}
+.callout-ink{background:rgba(26,34,54,.04);border-left:3px solid var(--ink);}
+.callout-green{background:rgba(107,142,90,.07);border-left:3px solid var(--green);}
+.callout p{font-size:14.5px;margin-bottom:0;color:var(--ink);}
+.callout-title{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;}
+.ct-terra{color:var(--terra);}
+.ct-ink{color:var(--stone);}
+.ct-green{color:var(--green);}
+
+/* Inline code */
+code{font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(26,34,54,.06);padding:2px 6px;border-radius:3px;color:var(--ink);}
+
+/* Phrase examples */
+.phrase-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.phrase-list li{display:flex;align-items:center;justify-content:space-between;background:white;border:1px solid rgba(26,34,54,.08);border-radius:8px;padding:11px 16px;gap:12px;}
+.phrase-text{font-size:14px;font-style:italic;color:var(--ink);}
+.phrase-badge{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;background:rgba(196,112,63,.1);color:#8A3A10;padding:3px 9px;border-radius:3px;white-space:nowrap;flex-shrink:0;}
+
+/* CTA mid-article */
+.mid-cta{
+  background:var(--ink);border-radius:14px;
+  padding:32px;margin:48px 0;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  position:relative;overflow:hidden;
+}
+.mid-cta::before{
+  content:'';position:absolute;bottom:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,112,63,.2) 0%,transparent 65%);
+}
+.mid-cta-left{}
+.mid-cta-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#F8F5F0;margin-bottom:6px;}
+.mid-cta-title em{font-style:italic;color:#E8A880;}
+.mid-cta-sub{font-size:13px;font-weight:300;color:rgba(248,245,240,.5);}
+.mid-cta-btn{
+  background:var(--terra);color:white;
+  font-size:13.5px;font-weight:500;
+  padding:12px 22px;border-radius:7px;
+  text-decoration:none;white-space:nowrap;flex-shrink:0;
+  position:relative;z-index:1;
+}
+.mid-cta-btn:hover{background:#b05e30;}
+
+/* Verdict scale */
+.verdict-scale{display:flex;flex-direction:column;gap:8px;margin:20px 0 28px;}
+.vs-item{display:flex;align-items:center;gap:12px;background:white;border:1px solid rgba(26,34,54,.07);border-radius:8px;padding:10px 16px;}
+.vs-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.vs-label{font-size:13.5px;font-weight:500;color:var(--ink);width:120px;flex-shrink:0;}
+.vs-desc{font-size:12.5px;font-weight:300;color:var(--stone);}
+
+/* Article footer CTA */
+.end-cta{
+  background:var(--linen);border-radius:14px;
+  padding:40px;margin-top:56px;text-align:center;
+  border:1px solid rgba(26,34,54,.07);
+}
+.end-cta-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.end-cta-title em{font-style:italic;color:var(--terra);}
+.end-cta-sub{font-size:14px;font-weight:300;color:var(--stone);margin-bottom:24px;line-height:1.65;}
+.end-cta-btn{
+  display:inline-block;background:var(--ink);color:var(--parchment);
+  font-size:14px;font-weight:500;padding:13px 28px;border-radius:7px;
+  text-decoration:none;
+}
+
+/* Related posts placeholder */
+.related{margin-top:56px;padding-top:40px;border-top:1px solid rgba(26,34,54,.1);}
+.related-title{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--stone);margin-bottom:20px;}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.related-card{background:white;border:1px solid rgba(26,34,54,.07);border-radius:10px;padding:20px;text-decoration:none;transition:transform .15s,box-shadow .15s;}
+.related-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(26,34,54,.08);}
+.rc-tag{font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);margin-bottom:8px;}
+.rc-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.4;}
+
+/* Footer */
+footer{background:var(--ink);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;color:rgba(248,245,240,.45);}
+.footer-logo em{font-style:italic;}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;}
+.footer-links a{font-size:11.5px;font-weight:300;color:rgba(248,245,240,.3);text-decoration:none;}
+.footer-links a:hover{color:rgba(248,245,240,.7);}
+
+/* Responsive */
+@media(max-width:640px){
+  nav{padding:12px 20px;}
+  .nav-right .hide-mobile{display:none;}
+  .post-hero{padding:48px 20px 44px;}
+  .post-body{padding:40px 20px 60px;}
+  .mid-cta{flex-direction:column;align-items:flex-start;}
+  .related-grid{grid-template-columns:1fr;}
+  footer{padding:24px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="22" height="26" viewBox="0 0 100 118" fill="none"><path fill="#1A2236" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/><path fill="none" stroke="#C4703F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/></svg>
+    <span class="nav-logo-name">Safe<em>Grade</em></span>
+  </a>
+  <div class="nav-right">
+    <a href="/blog/" class="hide-mobile">Blog</a>
+    <a href="/#features" class="hide-mobile">Features</a>
+    <a href="https://app.safegrade.co.uk" class="nav-cta">Scan my essay free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="post-hero">
+  <div class="hero-inner">
+    <div class="post-meta">
+      <span class="post-tag">Academic Integrity</span>
+      <span class="post-date">24 March 2026</span>
+      <span class="post-read">7 min read</span>
+    </div>
+    <h1 class="post-title">Will my university detect<br>AI in my essay?<br><em>The honest answer for UK students.</em></h1>
+    <p class="post-intro">The short version: it depends — and the odds are rising. Here's exactly how UK universities check for AI-generated writing in 2026, what they can and can't catch, and what you should do before you hit submit.</p>
+  </div>
+</div>
+
+<!-- BODY -->
+<article class="post-body">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-label">In this article</div>
+    <ol>
+      <li><a href="#how-universities-detect">How UK universities detect AI writing</a></li>
+      <li><a href="#what-turnitin-catches">What Turnitin AI detection actually catches</a></li>
+      <li><a href="#false-positives">False positives — can your own writing get flagged?</a></li>
+      <li><a href="#ai-phrases">The phrases that immediately raise suspicion</a></li>
+      <li><a href="#what-to-do">What to do before you submit</a></li>
+      <li><a href="#university-policies">UK university policies in 2026</a></li>
+    </ol>
+  </div>
+
+  <p>If you've used ChatGPT, Gemini, Copilot, or any other AI tool while writing your essay — even just to help structure an argument or rephrase a sentence — you've probably asked yourself this question. The anxiety is real, and it's worth getting a straight answer rather than guessing.</p>
+
+  <p>The truth is more nuanced than most articles admit. AI detection is genuinely improving, but it's still far from perfect. Understanding how it actually works will help you make informed decisions about your work.</p>
+
+  <h2 id="how-universities-detect">How UK universities <em>detect AI</em> writing</h2>
+
+  <p>Most UK universities use <strong>Turnitin</strong> as their primary submission platform. Since 2023, Turnitin has had a built-in AI writing detection feature that runs automatically on every submitted essay. Your lecturer may not even need to actively look for it — the score appears alongside your similarity report.</p>
+
+  <p>Beyond Turnitin, some universities and lecturers use additional tools — GPTZero, Originality.ai, or simply their own judgment based on experience reading hundreds of essays. A lecturer who has marked your work before will notice immediately if your writing style has changed dramatically.</p>
+
+  <p>Turnitin's AI detection works by analysing statistical patterns in your writing. It looks at things like:</p>
+
+  <ul>
+    <li><strong>Perplexity</strong> — how predictable your word choices are. AI tends to pick the statistically likely next word; humans make more surprising choices.</li>
+    <li><strong>Burstiness</strong> — whether your sentence lengths vary naturally. Human writers mix short punchy sentences with longer complex ones. AI writing tends to be more uniform.</li>
+    <li><strong>Phrase patterns</strong> — certain transitional phrases and sentence openers appear in AI-generated text at rates far higher than in human writing.</li>
+  </ul>
+
+  <div class="callout callout-ink">
+    <div class="callout-title ct-ink">Worth knowing</div>
+    <p>Turnitin's AI detection score is separate from its plagiarism score. A high AI score doesn't mean your work was copied — it means the writing patterns statistically resemble AI-generated text. These are different things, and universities are beginning to treat them differently in their policies.</p>
+  </div>
+
+  <h2 id="what-turnitin-catches">What Turnitin AI detection <em>actually catches</em></h2>
+
+  <p>This is where it gets more honest than most articles go. Turnitin's AI detection is better than it was, but it has real limitations:</p>
+
+  <ul>
+    <li><strong>It catches raw AI output reasonably well.</strong> If you paste an essay from ChatGPT directly into your submission with minimal editing, there's a good chance it will be flagged. Modern AI models produce statistically predictable text that detection tools are calibrated against.</li>
+    <li><strong>It struggles with heavily edited AI text.</strong> If you used AI as a starting point and rewrote substantial portions in your own voice, the signal becomes much weaker. The more you've genuinely engaged with and changed the text, the harder it is to detect.</li>
+    <li><strong>It has a meaningful false positive rate.</strong> Studies have shown Turnitin can flag human-written essays — particularly those written by non-native English speakers or students who naturally write in formal, structured prose. This is a real problem that universities are grappling with.</li>
+    <li><strong>It doesn't detect AI-assisted research.</strong> Using ChatGPT to understand a concept, generate ideas, or find relevant theories — and then writing in your own words — is essentially undetectable. The tool can only analyse the final text.</li>
+  </ul>
+
+  <div class="callout callout-terra">
+    <div class="callout-title ct-terra">The honest reality</div>
+    <p>No university is claiming Turnitin's AI detection is definitive proof of misconduct. Most use it as one signal among many, not as grounds for automatic punishment. A high AI score typically triggers a conversation with the student or a closer review — not an automatic fail.</p>
+  </div>
+
+  <!-- MID-ARTICLE CTA -->
+  <div class="mid-cta">
+    <div class="mid-cta-left">
+      <div class="mid-cta-title">Check your essay <em>before</em> they do.</div>
+      <div class="mid-cta-sub">SafeGrade's AI Risk Check analyses the same writing patterns Turnitin looks for. Free, private, and takes 30 seconds.</div>
+    </div>
+    <a href="https://app.safegrade.co.uk" class="mid-cta-btn">Scan my essay free →</a>
+  </div>
+
+  <h2 id="false-positives">False positives — can your <em>own writing</em> get flagged?</h2>
+
+  <p>Yes — and this is genuinely important to understand. Turnitin's AI detection has produced false positives on completely human-written essays. This happens most commonly when:</p>
+
+  <ul>
+    <li>You write in a formal, structured academic style (which overlaps with how AI writes)</li>
+    <li>You're writing in a style that's heavily formulaic — law problem questions, nursing reflections using the Gibbs model, scientific lab reports</li>
+    <li>English is not your first language and you tend to write in simpler, more uniform sentence structures</li>
+    <li>Your essay uses lots of standard academic transitions ("furthermore", "in conclusion", "it is important to note")</li>
+  </ul>
+
+  <p>This is precisely why knowing your own risk level before submission matters. A score that looks concerning is much better to discover privately — where you can review and adjust — than when it's already in your lecturer's hands.</p>
+
+  <h2 id="ai-phrases">The phrases that <em>immediately raise suspicion</em></h2>
+
+  <p>Beyond the statistical signals, there are specific phrases that appear in AI-generated text so frequently that experienced markers recognise them on sight. These are worth checking for regardless of how you wrote your essay — they can creep in through editing even when the core writing is yours.</p>
+
+  <ul class="phrase-list">
+    <li><span class="phrase-text">"It is important to note that..."</span><span class="phrase-badge">AI signal</span></li>
+    <li><span class="phrase-text">"Furthermore, it is worth noting..."</span><span class="phrase-badge">AI signal</span></li>
+    <li><span class="phrase-text">"In today's rapidly evolving landscape..."</span><span class="phrase-badge">AI signal</span></li>
+    <li><span class="phrase-text">"Delve into the multifaceted aspects..."</span><span class="phrase-badge">AI signal</span></li>
+    <li><span class="phrase-text">"In conclusion, it is evident that..."</span><span class="phrase-badge">AI signal</span></li>
+    <li><span class="phrase-text">"This essay will critically examine..."</span><span class="phrase-badge">AI signal</span></li>
+  </ul>
+
+  <p>These phrases aren't wrong in themselves — some are standard academic English. But they appear in AI-generated essays at a rate that's statistically far above human writing, and markers who read dozens of essays a week have developed a strong pattern recognition for them.</p>
+
+  <p>The fix isn't to avoid formal academic language. It's to vary your phrasing and ensure your sentence openers don't follow a predictable pattern throughout the essay.</p>
+
+  <h2 id="what-to-do">What to do <em>before you submit</em></h2>
+
+  <p>Whatever your situation — whether you used AI heavily, lightly, or not at all — there are practical steps worth taking before every submission:</p>
+
+  <h3>1. Run a writing analysis on your essay</h3>
+  <p>Check your essay's writing patterns before your university does. SafeGrade analyses the same six dimensions that AI detection tools look for — perplexity, burstiness, vocabulary diversity, phrase patterns, sentence variation, and paragraph structure — and gives you a clear picture of where your essay sits. This is free and unlimited.</p>
+
+  <h3>2. Run an AI Risk Check (Deep Scan) if you're concerned</h3>
+  <p>If the local analysis flags anything concerning, or you want a deeper look, SafeGrade's AI Risk Check goes further — it analyses voice consistency, argument flow, and the specific patterns that institutional detection tools target. This runs once free per month, or unlimited on Pro.</p>
+
+  <h3>3. Check your references carefully</h3>
+  <p>AI-generated essays often contain fabricated references — citations to books and articles that don't exist, or real titles attributed to the wrong author or year. If your essay contains any AI-generated content, verifying every reference is essential. SafeGrade's citation checker validates your Harvard or APA references automatically.</p>
+
+  <h3>4. Read your essay out loud</h3>
+  <p>This is the simplest check. AI writing tends to sound smooth in a way that becomes obvious when spoken — uniform rhythm, predictable structure, transitions that feel slightly formal. If passages feel like they came from a different voice than yours, that's worth addressing before submission.</p>
+
+  <div class="callout callout-green">
+    <div class="callout-title ct-green">The bottom line</div>
+    <p>Using SafeGrade is no different to using a spell checker before submission. It's a pre-submission review tool, not a cheating service. Knowing where your essay stands before your lecturer sees it gives you the opportunity to improve it — which is exactly what good academic practice looks like.</p>
+  </div>
+
+  <h2 id="university-policies">UK university policies <em>in 2026</em></h2>
+
+  <p>UK university policies on AI vary more than most students realise. There is no single national standard, and institutions have moved at very different speeds.</p>
+
+  <p>The general picture across the Russell Group and post-92 universities is:</p>
+
+  <ul>
+    <li><strong>Most ban undisclosed AI use</strong> — using AI to write content you submit as your own is treated as academic misconduct, equivalent to contract cheating</li>
+    <li><strong>Many allow disclosed AI assistance</strong> — using AI for research, brainstorming, or editing, with that use declared in your submission, is permitted at a growing number of institutions</li>
+    <li><strong>Some require AI use to be cited</strong> — similar to how you'd cite any other source. Check your module handbook for the exact requirement</li>
+    <li><strong>Penalties are still severe</strong> — where misconduct is found, outcomes range from mark reduction to module failure to expulsion, depending on severity and prior history</li>
+  </ul>
+
+  <p><strong>The most important thing:</strong> check your own university's and your own module's policy specifically. The rules vary significantly even between departments at the same institution. Your module handbook or your lecturer is the definitive source.</p>
+
+  <div class="callout callout-terra">
+    <div class="callout-title ct-terra">Remember</div>
+    <p>SafeGrade does not generate essay content and cannot help you pass off AI-generated work as your own. What it does is help you understand how your writing appears to detection tools and where it can be improved — so that work you've genuinely written comes across that way.</p>
+  </div>
+
+  <!-- END CTA -->
+  <div class="end-cta">
+    <div class="end-cta-title">Check your essay before<br>your lecturer <em>does.</em></div>
+    <div class="end-cta-sub">SafeGrade analyses your writing quality, flags AI-risk patterns, checks your references, and estimates your grade band. Free to start — no account needed for the first scan.</div>
+    <a href="https://app.safegrade.co.uk" class="end-cta-btn">Scan my essay free →</a>
+  </div>
+
+  <!-- RELATED -->
+  <div class="related">
+    <div class="related-title">More from SafeGrade</div>
+    <div class="related-grid">
+      <a href="/blog/ai-essay-phrases-to-avoid.html" class="related-card">
+        <div class="rc-tag">Writing Tips</div>
+        <div class="rc-title">10 AI essay phrases that get students flagged — and how to fix them</div>
+      </a>
+      <a href="/blog/free-harvard-referencing-checker.html" class="related-card">
+        <div class="rc-tag">Referencing</div>
+        <div class="rc-title">Free Harvard referencing checker — what it checks and how to use one</div>
+      </a>
+    </div>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Safe<em>Grade</em></span>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://app.safegrade.co.uk">Open app</a>
+    <a href="https://app.safegrade.co.uk/privacy">Privacy</a>
+    <a href="mailto:help@safegrade.co.uk">help@safegrade.co.uk</a>
+  </div>
+</footer>
+
+</body>
+</html>
