@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is perplexity and burstiness in AI detection? Explained simply | SafeGrade</title>
+<meta name="description" content="Perplexity and burstiness are the two main signals AI detection tools use. Here's what they actually measure, why they matter for your essay, and how to improve both scores.">
+<meta property="og:title" content="What is perplexity and burstiness in AI detection? Explained simply">
+<meta property="og:description" content="The two signals AI detectors use — what they actually measure, why they matter, and how to improve both in your essay.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://safegrade.co.uk/blog/perplexity-burstiness-ai-detection-explained.html">
+<link rel="canonical" href="https://safegrade.co.uk/blog/perplexity-burstiness-ai-detection-explained.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"What is perplexity and burstiness in AI detection? Explained simply","description":"Perplexity and burstiness are the two main signals AI detection tools use. Here's what they actually measure.","datePublished":"2026-02-02","author":{"@type":"Organization","name":"SafeGrade"},"publisher":{"@type":"Organization","name":"SafeGrade","url":"https://safegrade.co.uk"},"url":"https://safegrade.co.uk/blog/perplexity-burstiness-ai-detection-explained.html"}</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1A2236;--terra:#C4703F;--parchment:#F8F5F0;--linen:#E5E0D6;--stone:#8A7E6E;--green:#6B8E5A;--max:720px;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
+nav{background:rgba(248,245,240,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(26,34,54,.08);padding:14px 40px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}.nav-logo-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);font-weight:400;}.nav-logo-name em{font-style:italic;}
+.nav-right{display:flex;align-items:center;gap:20px;}.nav-right a{font-size:13px;color:var(--stone);text-decoration:none;}.nav-right a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink);color:var(--parchment)!important;padding:8px 16px;border-radius:6px;font-weight:500!important;font-size:13px!important;}
+.post-hero{background:var(--ink);padding:72px 40px 64px;position:relative;overflow:hidden;}
+.post-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(107,142,90,.2) 0%,transparent 65%);}
+.post-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(248,245,240,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(248,245,240,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-inner{max-width:var(--max);margin:0 auto;position:relative;z-index:1;}
+.post-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.post-tag{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;background:rgba(107,142,90,.15);color:#B8D4AA;padding:4px 10px;border-radius:3px;}
+.post-date,.post-read{font-size:12px;font-weight:300;color:rgba(248,245,240,.35);}
+.post-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,46px);font-weight:700;line-height:1.08;letter-spacing:-.025em;color:#F8F5F0;margin-bottom:16px;}
+.post-title em{font-style:italic;color:#B8D4AA;}
+.post-intro{font-size:16px;font-weight:300;color:rgba(248,245,240,.55);line-height:1.7;max-width:580px;}
+.post-body{max-width:var(--max);margin:0 auto;padding:56px 40px 80px;}
+.toc{background:white;border:1px solid rgba(26,34,54,.08);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:20px 24px;margin-bottom:48px;}
+.toc-label{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--stone);margin-bottom:12px;}
+.toc ol{padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.toc li{font-size:13.5px;font-weight:300;color:var(--stone);}
+.toc a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent;}
+.toc a:hover{border-color:var(--green);}
+h2{font-family:'Playfair Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.015em;line-height:1.15;color:var(--ink);margin:52px 0 16px;padding-top:8px;}
+h2 em{font-style:italic;color:var(--terra);}
+h3{font-size:17px;font-weight:500;color:var(--ink);margin:28px 0 10px;}
+p{font-size:16px;font-weight:300;color:#2E3A50;line-height:1.8;margin-bottom:20px;}
+p strong{font-weight:500;color:var(--ink);}
+ul,ol{padding-left:24px;margin-bottom:20px;}
+li{font-size:15.5px;font-weight:300;color:#2E3A50;line-height:1.75;margin-bottom:6px;}
+li strong{font-weight:500;color:var(--ink);}
+.callout{border-radius:0 10px 10px 0;padding:16px 20px;margin:28px 0;}
+.callout-terra{background:rgba(196,112,63,.07);border-left:3px solid var(--terra);}
+.callout-ink{background:rgba(26,34,54,.04);border-left:3px solid var(--ink);}
+.callout-green{background:rgba(107,142,90,.07);border-left:3px solid var(--green);}
+.callout p{font-size:14.5px;margin-bottom:0;color:var(--ink);}
+.callout-title{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;}
+.ct-terra{color:var(--terra);}.ct-ink{color:var(--stone);}.ct-green{color:var(--green);}
+.concept-card{background:white;border:1px solid rgba(26,34,54,.08);border-radius:14px;overflow:hidden;margin-bottom:20px;}
+.cc-header{padding:18px 22px;display:flex;align-items:center;gap:12px;}
+.cc-header-perplexity{background:rgba(26,34,54,.96);}
+.cc-header-burstiness{background:var(--terra);}
+.cc-icon{width:36px;height:36px;border-radius:8px;background:rgba(248,245,240,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cc-label{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:rgba(248,245,240,.45);margin-bottom:2px;}
+.cc-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#F8F5F0;}
+.cc-body{padding:20px 22px;}
+.cc-body p{font-size:14.5px;font-weight:300;color:var(--stone);line-height:1.7;margin-bottom:14px;}
+.cc-body p:last-child{margin-bottom:0;}
+.sent-example{margin:16px 0;}
+.se-label{font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.se-ai{color:#B03020;}
+.se-human{color:var(--green);}
+.se-text{font-size:14px;font-style:italic;padding:10px 16px;border-radius:7px;line-height:1.6;}
+.se-text-ai{background:rgba(224,90,74,.06);border-left:3px solid rgba(224,90,74,.4);color:var(--ink);}
+.se-text-human{background:rgba(107,142,90,.06);border-left:3px solid rgba(107,142,90,.4);color:var(--ink);}
+.se-why{font-size:12.5px;font-weight:300;color:var(--stone);margin-top:6px;padding-left:4px;}
+.score-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 28px;}
+.sv-card{background:var(--linen);border-radius:10px;padding:18px 20px;text-align:center;}
+.sv-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;line-height:1;margin-bottom:4px;}
+.sv-high{color:var(--green);}
+.sv-low{color:var(--terra);}
+.sv-label{font-size:12px;font-weight:300;color:var(--stone);}
+.mid-cta{background:var(--ink);border-radius:14px;padding:28px 32px;margin:48px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;position:relative;overflow:hidden;}
+.mid-cta::before{content:'';position:absolute;bottom:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(107,142,90,.2) 0%,transparent 65%);}
+.mid-cta-left{position:relative;z-index:1;}
+.mid-cta-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#F8F5F0;margin-bottom:5px;}
+.mid-cta-title em{font-style:italic;color:#B8D4AA;}
+.mid-cta-sub{font-size:13px;font-weight:300;color:rgba(248,245,240,.45);}
+.mid-cta-btn{background:var(--green);color:white;font-size:13px;font-weight:500;padding:11px 20px;border-radius:7px;text-decoration:none;white-space:nowrap;flex-shrink:0;position:relative;z-index:1;}
+.end-cta{background:var(--linen);border:1px solid rgba(26,34,54,.08);border-radius:14px;padding:40px;margin-top:56px;text-align:center;}
+.end-cta-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.end-cta-title em{font-style:italic;color:var(--terra);}
+.end-cta-sub{font-size:14px;font-weight:300;color:var(--stone);margin-bottom:24px;line-height:1.65;}
+.end-cta-btn{display:inline-block;background:var(--ink);color:var(--parchment);font-size:14px;font-weight:500;padding:13px 28px;border-radius:7px;text-decoration:none;}
+.related{margin-top:56px;padding-top:40px;border-top:1px solid rgba(26,34,54,.1);}
+.related-title{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--stone);margin-bottom:20px;}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.related-card{background:white;border:1px solid rgba(26,34,54,.07);border-radius:10px;padding:20px;text-decoration:none;transition:transform .15s,box-shadow .15s;}
+.related-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(26,34,54,.08);}
+.rc-tag{font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);margin-bottom:8px;}
+.rc-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.4;}
+footer{background:var(--ink);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;color:rgba(248,245,240,.45);}
+.footer-logo em{font-style:italic;}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;}
+.footer-links a{font-size:11.5px;font-weight:300;color:rgba(248,245,240,.3);text-decoration:none;}
+.footer-links a:hover{color:rgba(248,245,240,.7);}
+@media(max-width:640px){nav{padding:12px 20px;}.nav-right .hide-mobile{display:none;}.post-hero{padding:48px 20px 44px;}.post-body{padding:40px 20px 60px;}.score-visual{grid-template-columns:1fr;}.mid-cta{flex-direction:column;align-items:flex-start;}.related-grid{grid-template-columns:1fr;}footer{padding:24px 20px;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo"><svg width="22" height="26" viewBox="0 0 100 118" fill="none"><path fill="#1A2236" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/><path fill="none" stroke="#C4703F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/></svg><span class="nav-logo-name">Safe<em>Grade</em></span></a>
+  <div class="nav-right"><a href="/blog/" class="hide-mobile">Blog</a><a href="https://app.safegrade.co.uk" class="nav-cta">Scan my essay free</a></div>
+</nav>
+
+<div class="post-hero">
+  <div class="hero-inner">
+    <div class="post-meta"><span class="post-tag">How Detection Works</span><span class="post-date">2 February 2026</span><span class="post-read">5 min read</span></div>
+    <h1 class="post-title">What is perplexity and<br>burstiness in AI detection?<br><em>Explained simply.</em></h1>
+    <p class="post-intro">Every AI detection tool uses these two signals. Understanding what they actually measure — and why human writing scores differently — helps you write in a way that reflects your authentic voice.</p>
+  </div>
+</div>
+
+<article class="post-body">
+
+  <div class="toc">
+    <div class="toc-label">In this article</div>
+    <ol>
+      <li><a href="#perplexity">What perplexity measures</a></li>
+      <li><a href="#burstiness">What burstiness measures</a></li>
+      <li><a href="#examples">How they look in real text</a></li>
+      <li><a href="#false-positives">Why human essays sometimes score low</a></li>
+      <li><a href="#improve">How to improve your scores</a></li>
+    </ol>
+  </div>
+
+  <p>When you see scores like "Perplexity: 78" and "Burstiness: 85" in SafeGrade's writing analysis, what do they actually mean? And why does AI writing consistently score lower on both?</p>
+
+  <p>These two signals are the core of most AI detection systems — including Turnitin's. Understanding them doesn't just help you interpret your SafeGrade results — it helps you understand what authentic academic writing looks like from a statistical perspective.</p>
+
+  <div class="concept-card" id="perplexity">
+    <div class="cc-header cc-header-perplexity">
+      <div class="cc-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="rgba(248,245,240,.7)" stroke-width="1.2" fill="none"/><path d="M8 5.5v3M8 10.5v.5" stroke="#C4703F" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+      <div><div class="cc-label">Signal 1</div><div class="cc-name">Perplexity</div></div>
+    </div>
+    <div class="cc-body">
+      <p><strong>Plain English definition:</strong> Perplexity measures how surprising or unpredictable the word choices in a piece of writing are. A high perplexity score means the text frequently uses unexpected words. A low perplexity score means the word choices are highly predictable — each word is statistically "obvious" given what came before it.</p>
+      <p><strong>Why AI scores low:</strong> Large language models work by predicting the most likely next token (word or word-fragment) given the context. Because they're trained to produce fluent, coherent text, they tend to choose statistically common, expected words. This makes AI writing smooth and readable — but also statistically predictable. Detection tools measure this predictability and flag it.</p>
+      <p><strong>Why humans score high:</strong> Human writers make surprising choices — they use unusual vocabulary, unexpected metaphors, specific concrete examples, and personal turns of phrase. A student writing about sociology might use the specific word "habitus" rather than "social disposition." A student writing about law might use "tortfeasor" rather than "person who caused the harm." These choices are unpredictable to a model trained on general text, which raises the perplexity score.</p>
+    </div>
+  </div>
+
+  <div class="concept-card" id="burstiness">
+    <div class="cc-header cc-header-burstiness">
+      <div class="cc-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L5 7L8 10L11 4L14 8" stroke="rgba(248,245,240,.9)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="cc-label">Signal 2</div><div class="cc-name">Burstiness</div></div>
+    </div>
+    <div class="cc-body">
+      <p><strong>Plain English definition:</strong> Burstiness measures how much sentence lengths vary throughout a piece of writing. High burstiness means the text has dramatic variation — short punchy sentences followed by long complex ones. Low burstiness means all sentences are roughly the same length — uniform, consistent, regular.</p>
+      <p><strong>Why AI scores low:</strong> AI models produce text with remarkably consistent sentence structure. If you ask ChatGPT to write an essay, it tends to produce sentences of similar length and complexity throughout — because that's what the training data rewarded as "good writing." The result is text that flows well but has an almost metronomic regularity that human writers don't have.</p>
+      <p><strong>Why humans score high:</strong> Natural human writing is rhythmically irregular. Writers speed up and slow down. They use one-word sentences. Then they use longer, more elaborated sentences that develop a point through multiple clauses, building toward a conclusion that brings the argument together. That variation — the burst pattern — is what burstiness captures.</p>
+    </div>
+  </div>
+
+  <h2 id="examples">How they look in <em>real text</em></h2>
+
+  <h3>Burstiness — AI vs human</h3>
+
+  <div class="sent-example">
+    <div class="se-label se-ai">✗ Low burstiness (AI-typical)</div>
+    <div class="se-text se-text-ai">"Social capital plays an important role in educational outcomes. Research has shown that students from higher social classes tend to achieve better results. This is due to the resources and networks available to them. These factors contribute to the reproduction of inequality in education. Bourdieu's framework helps explain this phenomenon clearly."</div>
+    <div class="se-why">Five sentences. All roughly the same length. All simple subject-verb-object structure. No rhythm variation at all.</div>
+  </div>
+
+  <div class="sent-example">
+    <div class="se-label se-human">✓ High burstiness (human-typical)</div>
+    <div class="se-text se-text-human">"Social capital matters. But its role in educational outcomes is more complex than simply having the right connections — it operates through what Bourdieu (1986) calls the conversion of cultural capital into academic success, a process that is neither automatic nor inevitable. The working-class student who knows the rules of the academic game can play it. Most don't."</div>
+    <div class="se-why">Dramatic sentence length variation. Short opening, long middle sentence, medium, then a two-word punch. That's human rhythm.</div>
+  </div>
+
+  <div class="mid-cta">
+    <div class="mid-cta-left">
+      <div class="mid-cta-title">See your <em>perplexity and burstiness</em> scores.</div>
+      <div class="mid-cta-sub">SafeGrade measures all 6 writing dimensions on every scan. Free and unlimited.</div>
+    </div>
+    <a href="https://app.safegrade.co.uk" class="mid-cta-btn">Scan my essay →</a>
+  </div>
+
+  <h2 id="false-positives">Why human essays sometimes <em>score low</em></h2>
+
+  <p>This is important and often missed in discussions of AI detection. Some human writers naturally produce low perplexity and burstiness scores — not because they used AI, but because:</p>
+
+  <ul>
+    <li><strong>Highly formulaic writing styles</strong> — nursing reflections using the Gibbs model, law problem questions using the IRAC structure, scientific lab reports — all have prescribed structures that reduce natural variation</li>
+    <li><strong>Non-native English speakers</strong> — students writing in their second or third language tend to use simpler, more predictable vocabulary and more uniform sentence structures</li>
+    <li><strong>Over-reliance on academic hedging</strong> — if you've been taught to qualify every claim, you might naturally produce a lot of "it could be argued that" and "this suggests that" constructions, which are both predictable and uniform</li>
+    <li><strong>Subject conventions</strong> — some disciplines (law, sciences) have very standardised writing conventions that limit vocabulary and structural variation by design</li>
+  </ul>
+
+  <div class="callout callout-terra">
+    <div class="callout-title ct-terra">What this means in practice</div>
+    <p>A low perplexity or burstiness score is a signal, not a verdict. SafeGrade shows you where your writing sits across all six dimensions so you can make an informed decision about what to address. If you wrote the essay yourself and still have a low score, the Writing Coach can help you identify specific passages to vary before submission.</p>
+  </div>
+
+  <h2 id="improve">How to improve your <em>scores</em></h2>
+
+  <div class="score-visual">
+    <div class="sv-card">
+      <div class="sv-num sv-high">↑</div>
+      <div class="sv-label">Improve perplexity by using specific, subject-appropriate vocabulary and concrete examples instead of general descriptors</div>
+    </div>
+    <div class="sv-card">
+      <div class="sv-num sv-high">↑</div>
+      <div class="sv-label">Improve burstiness by deliberately varying sentence length — include some very short sentences alongside longer analytical ones</div>
+    </div>
+  </div>
+
+  <p>The single most effective thing you can do for both scores is to write more specifically. Instead of "research shows that education is affected by social factors," write "Coleman's (1966) landmark study found that family background explained more variance in educational achievement than school resources." Specific claims, specific evidence, specific vocabulary — all of these raise perplexity naturally.</p>
+
+  <p>For burstiness, read your essay aloud. If every sentence takes the same amount of time to read, that's a problem. Try to end each paragraph with either a very short, punchy sentence or a longer elaborated one — not another medium-length one.</p>
+
+  <p>SafeGrade's Writing Coach can analyse specific paragraphs and suggest how to increase sentence variety while keeping your argument intact. Ask it: <em>"This paragraph all has similar sentence length. Can you help me vary the rhythm without changing the argument?"</em></p>
+
+  <div class="end-cta">
+    <div class="end-cta-title">Check all six writing<br><em>dimensions on your essay.</em></div>
+    <div class="end-cta-sub">Perplexity, burstiness, vocabulary diversity, phrase patterns, sentence variation, paragraph structure — all measured free on every scan. No account needed for the first scan.</div>
+    <a href="https://app.safegrade.co.uk" class="end-cta-btn">Scan my essay free →</a>
+  </div>
+
+  <div class="related">
+    <div class="related-title">More from SafeGrade</div>
+    <div class="related-grid">
+      <a href="/blog/will-my-university-detect-ai-in-my-essay.html" class="related-card"><div class="rc-tag">Academic Integrity</div><div class="rc-title">Will my university detect AI in my essay? The honest answer for UK students.</div></a>
+      <a href="/blog/ai-essay-phrases-to-avoid.html" class="related-card"><div class="rc-tag">Writing Tips</div><div class="rc-title">10 AI essay phrases that get students flagged — and how to fix every one</div></a>
+    </div>
+  </div>
+
+</article>
+
+<footer>
+  <span class="footer-logo">Safe<em>Grade</em></span>
+  <div class="footer-links"><a href="/">Home</a><a href="/blog/">Blog</a><a href="https://app.safegrade.co.uk">Open app</a><a href="https://app.safegrade.co.uk/privacy">Privacy</a><a href="mailto:help@safegrade.co.uk">help@safegrade.co.uk</a></div>
+</footer>
+</body>
+</html>

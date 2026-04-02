@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — SafeGrade | Writing advice for UK university students</title>
+<meta name="description" content="Guides, tips and honest advice for UK university students. AI detection, essay writing, Harvard referencing, grade improvement and more.">
+<link rel="canonical" href="https://safegrade.co.uk/blog/">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A2236;--terra:#C4703F;--parch:#F8F5F0;--linen:#E5E0D6;
+  --stone:#8A7E6E;--green:#6B8E5A;--blue:#4A7B9D;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--parch);color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+/* ── NAV ── */
+nav{
+background:rgba(248,245,240,.95);backdrop-filter:blur(16px);
+border-bottom:1px solid rgba(26,34,54,.08);
+padding:14px 48px;position:sticky;top:0;z-index:100;
+display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.nav-logo-name{font-family:'Playfair Display',serif;font-size:19px;color:var(--ink);font-weight:400;}
+.nav-logo-name em{font-style:italic;}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-right a{font-size:13px;color:var(--stone);text-decoration:none;transition:color .15s;}
+.nav-right a:hover{color:var(--ink);}
+.nav-cta{background:var(--ink)!important;color:var(--parch)!important;padding:8px 18px;border-radius:6px;font-weight:500!important;}
+
+/* ── HERO ── */
+.blog-hero{
+background:var(--ink);
+padding:72px 48px 56px;
+position:relative;overflow:hidden;
+}
+.blog-hero::before{
+content:'BLOG';
+position:absolute;right:-20px;bottom:-60px;
+font-family:'Playfair Display',serif;
+font-size:220px;font-weight:700;
+color:rgba(248,245,240,.025);
+line-height:1;letter-spacing:-.04em;
+pointer-events:none;
+}
+.blog-hero::after{
+content:'';position:absolute;
+top:-100px;left:-100px;
+width:400px;height:400px;border-radius:50%;
+background:radial-gradient(circle,rgba(196,112,63,.15) 0%,transparent 65%);
+pointer-events:none;
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.hero-left{}
+.hero-eyebrow{
+font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+color:rgba(248,245,240,.35);margin-bottom:12px;
+display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow::before{content:'';display:block;width:20px;height:1.5px;background:var(--terra);}
+.hero-title{
+font-family:'Playfair Display',serif;
+font-size:clamp(36px,5vw,64px);font-weight:700;
+line-height:1.02;letter-spacing:-.03em;color:#F8F5F0;
+}
+.hero-title em{font-style:italic;color:#E8A880;}
+.hero-right{padding-bottom:6px;}
+.hero-sub{
+font-size:15px;font-weight:300;color:rgba(248,245,240,.4);
+line-height:1.7;max-width:320px;text-align:right;
+}
+
+/* ── CATEGORY FILTER ── */
+.filter-bar{
+background:var(--linen);
+border-bottom:1px solid rgba(26,34,54,.08);
+padding:0 48px;
+position:sticky;top:57px;z-index:90;
+}
+.filter-inner{
+max-width:1100px;margin:0 auto;
+display:flex;align-items:center;gap:0;
+overflow-x:auto;scrollbar-width:none;
+}
+.filter-inner::-webkit-scrollbar{display:none;}
+.filter-btn{
+font-size:12px;font-weight:400;color:var(--stone);
+padding:14px 20px;white-space:nowrap;cursor:pointer;
+border:none;background:none;border-bottom:2px solid transparent;
+transition:color .15s,border-color .15s;font-family:'DM Sans',sans-serif;
+}
+.filter-btn:hover{color:var(--ink);}
+.filter-btn.active{color:var(--ink);font-weight:500;border-bottom-color:var(--terra);}
+
+/* ── MAIN CONTENT ── */
+.blog-main{max-width:1100px;margin:0 auto;padding:56px 48px 80px;}
+
+/* Featured post — large */
+.featured-post{
+display:grid;grid-template-columns:1fr 380px;
+gap:0;margin-bottom:56px;
+background:var(--ink);border-radius:16px;overflow:hidden;
+}
+.fp-content{padding:48px;}
+.fp-meta{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.fp-tag{
+font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+background:rgba(196,112,63,.2);color:#E8A880;
+padding:4px 10px;border-radius:3px;
+}
+.fp-date{font-size:12px;font-weight:300;color:rgba(248,245,240,.3);}
+.fp-read{font-size:12px;font-weight:300;color:rgba(248,245,240,.3);}
+.fp-title{
+font-family:'Playfair Display',serif;
+font-size:clamp(22px,2.5vw,34px);font-weight:700;
+line-height:1.12;letter-spacing:-.02em;
+color:#F8F5F0;margin-bottom:14px;
+}
+.fp-title em{font-style:italic;color:#E8A880;}
+.fp-desc{font-size:14px;font-weight:300;color:rgba(248,245,240,.5);line-height:1.7;margin-bottom:28px;}
+.fp-cta{
+display:inline-flex;align-items:center;gap:8px;
+font-size:13px;font-weight:500;color:var(--terra);
+text-decoration:none;border-bottom:1px solid rgba(196,112,63,.3);
+padding-bottom:1px;transition:border-color .15s;
+}
+.fp-cta:hover{border-color:var(--terra);}
+.fp-visual{
+background:rgba(248,245,240,.04);
+display:flex;flex-direction:column;justify-content:flex-end;
+padding:32px;position:relative;overflow:hidden;
+border-left:1px solid rgba(248,245,240,.06);
+}
+.fp-visual::before{
+content:'';position:absolute;top:-60px;right:-60px;
+width:240px;height:240px;border-radius:50%;
+background:radial-gradient(circle,rgba(196,112,63,.15) 0%,transparent 65%);
+}
+.fp-stat-row{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1;}
+.fp-stat{padding:16px;background:rgba(248,245,240,.05);border-radius:10px;border:1px solid rgba(248,245,240,.07);}
+.fp-stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#7AADCC;line-height:1;margin-bottom:4px;}
+.fp-stat-label{font-size:11px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.4;}
+
+/* Section header */
+.section-header{
+display:flex;align-items:baseline;justify-content:space-between;
+margin-bottom:24px;padding-bottom:14px;
+border-bottom:1px solid rgba(26,34,54,.1);
+}
+.section-title{
+font-family:'Playfair Display',serif;
+font-size:22px;font-weight:700;letter-spacing:-.015em;color:var(--ink);
+}
+.section-title em{font-style:italic;color:var(--terra);}
+.section-count{font-size:12px;font-weight:300;color:var(--stone);}
+
+/* Post grid */
+.posts-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;margin-bottom:48px;
+}
+
+/* Standard card */
+.post-card{
+background:white;border:1px solid rgba(26,34,54,.07);
+border-radius:14px;padding:24px;
+text-decoration:none;display:flex;flex-direction:column;
+transition:transform .2s,box-shadow .2s;
+}
+.post-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(26,34,54,.1);}
+.post-card.card-dark{background:var(--ink);}
+.post-card.card-terra{background:var(--terra);}
+.pc-tag{
+font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+padding:3px 9px;border-radius:3px;width:fit-content;margin-bottom:14px;
+}
+.tag-integrity{background:rgba(26,34,54,.08);color:var(--stone);}
+.tag-writing{background:rgba(196,112,63,.1);color:#8A3A10;}
+.tag-referencing{background:rgba(107,142,90,.1);color:#2E5C22;}
+.tag-grade{background:rgba(26,74,110,.08);color:#1A4A6E;}
+.tag-comparison{background:rgba(74,123,157,.1);color:#2A5A7A;}
+.tag-howto{background:rgba(107,142,90,.08);color:#3A5C22;}
+/* Dark card tag variants */
+.card-dark .tag-integrity{background:rgba(248,245,240,.1);color:rgba(248,245,240,.5);}
+.card-dark .tag-writing{background:rgba(196,112,63,.15);color:#E8A880;}
+.card-dark .tag-grade{background:rgba(74,123,157,.15);color:#7AADCC;}
+.card-terra .pc-tag{background:rgba(248,245,240,.2);color:rgba(255,255,255,.9);}
+.pc-title{
+font-family:'Playfair Display',serif;
+font-size:17px;font-weight:700;color:var(--ink);
+line-height:1.28;letter-spacing:-.01em;margin-bottom:8px;flex:1;
+}
+.card-dark .pc-title{color:#F8F5F0;}
+.card-terra .pc-title{color:white;}
+.pc-desc{font-size:13px;font-weight:300;color:var(--stone);line-height:1.6;margin-bottom:14px;}
+.card-dark .pc-desc{color:rgba(248,245,240,.45);}
+.card-terra .pc-desc{color:rgba(255,255,255,.7);}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
+.pc-read{font-size:12px;font-weight:500;color:var(--terra);}
+.card-dark .pc-read{color:#E8A880;}
+.card-terra .pc-read{color:rgba(255,255,255,.7);}
+.pc-date{font-size:11px;font-weight:300;color:var(--stone);}
+.card-dark .pc-date{color:rgba(248,245,240,.3);}
+.card-terra .pc-date{color:rgba(255,255,255,.5);}
+
+/* Wide card (2-col span) */
+.post-card-wide{grid-column:span 2;}
+
+/* Category divider row */
+.cat-divider{
+grid-column:span 3;
+display:flex;align-items:baseline;justify-content:space-between;
+padding:24px 0 12px;
+border-top:1px solid rgba(26,34,54,.08);
+margin-top:8px;
+}
+.cat-divider-title{
+font-family:'Playfair Display',serif;
+font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.01em;
+}
+.cat-divider-title em{font-style:italic;color:var(--terra);}
+.cat-divider-count{font-size:12px;font-weight:300;color:var(--stone);}
+
+/* CTA strip */
+.cta-strip{
+background:var(--ink);border-radius:14px;
+padding:36px 40px;
+display:flex;align-items:center;justify-content:space-between;gap:24px;
+margin-top:16px;position:relative;overflow:hidden;
+}
+.cta-strip::before{
+content:'';position:absolute;bottom:-60px;right:-60px;
+width:220px;height:220px;border-radius:50%;
+background:radial-gradient(circle,rgba(196,112,63,.2) 0%,transparent 65%);
+}
+.cta-strip-left{position:relative;z-index:1;}
+.cta-strip-title{
+font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+color:#F8F5F0;margin-bottom:6px;
+}
+.cta-strip-title em{font-style:italic;color:#E8A880;}
+.cta-strip-sub{font-size:13px;font-weight:300;color:rgba(248,245,240,.45);}
+.cta-strip-btn{
+background:var(--terra);color:white;
+font-size:14px;font-weight:500;padding:13px 26px;border-radius:7px;
+text-decoration:none;white-space:nowrap;flex-shrink:0;position:relative;z-index:1;
+}
+
+/* Hidden state for JS filtering */
+.post-card[data-cat].hidden{display:none;}
+.cat-divider.hidden{display:none;}
+
+footer{
+background:var(--ink);padding:28px 48px;
+display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;color:rgba(248,245,240,.45);}
+.footer-logo em{font-style:italic;}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;}
+.footer-links a{font-size:11.5px;font-weight:300;color:rgba(248,245,240,.3);text-decoration:none;}
+.footer-links a:hover{color:rgba(248,245,240,.7);}
+
+@media(max-width:960px){
+nav,.filter-bar,footer{padding-left:24px;padding-right:24px;}
+.blog-main{padding:40px 24px 60px;}
+.featured-post{grid-template-columns:1fr;}
+.fp-visual{display:none;}
+.posts-grid{grid-template-columns:1fr 1fr;}
+.post-card-wide{grid-column:span 2;}
+.cat-divider{grid-column:span 2;}
+.cta-strip{flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:600px){
+.blog-hero{padding:48px 24px 40px;}
+.hero-row{flex-direction:column;gap:16px;}
+.hero-sub{text-align:left;}
+.filter-bar{padding:0 24px;}
+.posts-grid{grid-template-columns:1fr;}
+.post-card-wide{grid-column:span 1;}
+.cat-divider{grid-column:span 1;}
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="22" height="26" viewBox="0 0 100 118" fill="none"><path fill="#1A2236" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/><path fill="none" stroke="#C4703F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/></svg>
+    <span class="nav-logo-name">Safe<em>Grade</em></span>
+  </a>
+  <div class="nav-right">
+    <a href="/" class="hide-mob">Home</a>
+    <a href="https://app.safegrade.co.uk/login">Log in</a>
+    <a href="https://app.safegrade.co.uk" class="nav-cta">Scan my essay free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+
+<div class="blog-hero">
+  <div class="hero-inner">
+    <div class="hero-row">
+      <div class="hero-left">
+        <div class="hero-eyebrow">SafeGrade Blog</div>
+        <h1 class="hero-title">Honest answers<br>for <em>UK students.</em></h1>
+      </div>
+      <div class="hero-right">
+        <p class="hero-sub">Guides on AI detection, essay writing, referencing, and how to improve your grade — before you hit submit.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY FILTER -->
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-filter="all" onclick="filterPosts('all',this)">All posts</button>
+    <button class="filter-btn" data-filter="integrity" onclick="filterPosts('integrity',this)">Academic Integrity</button>
+    <button class="filter-btn" data-filter="writing" onclick="filterPosts('writing',this)">Writing Tips</button>
+    <button class="filter-btn" data-filter="grade" onclick="filterPosts('grade',this)">Grade Improvement</button>
+    <button class="filter-btn" data-filter="referencing" onclick="filterPosts('referencing',this)">Referencing</button>
+    <button class="filter-btn" data-filter="howto" onclick="filterPosts('howto',this)">How Detection Works</button>
+    <button class="filter-btn" data-filter="comparison" onclick="filterPosts('comparison',this)">Tool Comparisons</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+
+<main class="blog-main">
+
+  <!-- Featured post -->
+
+  <div class="featured-post" id="featured-post">
+    <div class="fp-content">
+      <div class="fp-meta">
+        <span class="fp-tag">Academic Integrity</span>
+        <span class="fp-date">24 March 2026</span>
+        <span class="fp-read">7 min read</span>
+      </div>
+      <h2 class="fp-title">Will my university detect AI<br>in my essay? <em>The honest answer.</em></h2>
+      <p class="fp-desc">How Turnitin AI detection actually works in 2026, what it catches, why human essays sometimes get flagged, and what to do before you hit submit. The most searched question — answered properly.</p>
+      <a href="/blog/will-my-university-detect-ai-in-my-essay.html" class="fp-cta">Read the full guide &rarr;</a>
+    </div>
+    <div class="fp-visual">
+      <div class="fp-stat-row">
+        <div class="fp-stat">
+          <div class="fp-stat-num">98.7%</div>
+          <div class="fp-stat-label">SafeGrade Deep Scan accuracy on latest test run</div>
+        </div>
+        <div class="fp-stat">
+          <div class="fp-stat-num">1,000+</div>
+          <div class="fp-stat-label">Test essays run through our quality engine</div>
+        </div>
+        <div class="fp-stat">
+          <div class="fp-stat-num">Free</div>
+          <div class="fp-stat-label">First scan, always — no account needed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid -->
+
+  <div class="posts-grid" id="posts-grid">
+
+      <a href="/blog/apa-referencing-guide-uk-students.html" class="post-card" data-cat="referencing">
+        <span class="pc-tag tag-referencing">Referencing</span>
+        <div class="pc-title">APA referencing guide for UK students — 7th edition 2026</div>
+        <div class="pc-desc">In-text citations, reference list format, DOIs, journal articles, books and websites — with worked examples.</div>
+        <div class="pc-footer"><span class="pc-read">9 min read →</span><span class="pc-date">16 Mar 2026</span></div>
+      </a>
+
+      <a href="/blog/how-to-write-a-critical-analysis-essay-uk.html" class="post-card" data-cat="writing">
+        <span class="pc-tag tag-writing">Writing Tips</span>
+        <div class="pc-title">How to write a critical analysis essay — UK university guide 2026</div>
+        <div class="pc-desc">What "critical" actually means, how to move from description to analysis, and what UK markers reward.</div>
+        <div class="pc-footer"><span class="pc-read">8 min read →</span><span class="pc-date">9 Mar 2026</span></div>
+      </a>
+
+      <a href="/blog/turnitin-ai-detection-how-it-works.html" class="post-card card-dark" data-cat="integrity">
+        <span class="pc-tag tag-integrity">Academic Integrity</span>
+        <div class="pc-title">Turnitin AI detection — how it works and what it flags in 2026</div>
+        <div class="pc-desc">Exactly how Turnitin's AI writing detection works, what score triggers a review, and what students can do before submitting.</div>
+        <div class="pc-footer"><span class="pc-read">8 min read →</span><span class="pc-date">2 Mar 2026</span></div>
+      </a>
+
+    <!-- ── ACADEMIC INTEGRITY ── -->
+    <div class="cat-divider" id="div-integrity">
+      <span class="cat-divider-title"><em>Academic Integrity</em></span>
+      <span class="cat-divider-count">4 articles</span>
+    </div>
+
+    <a href="/blog/will-my-university-detect-ai-in-my-essay.html" class="post-card post-card-wide card-dark" data-cat="integrity">
+      <span class="pc-tag tag-integrity">Academic Integrity</span>
+      <div class="pc-title">Will my university detect AI in my essay? The honest answer for UK students.</div>
+      <div class="pc-desc">How Turnitin works, what it catches, why false positives happen, and what to do before you submit.</div>
+      <div class="pc-footer"><span class="pc-read">7 min read &rarr;</span><span class="pc-date">22 Dec 2025</span></div>
+    </a>
+
+    <a href="/blog/how-to-use-ai-ethically-in-your-essay-uk.html" class="post-card" data-cat="integrity">
+      <span class="pc-tag tag-integrity">Academic Integrity</span>
+      <div class="pc-title">How to use AI ethically in your essay — without getting flagged</div>
+      <div class="pc-desc">What's allowed, what isn't, how to declare it, and how to keep the work genuinely yours.</div>
+      <div class="pc-footer"><span class="pc-read">7 min read &rarr;</span><span class="pc-date">9 Feb 2026</span></div>
+    </a>
+
+    <!-- ── WRITING TIPS ── -->
+    <div class="cat-divider" id="div-writing">
+      <span class="cat-divider-title"><em>Writing Tips</em></span>
+      <span class="cat-divider-count">4 articles</span>
+    </div>
+
+    <a href="/blog/ai-essay-phrases-to-avoid.html" class="post-card card-terra" data-cat="writing">
+      <span class="pc-tag">Writing Tips</span>
+      <div class="pc-title">10 AI essay phrases that get students flagged — and how to fix every one</div>
+      <div class="pc-desc">The phrases markers recognise immediately — with specific rewrites for each one. Worth saving.</div>
+      <div class="pc-footer"><span class="pc-read">6 min read &rarr;</span><span class="pc-date">5 Jan 2026</span></div>
+    </a>
+
+    <a href="/blog/how-to-structure-a-university-essay-uk.html" class="post-card" data-cat="writing">
+      <span class="pc-tag tag-writing">Writing Tips</span>
+      <div class="pc-title">How to structure a university essay — UK guide 2026</div>
+      <div class="pc-desc">What each section needs to do, the PEEL method, and how structure works for your argument.</div>
+      <div class="pc-footer"><span class="pc-read">8 min read &rarr;</span><span class="pc-date">23 Feb 2026</span></div>
+    </a>
+
+    <a href="/blog/perplexity-burstiness-ai-detection-explained.html" class="post-card" data-cat="howto">
+      <span class="pc-tag tag-howto">How Detection Works</span>
+      <div class="pc-title">What is perplexity and burstiness in AI detection? Explained simply.</div>
+      <div class="pc-desc">The two signals AI detectors use — what they measure and how to improve both scores.</div>
+      <div class="pc-footer"><span class="pc-read">5 min read &rarr;</span><span class="pc-date">2 Feb 2026</span></div>
+    </a>
+
+    <!-- ── GRADE IMPROVEMENT ── -->
+    <div class="cat-divider" id="div-grade">
+      <span class="cat-divider-title"><em>Grade Improvement</em></span>
+      <span class="cat-divider-count">3 articles</span>
+    </div>
+
+    <a href="/blog/what-is-a-2-1-degree-uk.html" class="post-card" data-cat="grade">
+      <span class="pc-tag tag-grade">Grade Improvement</span>
+      <div class="pc-title">What is a 2:1 degree UK — and how do you achieve one?</div>
+      <div class="pc-desc">What Upper Second Honours means, how it's calculated, and exactly what separates a 2:1 essay from a 2:2.</div>
+      <div class="pc-footer"><span class="pc-read">6 min read &rarr;</span><span class="pc-date">16 Feb 2026</span></div>
+    </a>
+
+    <a href="/blog/how-to-improve-essay-grade-uk.html" class="post-card" data-cat="grade">
+      <span class="pc-tag tag-grade">Grade Improvement</span>
+      <div class="pc-title">How to improve your essay grade before submission — UK 2026</div>
+      <div class="pc-desc">The pre-submission checklist students use to push from a 2:2 to a 2:1. In priority order.</div>
+      <div class="pc-footer"><span class="pc-read">7 min read &rarr;</span><span class="pc-date">19 Jan 2026</span></div>
+    </a>
+
+    <!-- ── REFERENCING ── -->
+    <div class="cat-divider" id="div-referencing">
+      <span class="cat-divider-title"><em>Referencing</em></span>
+      <span class="cat-divider-count">2 articles</span>
+    </div>
+
+    <a href="/blog/free-harvard-referencing-checker.html" class="post-card" data-cat="referencing">
+      <span class="pc-tag tag-referencing">Referencing</span>
+      <div class="pc-title">Free Harvard referencing checker — what it checks and how to use one</div>
+      <div class="pc-desc">The 7 most common Harvard mistakes UK students make, and how to fix them before submission.</div>
+      <div class="pc-footer"><span class="pc-read">8 min read &rarr;</span><span class="pc-date">12 Jan 2026</span></div>
+    </a>
+
+    <!-- ── COMPARISONS ── -->
+    <div class="cat-divider" id="div-comparison">
+      <span class="cat-divider-title"><em>Tool Comparisons</em></span>
+      <span class="cat-divider-count">1 article</span>
+    </div>
+
+    <a href="/blog/gptzero-vs-safegrade-uk-students.html" class="post-card" data-cat="comparison">
+      <span class="pc-tag tag-comparison">Tool Comparison</span>
+      <div class="pc-title">GPTZero vs SafeGrade — which is better for UK students?</div>
+      <div class="pc-desc">An honest comparison. What each tool does, where each falls short, and which is right for you.</div>
+      <div class="pc-footer"><span class="pc-read">6 min read &rarr;</span><span class="pc-date">26 Jan 2026</span></div>
+    </a>
+
+  </div>
+
+  <!-- CTA strip -->
+
+  <div class="cta-strip">
+    <div class="cta-strip-left">
+      <div class="cta-strip-title">Ready to check your essay <em>before they do?</em></div>
+      <div class="cta-strip-sub">Writing Analysis, AI Risk Check, Harvard citations, grade estimation. Free to start — no account needed for the first scan.</div>
+    </div>
+    <a href="https://app.safegrade.co.uk" class="cta-strip-btn">Scan my essay free &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-logo">Safe<em>Grade</em></span>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/partnerships.html">Partnerships</a>
+    <a href="https://app.safegrade.co.uk">Open app</a>
+    <a href="https://app.safegrade.co.uk/privacy">Privacy</a>
+    <a href="mailto:help@safegrade.co.uk">help@safegrade.co.uk</a>
+  </div>
+</footer>
+
+<script>
+function filterPosts(cat, btn) {
+  // Update active button
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const featured = document.getElementById('featured-post');
+  const cards = document.querySelectorAll('.post-card[data-cat]');
+  const dividers = document.querySelectorAll('.cat-divider');
+
+  if (cat === 'all') {
+    featured.style.display = '';
+    cards.forEach(c => c.classList.remove('hidden'));
+    dividers.forEach(d => d.classList.remove('hidden'));
+    return;
+  }
+
+  // Hide featured on filter
+  featured.style.display = 'none';
+
+  // Show/hide cards
+  cards.forEach(c => {
+    c.getAttribute('data-cat') === cat
+      ? c.classList.remove('hidden')
+      : c.classList.add('hidden');
+  });
+
+  // Show/hide dividers — only show the matching one
+  dividers.forEach(d => {
+    d.id === 'div-' + cat
+      ? d.classList.remove('hidden')
+      : d.classList.add('hidden');
+  });
+}
+</script>
+
+</body>
+</html>
