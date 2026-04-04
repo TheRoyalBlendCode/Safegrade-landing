@@ -317,6 +317,275 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
     padding:56px 24px !important;
   }
 }
+
+/* ── SAGE SECTION ── */
+.sage-section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.sage-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.sage-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #4A6B5A;
+  margin-bottom: 20px;
+}
+.sage-eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: #4A6B5A;
+}
+.sage-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.025em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.sage-headline em { font-style: italic; color: #4A6B5A; }
+.sage-sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--stone);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.sage-layout {
+  display: grid;
+  grid-template-columns: 520px 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ── CHAT MOCKUP ── */
+.sage-chat {
+  background: white;
+  border: 1px solid rgba(26,34,54,.09);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(26,34,54,.04), 0 24px 60px rgba(26,34,54,.09);
+}
+
+.sage-chat-header {
+  background: var(--ink);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sage-chat-header-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #4A6B5A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sage-chat-header-text {
+  display: flex;
+  flex-direction: column;
+}
+.sage-chat-header-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: #F8F5F0;
+  line-height: 1.2;
+}
+.sage-chat-header-status {
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(248,245,240,.4);
+}
+.sage-chat-header-dots {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+.sage-chat-header-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(248,245,240,.2);
+}
+
+.sage-chat-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 340px;
+}
+
+.sage-msg {
+  display: flex;
+  gap: 10px;
+  max-width: 88%;
+}
+.sage-msg-user {
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+.sage-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.sage-msg-avatar-sage {
+  background: #4A6B5A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sage-msg-avatar-user {
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sage-msg-bubble {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.sage-msg-sage .sage-msg-bubble {
+  background: rgba(74,107,90,.08);
+  border: 1px solid rgba(74,107,90,.12);
+  border-radius: 4px 14px 14px 14px;
+}
+.sage-msg-user .sage-msg-bubble {
+  background: var(--ink);
+  color: #F8F5F0;
+  border-radius: 14px 4px 14px 14px;
+}
+.sage-msg-bubble strong { font-weight: 500; }
+.sage-msg-bubble em { font-style: italic; color: #4A6B5A; }
+
+.sage-chat-input {
+  border-top: 1px solid rgba(26,34,54,.07);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sage-chat-input-field {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--stone);
+}
+.sage-chat-input-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--terra);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── SELLING POINTS ── */
+.sage-points {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.sage-point {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.sage-point-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(74,107,90,.08);
+  border: 1px solid rgba(74,107,90,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sage-point-body {
+  flex: 1;
+}
+.sage-point-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -.01em;
+}
+.sage-point-title em { font-style: italic; color: #4A6B5A; }
+.sage-point-desc {
+  font-size: 13.5px;
+  font-weight: 300;
+  color: var(--stone);
+  line-height: 1.6;
+}
+
+.sage-cta {
+  margin-top: 12px;
+}
+.sage-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #4A6B5A;
+  color: #F8F5F0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 13px 26px;
+  border-radius: 7px;
+  text-decoration: none;
+  transition: background .15s, transform .15s;
+}
+.sage-cta a:hover { background: #3A5A4A; transform: translateY(-1px); }
+
+/* Sage responsive */
+@media (max-width: 900px) {
+  .sage-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .sage-section { padding: 64px 24px; }
+}
+
+/* Sage dark mode */
+@media (prefers-color-scheme: dark) {
+  .sage-chat { background: #211E19; border-color: rgba(240,235,227,.09); }
+  .sage-chat-input { border-color: rgba(240,235,227,.07); }
+  .sage-msg-sage .sage-msg-bubble { background: rgba(74,107,90,.15); border-color: rgba(74,107,90,.2); }
+  .sage-point-icon { background: rgba(74,107,90,.12); border-color: rgba(74,107,90,.18); }
+}
 </style>
 </head>
 <body>
@@ -332,6 +601,7 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
   <div class="nav-links">
     <a href="#how">How it works</a>
     <a href="#features">Features</a>
+    <a href="#sage">Sage</a>
     <a href="#pricing">Pricing</a>
     <a href="#privacy">Privacy</a>
     <a href="/partnerships.html">Universities</a>
@@ -644,6 +914,123 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
       </div>
     </div>
 
+  </div>
+</section>
+
+<section class="sage-section" id="sage">
+
+  <div class="sage-header">
+    <div class="sage-eyebrow">Meet Sage</div>
+    <h2 class="sage-headline">Your personal<br>writing <em>advisor.</em></h2>
+    <p class="sage-sub">Sage knows your university, your course, and your assignment. Ask it anything about your essay — it teaches you to write better, not write for you.</p>
+  </div>
+
+  <div class="sage-layout">
+
+    <!-- Chat mockup -->
+    <div class="sage-chat">
+      <div class="sage-chat-header">
+        <div class="sage-chat-header-icon">
+          <svg width="16" height="16" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#4A6B5A"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
+        </div>
+        <div class="sage-chat-header-text">
+          <span class="sage-chat-header-name">Sage</span>
+          <span class="sage-chat-header-status">Your writing advisor</span>
+        </div>
+        <div class="sage-chat-header-dots"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="sage-chat-body">
+
+        <div class="sage-msg sage-msg-user">
+          <div class="sage-msg-avatar sage-msg-avatar-user">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2.5" stroke="#F8F5F0" stroke-width="1"/><path d="M1.5 11C1.5 8.5 3.5 7 6 7s4.5 1.5 4.5 4" stroke="#F8F5F0" stroke-width="1" stroke-linecap="round"/></svg>
+          </div>
+          <div class="sage-msg-bubble">My essay got flagged for AI patterns but I wrote it myself. My Deep Scan says 72% confidence. What's going on?</div>
+        </div>
+
+        <div class="sage-msg sage-msg-sage">
+          <div class="sage-msg-avatar sage-msg-avatar-sage">
+            <svg width="14" height="14" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#4A6B5A"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
+          </div>
+          <div class="sage-msg-bubble">That 72% is coming from two things in your sociology essay. First, your paragraphs are all roughly the same length — 130–150 words each. Human essays are messier than that. Try varying them.<br><br>Second, you've used <strong>"furthermore"</strong> four times and <strong>"it is important to note"</strong> twice. Those are high-frequency AI phrases. Try: <em>"Building on Coleman's argument…"</em> or <em>"What this misses is…"</em> — they say the same thing but sound like you.</div>
+        </div>
+
+        <div class="sage-msg sage-msg-user">
+          <div class="sage-msg-avatar sage-msg-avatar-user">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2.5" stroke="#F8F5F0" stroke-width="1"/><path d="M1.5 11C1.5 8.5 3.5 7 6 7s4.5 1.5 4.5 4" stroke="#F8F5F0" stroke-width="1" stroke-linecap="round"/></svg>
+          </div>
+          <div class="sage-msg-bubble">Can you check if my conclusion actually answers the question?</div>
+        </div>
+
+        <div class="sage-msg sage-msg-sage">
+          <div class="sage-msg-avatar sage-msg-avatar-sage">
+            <svg width="14" height="14" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#4A6B5A"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
+          </div>
+          <div class="sage-msg-bubble">Paste your conclusion and the essay question — I'll tell you exactly what's missing and where to strengthen it for 2:1 territory.</div>
+        </div>
+
+      </div>
+
+      <div class="sage-chat-input">
+        <span class="sage-chat-input-field">Message Sage...</span>
+        <div class="sage-chat-input-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="#F8F5F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selling points -->
+    <div class="sage-points">
+
+      <div class="sage-point">
+        <div class="sage-point-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5" r="3" stroke="#4A6B5A" stroke-width="1.2"/><path d="M3 16c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#4A6B5A" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="sage-point-body">
+          <div class="sage-point-title">Knows <em>your</em> course</div>
+          <div class="sage-point-desc">Sage knows your university, subject, and assignment. Criminology students get criminology advice. Nursing students get Gibbs reflective cycle guidance. It's not generic.</div>
+        </div>
+      </div>
+
+      <div class="sage-point">
+        <div class="sage-point-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5v5Q14 14 9 16Q4 14 4 10V5L9 2Z" fill="none" stroke="#4A6B5A" stroke-width="1.2"/><path d="M6.5 9.5L8.5 11.5L12 7" stroke="#4A6B5A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="sage-point-body">
+          <div class="sage-point-title">Explains your <em>scores</em></div>
+          <div class="sage-point-desc">Don't just see a number — understand what it means. Sage explains exactly why your essay was flagged and which phrases to fix, with specific rewrites.</div>
+        </div>
+      </div>
+
+      <div class="sage-point">
+        <div class="sage-point-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14V4h12v10" stroke="#4A6B5A" stroke-width="1.2" stroke-linecap="round"/><path d="M6 8h6M6 11h4" stroke="#4A6B5A" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="sage-point-body">
+          <div class="sage-point-title">Teaches, doesn't <em>ghostwrite</em></div>
+          <div class="sage-point-desc">Sage shows you how to write better with examples and technique — it won't write your essay for you. Your work stays your work.</div>
+        </div>
+      </div>
+
+      <div class="sage-point">
+        <div class="sage-point-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h12v12H3z" stroke="#4A6B5A" stroke-width="1.2" rx="2"/><path d="M3 7h12" stroke="#4A6B5A" stroke-width="1.2"/><circle cx="6" cy="5" r=".8" fill="#4A6B5A"/><circle cx="9" cy="5" r=".8" fill="#4A6B5A"/></svg>
+        </div>
+        <div class="sage-point-body">
+          <div class="sage-point-title">Remembers your <em>conversations</em></div>
+          <div class="sage-point-desc">Come back to Sage throughout your assignment. It remembers what you discussed, picks up where you left off, and tracks your progress.</div>
+        </div>
+      </div>
+
+      <div class="sage-cta">
+        <a href="https://app.safegrade.co.uk/coach">
+          <svg width="16" height="16" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#F8F5F0" opacity="0.3"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
+          Ask Sage a question →
+        </a>
+      </div>
+
+    </div>
   </div>
 </section>
 
