@@ -149,4 +149,39 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://safegrade.co.uk/blog/we-analysed-370-ai-essays.html</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://safegrade.co.uk/blog/ai-detector-false-positives-test.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://safegrade.co.uk/blog/essay-due-tomorrow-rescue-plan.html</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://safegrade.co.uk/blog/essay-myths-lecturers-wont-correct.html</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://safegrade.co.uk/blog/grammarly-making-essays-worse.html</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
