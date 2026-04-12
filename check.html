@@ -23,9 +23,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'DM Sans', -apple-system, sans-serif;
-  background: var(--parchment);
-  color: var(--ink);
+  background: #F8F5F0;
+  color: #1A2236;
   min-height: 100vh;
+  color-scheme: light;
 }
 body::before {
   content: '';
@@ -123,6 +124,15 @@ nav {
 .phrase-badge { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; background: rgba(196,112,63,.1); color: var(--terra); padding: 4px 10px; border-radius: 4px; white-space: nowrap; }
 .no-phrases { background: rgba(107,142,90,.06); border: 1px solid rgba(107,142,90,.15); border-radius: 10px; padding: 20px; text-align: center; color: var(--green); font-size: 14px; }
 
+/* AI indicators */
+.indicators-section { margin-bottom: 32px; }
+.indicator-warning { background: rgba(196,74,63,.05); border: 1px solid rgba(196,74,63,.2); border-left: 3px solid var(--red); border-radius: 10px; padding: 16px 20px; margin-bottom: 8px; }
+.indicator-label { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 4px; }
+.indicator-detail { font-size: 13px; color: var(--stone); line-height: 1.55; }
+.indicator-cta { font-size: 12px; color: var(--stone); margin-top: 12px; padding: 12px 16px; background: rgba(196,112,63,.06); border-radius: 8px; }
+.indicator-cta a { color: var(--terra); font-weight: 500; text-decoration: none; }
+.indicator-cta a:hover { text-decoration: underline; }
+
 /* CTA */
 .cta-section { background: #1A2236; border-radius: 16px; padding: 48px 40px; text-align: center; color: var(--parchment); }
 .cta-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; margin-bottom: 12px; }
@@ -219,6 +229,8 @@ footer a:hover { color: var(--ink); }
 
     <div class="metrics-grid" id="metricsGrid"></div>
 
+    <div class="indicators-section" id="indicatorsSection"></div>
+
     <div class="phrases-section" id="phrasesSection"></div>
 
     <!-- CTA -->
@@ -269,7 +281,12 @@ const AI_PHRASES = [
   "is not without its challenges","a critical examination","warrants further investigation",
   "a growing body of","the intersection of","cannot be overstated",
   "in conclusion it is evident","this essay has explored","the aforementioned",
-  "a deeper understanding","is particularly noteworthy","has garnered significant attention"
+  "a deeper understanding","is particularly noteworthy","has garnered significant attention",
+  "it would be reductive to","the picture is similarly","lend weight to the view",
+  "warrants dedicated","it is important to resist the conclusion",
+  "the evidence points to significant heterogeneity","has dramatic outpaced the empirical evidence",
+  "counsel against premature certainty","this distinction is significant",
+  "the critical variable","the manner of engagement rather than use per se"
 ];
 
 // American → British spelling
@@ -307,8 +324,28 @@ function analyse() {
   const lowerText = text.toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
   const lowerWords = words.map(w => w.toLowerCase().replace(/[^a-z'-]/g, ''));
 
-  // Paragraphs
-  let paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 20);
+  // Paragraphs — split on double newlines, fall back to single newlines
+  // where a line ends with punctuation and the next starts with a capital letter.
+  let paragraphs = text.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 20);
+  if (paragraphs.length <= 1) {
+    const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    if (lines.length > 1) {
+      const buf = [];
+      let cur = '';
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const next = lines[i + 1] || '';
+        cur = cur ? cur + ' ' + line : line;
+        const endsPunct = /[.!?][")\]]?$/.test(line);
+        const nextCap = /^[A-Z"“(\[]/.test(next);
+        if ((endsPunct && nextCap) || i === lines.length - 1) {
+          if (cur.length > 20) buf.push(cur);
+          cur = '';
+        }
+      }
+      if (buf.length > 1) paragraphs = buf;
+    }
+  }
   if (paragraphs.length <= 1 && sentenceCount > 5) {
     paragraphs = [];
     for (let i = 0; i < sentenceCount; i += 4) {
@@ -335,7 +372,8 @@ function analyse() {
   const variance = sentLengths.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / sentLengths.length;
   const stdDev = Math.sqrt(variance);
   const cv = stdDev / mean;
-  const sentenceFlowScore = Math.min(100, Math.round(cv * 120));
+  let sentenceFlowScore = Math.min(100, Math.round(cv * 120));
+  if (cv < 0.25) sentenceFlowScore = Math.min(sentenceFlowScore, 40);
 
   // 3. Vocabulary Range (MATTR-like)
   let mattrSum = 0; let mattrCount = 0; const winSize = 50;
@@ -386,7 +424,33 @@ function analyse() {
   if (paragraphCount < 3 && wordCount > 300) structScore -= 20;
   const sppVariance = sentPerPara.reduce((a, b) => a + Math.pow(b - avgSPP, 2), 0) / sentPerPara.length;
   if (Math.sqrt(sppVariance) > 2) structScore += 10;
+
+  // Uniform paragraph length penalty — AI writes suspiciously even paragraphs
+  const paraWordCounts = paragraphs.map(p => p.trim().split(/\s+/).filter(Boolean).length);
+  const paraMean = paraWordCounts.reduce((a, b) => a + b, 0) / (paraWordCounts.length || 1);
+  const uniformParaLength = paragraphCount >= 3 && paraWordCounts.every(w => Math.abs(w - paraMean) / paraMean <= 0.15);
+  if (uniformParaLength) structScore -= 15;
   structScore = Math.max(0, Math.min(100, structScore));
+
+  // Transition density — AI overuses academic connectives at sentence starts
+  const TRANSITIONS = ['however','furthermore','moreover','similarly','consequently','nevertheless','additionally','conversely','whilst','whereas','in contrast','on the other hand','in conclusion','it is important'];
+  let transitionStarts = 0;
+  sentences.forEach(s => {
+    const trimmed = s.trim().toLowerCase();
+    if (TRANSITIONS.some(t => trimmed.startsWith(t))) transitionStarts++;
+  });
+  const transitionDensity = transitionStarts / Math.max(sentenceCount, 1);
+  const highTransitions = transitionDensity > 0.3;
+
+  // Citation distribution — systematic coverage signal
+  const citationRegex = /\(([A-Z][A-Za-z'’-]+(?:\s+(?:et\s+al\.?|and|&)\s+[A-Z][A-Za-z'’-]+)?),?\s*(?:19|20)\d{2}[a-z]?\)/g;
+  const citationMatches = [...text.matchAll(citationRegex)];
+  const uniqueCitations = new Set(citationMatches.map(m => m[1].toLowerCase()));
+  const citationsPerPara = paragraphs.map(p => (p.match(citationRegex) || []).length);
+  const maxCites = Math.max(...citationsPerPara, 0);
+  const minCitesNonZero = Math.min(...citationsPerPara.filter(c => c > 0).concat([Infinity]));
+  const citationsEven = paragraphCount >= 5 && maxCites > 0 && minCitesNonZero !== Infinity && (maxCites <= 2 * minCitesNonZero);
+  const systematicCitations = uniqueCitations.size >= 6 && citationsEven;
 
   // Spelling
   let spellingIssues = [];
@@ -396,10 +460,21 @@ function analyse() {
   });
 
   // Overall
-  const overall = Math.round(
+  let overall = Math.round(
     wordVarietyScore * 0.167 + sentenceFlowScore * 0.167 + vocabRangeScore * 0.167 +
     sentMixScore * 0.167 + aiPhraseScore * 0.167 + structScore * 0.165
   );
+
+  // Structural AI indicators
+  const aiIndicators = [];
+  if (uniformParaLength) aiIndicators.push({ label: 'Uniform paragraph length', detail: 'All paragraphs are within 15% of the same length. Human writing is usually uneven.' });
+  if (highTransitions) aiIndicators.push({ label: 'High transition density', detail: Math.round(transitionDensity * 100) + '% of sentences start with a transition word (e.g. "however", "furthermore"). AI tends to over-use these connectives.' });
+  if (systematicCitations) aiIndicators.push({ label: 'Systematic citation distribution', detail: uniqueCitations.size + ' distinct citations spread evenly across paragraphs. This level of balanced coverage is a structural AI fingerprint.' });
+  if (cv < 0.25 && sentenceCount > 5) aiIndicators.push({ label: 'Uniform sentence length', detail: 'Sentence lengths barely vary (coefficient of variation ' + cv.toFixed(2) + '). Real writing tends to mix short and long sentences.' });
+
+  if (highTransitions) overall -= 10;
+  if (systematicCitations) overall -= 10;
+  overall = Math.max(0, Math.min(100, overall));
 
   // Verdict
   let verdict, verdictClass;
@@ -463,6 +538,16 @@ function analyse() {
       <div class="metric-desc">${m.desc}</div>
     </div>`;
   }).join('');
+
+  // AI indicators
+  const indEl = document.getElementById('indicatorsSection');
+  if (aiIndicators.length > 0) {
+    indEl.innerHTML = '<div class="section-label">Possible AI Indicators</div>' +
+      aiIndicators.map(i => `<div class="indicator-warning"><div class="indicator-label">⚠ ${i.label}</div><div class="indicator-detail">${i.detail}</div></div>`).join('') +
+      '<div class="indicator-cta">This essay shows unusually systematic coverage — <a href="https://app.safegrade.co.uk/register">consider running a Deep Scan</a> for a full AI analysis.</div>';
+  } else {
+    indEl.innerHTML = '';
+  }
 
   // Phrases
   const phrasesEl = document.getElementById('phrasesSection');
