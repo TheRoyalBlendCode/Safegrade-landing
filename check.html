@@ -124,14 +124,24 @@ nav {
 .phrase-badge { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; background: rgba(196,112,63,.1); color: var(--terra); padding: 4px 10px; border-radius: 4px; white-space: nowrap; }
 .no-phrases { background: rgba(107,142,90,.06); border: 1px solid rgba(107,142,90,.15); border-radius: 10px; padding: 20px; text-align: center; color: var(--green); font-size: 14px; }
 
+/* Scope banner */
+.scope-banner { background: rgba(196,112,63,.06); border: 1px solid rgba(196,112,63,.2); border-left: 4px solid var(--terra); border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; }
+.scope-banner-body { font-size: 13.5px; line-height: 1.6; color: #4A3E2E; }
+.scope-banner-body strong { color: var(--ink); font-weight: 500; }
+.scope-banner-body a { color: var(--terra); font-weight: 500; text-decoration: none; }
+.scope-banner-body a:hover { text-decoration: underline; }
+
 /* AI indicators */
 .indicators-section { margin-bottom: 32px; }
-.indicator-warning { background: rgba(196,74,63,.05); border: 1px solid rgba(196,74,63,.2); border-left: 3px solid var(--red); border-radius: 10px; padding: 16px 20px; margin-bottom: 8px; }
-.indicator-label { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 4px; }
-.indicator-detail { font-size: 13px; color: var(--stone); line-height: 1.55; }
-.indicator-cta { font-size: 12px; color: var(--stone); margin-top: 12px; padding: 12px 16px; background: rgba(196,112,63,.06); border-radius: 8px; }
-.indicator-cta a { color: var(--terra); font-weight: 500; text-decoration: none; }
-.indicator-cta a:hover { text-decoration: underline; }
+.indicators-card { background: rgba(196,112,63,.05); border: 1px solid rgba(196,112,63,.25); border-left: 4px solid var(--terra); border-radius: 12px; padding: 20px 24px; }
+.indicators-heading { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--ink); margin-bottom: 6px; }
+.indicators-intro { font-size: 13px; color: var(--stone); margin-bottom: 14px; }
+.indicators-list { margin: 0 0 16px 20px; padding: 0; }
+.indicators-list li { font-size: 14px; color: #2E2A22; line-height: 1.6; margin-bottom: 8px; }
+.indicators-list li strong { font-weight: 500; color: var(--ink); }
+.indicators-cta { font-size: 13px; color: #4A3E2E; padding-top: 14px; border-top: 1px solid rgba(196,112,63,.18); }
+.indicators-cta a { color: var(--terra); font-weight: 500; text-decoration: none; }
+.indicators-cta a:hover { text-decoration: underline; }
 
 /* CTA */
 .cta-section { background: #1A2236; border-radius: 16px; padding: 48px 40px; text-align: center; color: var(--parchment); }
@@ -219,6 +229,12 @@ footer a:hover { color: var(--ink); }
       <div class="spelling-note" id="spellingNote"></div>
     </div>
 
+    <div class="scope-banner">
+      <div class="scope-banner-body">
+        <strong>This analysis measures writing quality, not AI detection.</strong> Well-written AI essays can score highly here. For a full AI detection analysis, use SafeGrade's <a href="https://app.safegrade.co.uk/register">Deep Scan</a>.
+      </div>
+    </div>
+
     <div class="grade-card" id="gradeCard">
       <div class="grade-badge" id="gradeBadge"></div>
       <div class="grade-info">
@@ -227,9 +243,9 @@ footer a:hover { color: var(--ink); }
       </div>
     </div>
 
-    <div class="metrics-grid" id="metricsGrid"></div>
-
     <div class="indicators-section" id="indicatorsSection"></div>
+
+    <div class="metrics-grid" id="metricsGrid"></div>
 
     <div class="phrases-section" id="phrasesSection"></div>
 
@@ -474,6 +490,7 @@ function analyse() {
 
   if (highTransitions) overall -= 10;
   if (systematicCitations) overall -= 10;
+  if (aiIndicators.length >= 2) overall = Math.min(overall, 75);
   overall = Math.max(0, Math.min(100, overall));
 
   // Verdict
@@ -542,9 +559,14 @@ function analyse() {
   // AI indicators
   const indEl = document.getElementById('indicatorsSection');
   if (aiIndicators.length > 0) {
-    indEl.innerHTML = '<div class="section-label">Possible AI Indicators</div>' +
-      aiIndicators.map(i => `<div class="indicator-warning"><div class="indicator-label">⚠ ${i.label}</div><div class="indicator-detail">${i.detail}</div></div>`).join('') +
-      '<div class="indicator-cta">This essay shows unusually systematic coverage — <a href="https://app.safegrade.co.uk/register">consider running a Deep Scan</a> for a full AI analysis.</div>';
+    indEl.innerHTML = `<div class="indicators-card">
+      <div class="indicators-heading">Structural patterns to investigate</div>
+      <div class="indicators-intro">${aiIndicators.length} structural signal${aiIndicators.length > 1 ? 's' : ''} detected in this essay.</div>
+      <ul class="indicators-list">` +
+      aiIndicators.map(i => `<li><strong>${i.label}.</strong> ${i.detail}</li>`).join('') +
+      `</ul>
+      <div class="indicators-cta">These patterns are common in AI-generated writing. <a href="https://app.safegrade.co.uk/register">Run a Deep Scan</a> for a definitive analysis.</div>
+    </div>`;
   } else {
     indEl.innerHTML = '';
   }
