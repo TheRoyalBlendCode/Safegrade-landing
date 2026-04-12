@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Essay Check — SafeGrade</title>
+<meta name="description" content="Paste your essay and get instant writing analysis — word variety, sentence flow, AI phrase detection, and more. Free, private, no account needed.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://safegrade.co.uk/check">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A2236;
+  --terra: #C4703F;
+  --parchment: #F8F5F0;
+  --linen: #F0EBE3;
+  --stone: #8A7E6E;
+  --green: #6B8E5A;
+  --red: #C44A3F;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--parchment);
+  color: var(--ink);
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: .03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Nav */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  padding: 16px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(248,245,240,.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,34,54,.07);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.nav-logo-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; letter-spacing: -.01em; }
+.nav-logo-name em { font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { font-size: 13px; font-weight: 400; color: var(--stone); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta { background: var(--ink); color: var(--parchment) !important; padding: 9px 20px; border-radius: 6px; font-weight: 500 !important; font-size: 13px !important; transition: background .15s; }
+.nav-cta:hover { background: #2a3550; }
+
+/* Page */
+.page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* Hero */
+.hero-section { text-align: center; margin-bottom: 40px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--terra); margin-bottom: 16px; }
+.hero-eyebrow::before { content: ''; display: block; width: 20px; height: 1.5px; background: var(--terra); }
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 48px); font-weight: 400; line-height: 1.12; letter-spacing: -.02em; margin-bottom: 16px; }
+.hero-title em { font-style: italic; color: var(--terra); }
+.hero-sub { font-size: 16px; font-weight: 300; line-height: 1.7; color: var(--stone); max-width: 560px; margin: 0 auto; }
+
+/* Input area */
+.input-card { background: white; border: 1px solid rgba(26,34,54,.08); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 4px rgba(26,34,54,.04), 0 16px 48px rgba(26,34,54,.08); margin-bottom: 24px; }
+.input-header { background: var(--ink); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.input-title { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(248,245,240,.6); }
+.word-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(248,245,240,.45); }
+.essay-textarea { width: 100%; min-height: 280px; padding: 24px; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.8; color: var(--ink); background: white; resize: vertical; }
+.essay-textarea::placeholder { color: #B5AFA6; }
+.input-footer { padding: 12px 20px; border-top: 1px solid rgba(26,34,54,.06); display: flex; justify-content: space-between; align-items: center; }
+.privacy-note { font-size: 12px; color: var(--stone); display: flex; align-items: center; gap: 6px; }
+.btn-analyse { background: var(--ink); color: var(--parchment); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 7px; border: none; cursor: pointer; transition: background .15s, transform .15s; }
+.btn-analyse:hover { background: #2a3550; transform: translateY(-1px); }
+.btn-analyse:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* Results */
+.results { display: none; margin-top: 40px; }
+.results.visible { display: block; animation: fadeUp .5s ease both; }
+
+/* Overall gauge */
+.overall-card { text-align: center; margin-bottom: 32px; }
+.overall-title { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 24px; }
+.gauge-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto 16px; }
+.gauge-bg, .gauge-fill { fill: none; stroke-width: 10; }
+.gauge-bg { stroke: rgba(26,34,54,.08); }
+.gauge-fill { stroke-linecap: round; transition: stroke-dashoffset 1.2s ease; }
+.gauge-score { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 400; }
+.gauge-denom { font-size: 16px; color: var(--stone); display: block; margin-top: -4px; }
+.verdict-text { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 8px; }
+.verdict-green { color: var(--green); }
+.verdict-amber { color: var(--terra); }
+.verdict-red { color: var(--red); }
+.stats-row { font-size: 13px; color: var(--stone); margin-bottom: 8px; }
+.spelling-note { font-size: 13px; color: var(--terra); }
+
+/* Grade card */
+.grade-card { background: white; border: 1px solid rgba(26,34,54,.08); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 20px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(26,34,54,.05); }
+.grade-badge { background: var(--ink); color: var(--parchment); font-family: 'Playfair Display', serif; font-size: 22px; padding: 12px 20px; border-radius: 8px; white-space: nowrap; }
+.grade-info { flex: 1; }
+.grade-name { font-size: 16px; font-weight: 500; margin-bottom: 2px; }
+.grade-range { font-size: 13px; color: var(--stone); }
+
+/* Metric grid */
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+.metric-card { background: white; border: 1px solid rgba(26,34,54,.08); border-radius: 12px; padding: 24px 16px; text-align: center; box-shadow: 0 2px 6px rgba(26,34,54,.04); }
+.mini-gauge { position: relative; width: 90px; height: 90px; margin: 0 auto 12px; }
+.mini-gauge .gauge-score { font-size: 26px; }
+.mini-gauge .gauge-icon { font-size: 12px; color: var(--stone); display: block; margin-top: 2px; }
+.metric-name { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 6px; }
+.metric-desc { font-size: 12px; color: var(--stone); line-height: 1.5; }
+
+/* AI Phrases */
+.phrases-section { margin-bottom: 32px; }
+.section-label { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); margin-bottom: 12px; }
+.phrase-card { background: white; border: 1px solid rgba(26,34,54,.08); border-radius: 10px; padding: 16px 20px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.phrase-text { font-size: 14px; color: var(--ink); }
+.phrase-badge { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; background: rgba(196,112,63,.1); color: var(--terra); padding: 4px 10px; border-radius: 4px; white-space: nowrap; }
+.no-phrases { background: rgba(107,142,90,.06); border: 1px solid rgba(107,142,90,.15); border-radius: 10px; padding: 20px; text-align: center; color: var(--green); font-size: 14px; }
+
+/* CTA */
+.cta-section { background: var(--ink); border-radius: 16px; padding: 48px 40px; text-align: center; color: var(--parchment); }
+.cta-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; margin-bottom: 12px; }
+.cta-title em { font-style: italic; color: var(--terra); }
+.cta-sub { font-size: 15px; font-weight: 300; color: rgba(248,245,240,.6); margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
+.cta-features { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+.cta-feat { font-size: 12px; color: rgba(248,245,240,.5); display: flex; align-items: center; gap: 6px; }
+.cta-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--terra); }
+.btn-cta { display: inline-block; background: var(--terra); color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; padding: 14px 36px; border-radius: 7px; text-decoration: none; transition: background .15s, transform .15s; }
+.btn-cta:hover { background: #a85e33; transform: translateY(-1px); }
+.cta-note { font-size: 12px; color: rgba(248,245,240,.35); margin-top: 12px; }
+
+/* Footer */
+footer { max-width: 900px; margin: 0 auto; padding: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--stone); }
+footer a { color: var(--stone); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 700px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .page { padding: 32px 16px 60px; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-section { padding: 36px 24px; }
+  .grade-card { flex-direction: column; text-align: center; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #F0EBE3; --parchment: #1A1814; --linen: #211E19; --stone: #8A7E6E; }
+  body { background: #1A1814; }
+  nav { background: rgba(26,24,20,.88); border-color: rgba(240,235,227,.07); }
+  .input-card { background: #211E19; border-color: rgba(240,235,227,.08); }
+  .essay-textarea { background: #211E19; color: #F0EBE3; }
+  .metric-card, .grade-card, .phrase-card { background: #211E19; border-color: rgba(240,235,227,.08); }
+  .no-phrases { background: rgba(107,142,90,.08); border-color: rgba(107,142,90,.15); }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="https://safegrade.co.uk" class="nav-logo">
+    <svg width="28" height="33" viewBox="0 0 100 118" fill="none"><path fill="#1A2236" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/><path fill="none" stroke="#C4703F" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/></svg>
+    <span class="nav-logo-name">Safe<em>Grade</em></span>
+  </a>
+  <div class="nav-links">
+    <a href="https://safegrade.co.uk/#how">How it works</a>
+    <a href="https://safegrade.co.uk/#features">Features</a>
+    <a href="https://safegrade.co.uk/#pricing">Pricing</a>
+    <a href="https://safegrade.co.uk/blog/">Blog</a>
+    <a href="https://app.safegrade.co.uk" class="nav-cta">Sign in</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero-section">
+    <div class="hero-eyebrow">Free · No account needed</div>
+    <h1 class="hero-title">Check your essay <em>instantly</em></h1>
+    <p class="hero-sub">Paste your text below for a free writing analysis — word variety, sentence flow, AI phrase detection, and a UK grade estimate. Everything runs privately in your browser.</p>
+  </div>
+
+  <!-- Input -->
+  <div class="input-card">
+    <div class="input-header">
+      <span class="input-title">Your Essay</span>
+      <span class="word-count" id="wordCount">0 words</span>
+    </div>
+    <textarea class="essay-textarea" id="essayInput" placeholder="Paste your essay text here..."></textarea>
+    <div class="input-footer">
+      <span class="privacy-note">🔒 Your text stays in your browser — never sent to a server</span>
+      <button class="btn-analyse" id="analyseBtn" disabled onclick="analyse()">Analyse Essay</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+
+    <div class="overall-card">
+      <h2 class="overall-title">Writing Analysis</h2>
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 120 120" width="180" height="180">
+          <circle class="gauge-bg" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/>
+          <circle class="gauge-fill" id="mainGauge" cx="60" cy="60" r="52" transform="rotate(-90 60 60)" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+        </svg>
+        <div class="gauge-score" id="mainScore">0</div>
+      </div>
+      <div class="verdict-text" id="verdict"></div>
+      <div class="stats-row" id="statsRow"></div>
+      <div class="spelling-note" id="spellingNote"></div>
+    </div>
+
+    <div class="grade-card" id="gradeCard">
+      <div class="grade-badge" id="gradeBadge"></div>
+      <div class="grade-info">
+        <div class="grade-name" id="gradeName"></div>
+        <div class="grade-range" id="gradeRange"></div>
+      </div>
+    </div>
+
+    <div class="metrics-grid" id="metricsGrid"></div>
+
+    <div class="phrases-section" id="phrasesSection"></div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2 class="cta-title">Want the <em>full</em> picture?</h2>
+      <p class="cta-sub">This free check analyses writing quality. SafeGrade's Deep Scan uses AI to detect patterns that university detectors look for — voice consistency, argument flow, and fabricated references.</p>
+      <div class="cta-features">
+        <span class="cta-feat"><span class="cta-dot"></span>AI Detection Scan</span>
+        <span class="cta-feat"><span class="cta-dot"></span>Improvement Suggestions</span>
+        <span class="cta-feat"><span class="cta-dot"></span>Grammar &amp; Citations</span>
+        <span class="cta-feat"><span class="cta-dot"></span>Essay Coach (Sage)</span>
+      </div>
+      <a href="https://app.safegrade.co.uk/register" class="btn-cta">Try SafeGrade free →</a>
+      <div class="cta-note">1 free Deep Scan per month · No card required</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 SafeGrade. All rights reserved.</span>
+  <span><a href="https://safegrade.co.uk">Home</a> · <a href="https://safegrade.co.uk/blog/">Blog</a> · <a href="mailto:help@safegrade.co.uk">Contact</a></span>
+</footer>
+
+<script>
+const textarea = document.getElementById('essayInput');
+const wordCountEl = document.getElementById('wordCount');
+const analyseBtn = document.getElementById('analyseBtn');
+
+textarea.addEventListener('input', () => {
+  const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+  wordCountEl.textContent = words + ' words';
+  analyseBtn.disabled = words < 30;
+});
+
+// AI-associated phrases
+const AI_PHRASES = [
+  "it is important to note","in today's rapidly evolving","furthermore it is worth noting",
+  "delve into","in the realm of","it is worth mentioning","plays a crucial role",
+  "navigating the complexities","a testament to","underscores the importance",
+  "shed light on","pave the way for","a nuanced understanding","serves as a reminder",
+  "it is essential to recognize","in today's society","the complexities of",
+  "this multifaceted","it is imperative","offers a comprehensive","a holistic approach",
+  "it is noteworthy","in light of","stands as a testament","a myriad of",
+  "in an era of","the intricacies of","a paradigm shift","foster a deeper",
+  "it becomes evident","a pivotal role","the ever-evolving","tapestry of",
+  "a cornerstone of","on the other hand it is important","at its core",
+  "a profound impact","in contemporary society","the landscape of",
+  "is not without its challenges","a critical examination","warrants further investigation",
+  "a growing body of","the intersection of","cannot be overstated",
+  "in conclusion it is evident","this essay has explored","the aforementioned",
+  "a deeper understanding","is particularly noteworthy","has garnered significant attention"
+];
+
+// American → British spelling
+const AMERICANISMS = {
+  'color':'colour','colors':'colours','favor':'favour','favors':'favours',
+  'honor':'honour','honors':'honours','labor':'labour','neighbor':'neighbour',
+  'behavior':'behaviour','behaviors':'behaviours','analyze':'analyse',
+  'analyzed':'analysed','analyzing':'analysing','organize':'organise',
+  'organized':'organised','organizing':'organising','recognize':'recognise',
+  'recognized':'recognised','defense':'defence','offense':'offence',
+  'center':'centre','centers':'centres','fiber':'fibre','meter':'metre',
+  'theater':'theatre','traveled':'travelled','traveling':'travelling',
+  'canceled':'cancelled','canceling':'cancelling','modeling':'modelling',
+  'catalog':'catalogue','dialog':'dialogue','gray':'grey','aging':'ageing',
+  'judgment':'judgement','acknowledgment':'acknowledgement','fulfill':'fulfil',
+  'enrollment':'enrolment','counselor':'counsellor','program':'programme'
+};
+
+function countSyllables(word) {
+  word = word.toLowerCase().replace(/[^a-z]/g, '');
+  if (word.length <= 3) return 1;
+  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '').replace(/^y/, '');
+  const m = word.match(/[aeiouy]{1,2}/g);
+  return m ? m.length : 1;
+}
+
+function analyse() {
+  const text = textarea.value.trim();
+  if (!text) return;
+
+  const words = text.split(/\s+/).filter(Boolean);
+  const wordCount = words.length;
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 5);
+  const sentenceCount = sentences.length;
+  const lowerText = text.toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
+  const lowerWords = words.map(w => w.toLowerCase().replace(/[^a-z'-]/g, ''));
+
+  // Paragraphs
+  let paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 20);
+  if (paragraphs.length <= 1 && sentenceCount > 5) {
+    paragraphs = [];
+    for (let i = 0; i < sentenceCount; i += 4) {
+      paragraphs.push(sentences.slice(i, i + 4).join('. '));
+    }
+  }
+  const paragraphCount = Math.max(paragraphs.length, 1);
+
+  // Unique words
+  const uniqueWords = new Set(lowerWords.filter(w => w.length > 0));
+
+  // 1. Word Variety (Perplexity proxy)
+  const freqMap = {};
+  lowerWords.forEach(w => { if (w) freqMap[w] = (freqMap[w] || 0) + 1; });
+  const totalW = lowerWords.filter(w => w).length;
+  let entropy = 0;
+  Object.values(freqMap).forEach(c => { const p = c / totalW; entropy -= p * Math.log2(p); });
+  const perplexity = Math.pow(2, entropy);
+  const wordVarietyScore = Math.min(100, Math.round(Math.min(perplexity / 2, 100)));
+
+  // 2. Sentence Flow (Burstiness)
+  const sentLengths = sentences.map(s => s.trim().split(/\s+/).length);
+  const mean = sentLengths.reduce((a, b) => a + b, 0) / sentLengths.length || 1;
+  const variance = sentLengths.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / sentLengths.length;
+  const stdDev = Math.sqrt(variance);
+  const cv = stdDev / mean;
+  const sentenceFlowScore = Math.min(100, Math.round(cv * 120));
+
+  // 3. Vocabulary Range (MATTR-like)
+  let mattrSum = 0; let mattrCount = 0; const winSize = 50;
+  for (let i = 0; i <= lowerWords.length - winSize; i++) {
+    const window = lowerWords.slice(i, i + winSize);
+    const unique = new Set(window.filter(w => w));
+    mattrSum += unique.size / winSize;
+    mattrCount++;
+  }
+  const mattr = mattrCount > 0 ? mattrSum / mattrCount : uniqueWords.size / totalW;
+  const vocabRangeScore = Math.min(100, Math.round(mattr * 115));
+
+  // 4. Sentence Mix
+  let simpleCount = 0, compoundCount = 0, complexCount = 0;
+  const conjunctions = ['and','but','or','nor','for','yet','so'];
+  const subordinators = ['although','because','since','while','whilst','whereas','if','unless','until','when','where','after','before','though'];
+  sentences.forEach(s => {
+    const sw = s.toLowerCase().split(/\s+/);
+    const hasConj = conjunctions.some(c => sw.includes(c));
+    const hasSub = subordinators.some(c => sw.includes(c));
+    if (hasSub) complexCount++;
+    else if (hasConj && sw.length > 8) compoundCount++;
+    else simpleCount++;
+  });
+  const typeVariety = 1 - Math.abs(simpleCount - compoundCount - complexCount) / sentenceCount;
+  const openings = sentences.map(s => s.trim().split(/\s+/)[0]?.toLowerCase());
+  const openingSet = new Set(openings);
+  const openingVariety = openingSet.size / openings.length;
+  const sentMixScore = Math.min(100, Math.round((typeVariety * 50 + openingVariety * 50) * 1.1));
+
+  // 5. AI Phrases
+  let phrasesFound = [];
+  AI_PHRASES.forEach(phrase => {
+    const idx = lowerText.indexOf(phrase);
+    if (idx !== -1) phrasesFound.push({ phrase, index: idx });
+  });
+  const phraseRatio = phrasesFound.length / Math.max(sentenceCount, 1);
+  const aiPhraseScore = Math.max(0, Math.round(100 - phraseRatio * 500));
+
+  // 6. Structure
+  const sentPerPara = paragraphs.map(p => p.split(/[.!?]+/).filter(s => s.trim().length > 5).length);
+  const avgSPP = sentPerPara.reduce((a, b) => a + b, 0) / sentPerPara.length || 0;
+  let structScore = 80;
+  if (avgSPP < 2) structScore -= 30;
+  else if (avgSPP < 3) structScore -= 15;
+  else if (avgSPP > 8) structScore -= 20;
+  else if (avgSPP > 6) structScore -= 10;
+  if (paragraphCount < 3 && wordCount > 300) structScore -= 20;
+  const sppVariance = sentPerPara.reduce((a, b) => a + Math.pow(b - avgSPP, 2), 0) / sentPerPara.length;
+  if (Math.sqrt(sppVariance) > 2) structScore += 10;
+  structScore = Math.max(0, Math.min(100, structScore));
+
+  // Spelling
+  let spellingIssues = [];
+  lowerWords.forEach((w, i) => {
+    const clean = w.replace(/[^a-z]/g, '');
+    if (AMERICANISMS[clean]) spellingIssues.push({ word: clean, suggestion: AMERICANISMS[clean], index: i });
+  });
+
+  // Overall
+  const overall = Math.round(
+    wordVarietyScore * 0.167 + sentenceFlowScore * 0.167 + vocabRangeScore * 0.167 +
+    sentMixScore * 0.167 + aiPhraseScore * 0.167 + structScore * 0.165
+  );
+
+  // Verdict
+  let verdict, verdictClass;
+  if (overall >= 85) { verdict = 'Excellent'; verdictClass = 'verdict-green'; }
+  else if (overall >= 75) { verdict = 'Strong'; verdictClass = 'verdict-green'; }
+  else if (overall >= 65) { verdict = 'Good'; verdictClass = 'verdict-amber'; }
+  else if (overall >= 55) { verdict = 'Developing'; verdictClass = 'verdict-amber'; }
+  else if (overall >= 45) { verdict = 'Needs Work'; verdictClass = 'verdict-red'; }
+  else { verdict = 'Significant Issues'; verdictClass = 'verdict-red'; }
+
+  // Grade
+  let gradeBand, gradeName, gradeRange;
+  if (overall >= 80) { gradeBand = 'First'; gradeName = 'First Class Honours'; gradeRange = '70%+'; }
+  else if (overall >= 70) { gradeBand = 'Upper 2:1'; gradeName = 'Upper Second Class'; gradeRange = '60–69%'; }
+  else if (overall >= 60) { gradeBand = 'Lower 2:1'; gradeName = 'Lower Second Class'; gradeRange = '50–59%'; }
+  else if (overall >= 50) { gradeBand = '2:2'; gradeName = 'Lower Second Class'; gradeRange = '50–59%'; }
+  else if (overall >= 40) { gradeBand = 'Third'; gradeName = 'Third Class'; gradeRange = '40–49%'; }
+  else { gradeBand = 'Fail'; gradeName = 'Below Pass'; gradeRange = 'Below 40%'; }
+
+  // Render
+  const gaugeColour = overall >= 70 ? '#6B8E5A' : overall >= 40 ? '#C4703F' : '#C44A3F';
+  const circumference = 2 * Math.PI * 52;
+  const offset = circumference - (overall / 100) * circumference;
+
+  document.getElementById('mainGauge').style.stroke = gaugeColour;
+  document.getElementById('mainGauge').style.strokeDashoffset = offset;
+  document.getElementById('mainScore').innerHTML = overall + '<span class="gauge-denom">/100</span>';
+  document.getElementById('mainScore').style.color = gaugeColour;
+  document.getElementById('verdict').textContent = verdict;
+  document.getElementById('verdict').className = 'verdict-text ' + verdictClass;
+  document.getElementById('statsRow').textContent = wordCount + ' words · ' + sentenceCount + ' sentences · ' + paragraphCount + ' paragraphs · ' + uniqueWords.size + ' unique words';
+  document.getElementById('spellingNote').textContent = spellingIssues.length ? spellingIssues.length + ' spelling issue' + (spellingIssues.length > 1 ? 's' : '') + ' found' : '';
+
+  document.getElementById('gradeBadge').textContent = gradeBand;
+  document.getElementById('gradeName').textContent = gradeName;
+  document.getElementById('gradeRange').textContent = gradeRange;
+
+  // Metrics
+  const metrics = [
+    { name: 'Word Variety', score: wordVarietyScore, icon: '?!', desc: 'How varied and unpredictable your word choices are' },
+    { name: 'Sentence Flow', score: sentenceFlowScore, icon: '||', desc: 'Mix of short and long sentences' },
+    { name: 'Vocabulary Range', score: vocabRangeScore, icon: 'Aa', desc: 'Range of unique words used' },
+    { name: 'Sentence Mix', score: sentMixScore, icon: '~~', desc: 'Variety of sentence types and openings' },
+    { name: 'AI Phrases', score: aiPhraseScore, icon: '""', desc: phrasesFound.length + ' AI phrase' + (phrasesFound.length !== 1 ? 's' : '') + ' detected' },
+    { name: 'Structure', score: structScore, icon: '¶', desc: 'Paragraph organisation and balance' }
+  ];
+
+  const grid = document.getElementById('metricsGrid');
+  grid.innerHTML = metrics.map(m => {
+    const c = m.score >= 70 ? '#6B8E5A' : m.score >= 40 ? '#C4703F' : '#C44A3F';
+    const off = circumference - (m.score / 100) * circumference;
+    return `<div class="metric-card">
+      <div class="mini-gauge">
+        <svg viewBox="0 0 120 120" width="90" height="90">
+          <circle class="gauge-bg" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/>
+          <circle class="gauge-fill" cx="60" cy="60" r="52" transform="rotate(-90 60 60)" stroke="${c}" stroke-dasharray="${circumference}" stroke-dashoffset="${off}"/>
+        </svg>
+        <div class="gauge-score" style="color:${c}">${m.score}<span class="gauge-icon">${m.icon}</span></div>
+      </div>
+      <div class="metric-name">${m.name}</div>
+      <div class="metric-desc">${m.desc}</div>
+    </div>`;
+  }).join('');
+
+  // Phrases
+  const phrasesEl = document.getElementById('phrasesSection');
+  if (phrasesFound.length > 0) {
+    phrasesEl.innerHTML = '<div class="section-label">AI-Associated Phrases Found</div>' +
+      phrasesFound.map(p => `<div class="phrase-card"><span class="phrase-text">"${p.phrase}"</span><span class="phrase-badge">AI signal</span></div>`).join('');
+  } else {
+    phrasesEl.innerHTML = '<div class="no-phrases">✓ No AI-associated phrases detected</div>';
+  }
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
