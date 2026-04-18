@@ -3,379 +3,736 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="SafeGrade checks your essay for AI patterns, fixes your Harvard referencing, and estimates your UK grade — all privately, before you submit.">
-<meta property="og:title" content="SafeGrade — Is your grade safe?">
-<meta property="og:description" content="Check your essay for AI patterns, grammar, and referencing before your lecturer does. Free to start. Private. UK-focused.">
-<meta property="og:url" content="https://safegrade.co.uk">
-<meta name="theme-color" content="#1A2236">
 <title>SafeGrade — Is your grade safe?</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 118'><path fill='%231A2236' d='M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z'/><path fill='none' stroke='%23C4703F' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' d='M30 62L44 77L72 44'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink: #1A2236;
+  --ink-deep: #0F1520;
   --terra: #C4703F;
+  --terra-warm: #E8A880;
   --parchment: #F8F5F0;
   --linen: #E5E0D6;
   --stone: #8A7E6E;
-  --green: #6B8E5A;
+  --sage: #4A6B5A;
+  --green-good: #6B8E5A;
+  --red-warn: #C4432F;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--parchment);
   color: var(--ink);
   overflow-x: hidden;
+  line-height: 1.55;
 }
 
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
 }
 
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ══ NAV ══ */
 nav {
-  position: sticky; top: 0; z-index: 100;
-  padding: 16px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(248,245,240,.9);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(26,34,54,.07);
-  animation: fadeDown .5s ease both;
-}
-.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-logo-name { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 400; letter-spacing: -.01em; color: var(--ink); }
-.nav-logo-name em { font-style: italic; }
-.nav-links { display: flex; align-items: center; gap: 28px; }
-.nav-links a { font-size: 13px; color: var(--stone); text-decoration: none; transition: color .15s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-cta {
-  background: var(--ink); color: var(--parchment) !important;
-  padding: 9px 20px; border-radius: 6px; font-weight: 500 !important;
-  transition: background .15s, transform .15s !important;
-}
-.nav-cta:hover { background: #2a3550 !important; transform: translateY(-1px); }
-
-.hero {
-  position: relative; z-index: 1;
-  display: grid; grid-template-columns: 1fr 460px; gap: 0;
-  min-height: calc(100vh - 57px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 48px;
+  display: flex;
   align-items: center;
-  padding: 80px 48px 80px 80px;
-  max-width: 1280px; margin: 0 auto;
+  justify-content: space-between;
+  background: rgba(248,245,240,.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,34,54,.07);
 }
-.hero-left { padding-right: 60px; }
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--terra); margin-bottom: 26px;
-  animation: fadeUp .6s .1s ease both;
-}
-.hero-eyebrow::before { content: ''; display: block; width: 20px; height: 1.5px; background: var(--terra); }
-.hero-headline {
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo-name {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(38px, 4.2vw, 60px); font-weight: 400;
-  line-height: 1.08; letter-spacing: -.025em;
-  margin-bottom: 26px;
-  animation: fadeUp .6s .18s ease both;
+  font-size: 22px;
+  letter-spacing: -.01em;
 }
-.hero-headline em { font-style: italic; color: var(--terra); }
-.hero-sub {
-  font-size: 16.5px; font-weight: 300; line-height: 1.72;
-  color: var(--stone); max-width: 440px; margin-bottom: 40px;
-  animation: fadeUp .6s .26s ease both;
+.nav-logo-name em { font-style: italic; }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+.nav-links a {
+  font-size: 13px;
+  color: var(--stone);
+  margin-right: 20px;
+  transition: color .15s;
 }
-.hero-sub strong { font-weight: 500; color: var(--ink); }
-.hero-actions { display: flex; align-items: center; gap: 14px; margin-bottom: 44px; animation: fadeUp .6s .32s ease both; }
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--ink); color: var(--parchment);
-  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
-  padding: 13px 26px; border-radius: 7px; text-decoration: none;
-  transition: background .15s, transform .15s; border: none; cursor: pointer;
+.nav-links a:hover { color: var(--ink); }
+.nav-login {
+  font-size: 13px;
+  color: var(--stone);
+  margin-right: 4px;
 }
-.btn-primary:hover { background: #2a3550; transform: translateY(-1px); }
-.btn-ghost {
-  font-size: 13px; font-weight: 400; color: var(--stone); text-decoration: none;
-  border-bottom: 1px solid rgba(138,126,110,.3); padding-bottom: 1px;
-  transition: color .15s, border-color .15s;
+.nav-cta {
+  background: var(--ink);
+  color: var(--parchment);
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  transition: background .15s;
 }
-.btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
-.trust-strip { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; animation: fadeUp .6s .38s ease both; }
-.trust-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 300; color: var(--stone); }
-.trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.nav-cta:hover { background: #2a3550; }
 
-.hero-right { animation: fadeLeft .7s .2s ease both; position: relative; }
-.float-tag {
-  position: absolute; background: white; border: 1px solid rgba(26,34,54,.09);
-  border-radius: 9px; padding: 9px 13px; font-size: 11.5px;
-  box-shadow: 0 6px 20px rgba(26,34,54,.08); white-space: nowrap;
-  animation: float 3s ease-in-out infinite;
-}
-.float-tag-1 { top: -18px; left: -24px; animation-delay: 0s; }
-.float-tag-2 { bottom: 36px; right: -24px; animation-delay: 1.4s; }
-.float-dot-sm { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
-
-.scan-card { background: white; border: 1px solid rgba(26,34,54,.08); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 8px rgba(26,34,54,.04), 0 20px 56px rgba(26,34,54,.1); }
-.sc-header { background: var(--ink); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
-.sc-title { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(248,245,240,.55); }
-.sc-file { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(248,245,240,.35); }
-.sc-body { padding: 20px; }
-.verdict { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: #F0F7EC; border: 1px solid #C8DEC0; border-radius: 9px; margin-bottom: 16px; }
-.v-left { display: flex; align-items: center; gap: 9px; }
-.v-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px rgba(107,142,90,.18); flex-shrink: 0; }
-.v-tag { font-size: 12px; font-weight: 500; color: #3A5C2E; }
-.v-note { font-size: 10px; font-weight: 300; color: var(--green); margin-top: 1px; }
-.v-score { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 400; color: #3A5C2E; line-height: 1; }
-.v-denom { font-size: 11px; opacity: .45; }
-.s-label { font-size: 9px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--stone); margin-bottom: 9px; }
-.metrics { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-.m-row { display: flex; align-items: center; gap: 9px; }
-.m-name { font-size: 10.5px; color: var(--stone); width: 100px; flex-shrink: 0; font-weight: 300; }
-.m-track { flex: 1; height: 4px; background: rgba(26,34,54,.07); border-radius: 2px; overflow: hidden; }
-.m-fill { height: 100%; border-radius: 2px; transform-origin: left; animation: growBar 1s .7s ease both; }
-.fg { background: var(--green); } .fw { background: var(--terra); }
-.m-val { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--stone); width: 22px; text-align: right; flex-shrink: 0; }
-.phrase-box { background: var(--parchment); border: 1px solid rgba(26,34,54,.07); border-radius: 7px; padding: 10px 12px; margin-bottom: 14px; }
-.p-text { font-size: 11.5px; line-height: 1.68; color: #4A4238; font-weight: 300; }
-.flag { background: rgba(196,112,63,.15); color: #9A3A10; border-radius: 3px; padding: 0 3px; font-weight: 500; }
-.sc-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(26,34,54,.06); }
-.grade-pill { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; background: var(--ink); color: var(--parchment); padding: 5px 12px; border-radius: 4px; }
-.sc-url { font-size: 9.5px; font-weight: 300; color: rgba(26,34,54,.3); letter-spacing: .05em; }
-
-.section { position: relative; z-index: 1; }
-.how { background: var(--ink); padding: 96px 80px; }
-.section-eyebrow { font-size: 9.5px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(248,245,240,.35); margin-bottom: 12px; }
-.section-eyebrow-light { color: var(--stone); }
-.section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 42px); font-weight: 400; line-height: 1.12; letter-spacing: -.02em; color: var(--parchment); margin-bottom: 56px; }
-.section-title em { font-style: italic; color: var(--terra); }
-.section-title-dark { color: var(--ink); }
-.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1120px; }
-.how-cell { padding: 40px 36px; border-left: 1px solid rgba(248,245,240,.07); }
-.how-cell:first-child { border-left: none; }
-.how-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 400; color: rgba(248,245,240,.08); letter-spacing: -.03em; margin-bottom: 16px; line-height: 1; }
-.how-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: var(--parchment); margin-bottom: 10px; }
-.how-title em { font-style: italic; color: var(--terra); }
-.how-desc { font-size: 13px; font-weight: 300; line-height: 1.68; color: rgba(248,245,240,.5); }
-
-.features { padding: 96px 80px; background: var(--parchment); }
-.features-inner { max-width: 1120px; margin: 0 auto; }
-.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 48px; }
-.f-card { background: white; border: 1px solid rgba(26,34,54,.08); border-radius: 14px; padding: 32px 36px; transition: transform .2s, box-shadow .2s; }
-.f-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(26,34,54,.08); }
-.f-card-wide { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.f-icon { width: 40px; height: 40px; background: var(--ink); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; flex-shrink: 0; }
-.f-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
-.f-title em { font-style: italic; }
-.f-desc { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--stone); }
-.f-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 9.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--terra); margin-top: 14px; }
-
-.comparison { padding: 96px 80px; background: var(--linen); }
-.comp-inner { max-width: 900px; margin: 0 auto; }
-.comp-table { width: 100%; border-collapse: collapse; background: var(--parchment); border-radius: 14px; overflow: hidden; border: 1px solid rgba(26,34,54,.08); margin-top: 48px; box-shadow: 0 2px 4px rgba(26,34,54,.04), 0 12px 40px rgba(26,34,54,.07); }
-.comp-table thead { background: var(--ink); }
-.comp-table th { padding: 16px 12px; font-size: 11px; font-weight: 500; color: rgba(248,245,240,.55); letter-spacing: .06em; text-align: center; }
-.comp-table th:first-child { text-align: left; padding-left: 28px; width: 220px; }
-.th-sg { color: #F8F5F0 !important; font-weight: 600 !important; }
-.comp-table td { padding: 12px 12px; font-size: 12px; color: var(--ink); text-align: center; border-bottom: 1px solid rgba(26,34,54,.06); }
-.comp-table tr:last-child td { border-bottom: none; }
-.comp-table td:first-child { text-align: left; padding-left: 28px; font-weight: 400; font-size: 12.5px; color: var(--ink); }
-.td-sg { background: rgba(26,34,54,.025); }
-.cat-row td { background: rgba(26,34,54,.03); font-size: 9.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(26,34,54,.35); padding: 10px 0 10px 28px; text-align: left !important; }
-.ck { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; }
-.ck-y { background: rgba(107,142,90,.12); }
-.ck-n { background: rgba(26,34,54,.06); }
-.ck-p { background: rgba(196,112,63,.1); }
-
-.pricing { padding: 96px 80px; background: var(--parchment); }
-.pricing-inner { max-width: 860px; margin: 0 auto; }
-.pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
-.price-card { border-radius: 16px; padding: 40px 36px; border: 1px solid rgba(26,34,54,.09); background: white; }
-.price-card-pro { background: var(--ink); border-color: transparent; position: relative; overflow: hidden; }
-.price-card-pro::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(196,112,63,.15) 0%, transparent 70%); }
-.price-label { font-size: 9.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--stone); margin-bottom: 20px; }
-.price-label-light { color: rgba(248,245,240,.4); }
-.price-amount { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 400; letter-spacing: -.02em; color: var(--ink); line-height: 1; margin-bottom: 4px; }
-.price-amount-light { color: var(--parchment); }
-.price-period { font-size: 13px; font-weight: 300; color: var(--stone); margin-bottom: 28px; }
-.price-period-light { color: rgba(248,245,240,.45); }
-.price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-.price-features li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; font-weight: 300; color: #4A4238; line-height: 1.4; }
-.price-features li svg { flex-shrink: 0; margin-top: 2px; }
-.price-features-light li { color: rgba(248,245,240,.7); }
-.price-btn { display: block; text-align: center; padding: 13px 0; border-radius: 7px; font-size: 14px; font-weight: 500; text-decoration: none; transition: background .15s, transform .15s; }
-.price-btn:hover { transform: translateY(-1px); }
-.price-btn-dark { background: var(--ink); color: var(--parchment); }
-.price-btn-dark:hover { background: #2a3550; }
-.price-btn-light { background: rgba(248,245,240,.12); color: var(--parchment); border: 1px solid rgba(248,245,240,.2); }
-.price-btn-light:hover { background: rgba(248,245,240,.2); }
-.price-note { font-size: 11px; font-weight: 300; color: var(--stone); text-align: center; margin-top: 24px; }
-
-.privacy { padding: 96px 80px; background: var(--ink); }
-.privacy-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-.priv-headline { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 400; color: var(--parchment); line-height: 1.12; letter-spacing: -.02em; margin-bottom: 20px; }
-.priv-headline em { font-style: italic; color: var(--terra); }
-.priv-sub { font-size: 15px; font-weight: 300; color: rgba(248,245,240,.5); line-height: 1.7; }
-.priv-points { list-style: none; display: flex; flex-direction: column; gap: 16px; }
-.priv-points li { display: flex; align-items: flex-start; gap: 14px; }
-.priv-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(248,245,240,.07); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.priv-title { font-size: 13.5px; font-weight: 500; color: var(--parchment); margin-bottom: 3px; }
-.priv-desc { font-size: 12px; font-weight: 300; color: rgba(248,245,240,.45); line-height: 1.5; }
-
-.waitlist { padding: 96px 80px; background: var(--parchment); }
-.waitlist-inner { max-width: 560px; margin: 0 auto; text-align: center; }
-.waitlist-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 44px); font-weight: 400; letter-spacing: -.02em; margin-bottom: 16px; }
-.waitlist-title em { font-style: italic; color: var(--terra); }
-.waitlist-sub { font-size: 15px; font-weight: 300; color: var(--stone); line-height: 1.65; margin-bottom: 36px; }
-.waitlist-form { display: flex; gap: 10px; margin-bottom: 16px; }
-.waitlist-input {
-  flex: 1; padding: 13px 18px; border-radius: 7px;
-  border: 1.5px solid rgba(26,34,54,.15); background: white;
-  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink);
-  outline: none; transition: border-color .15s;
-}
-.waitlist-input:focus { border-color: var(--ink); }
-.waitlist-input::placeholder { color: var(--stone); }
-.waitlist-btn {
-  padding: 13px 24px; background: var(--ink); color: var(--parchment);
-  border: none; border-radius: 7px; font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap;
-  transition: background .15s, transform .15s;
-}
-.waitlist-btn:hover { background: #2a3550; transform: translateY(-1px); }
-.waitlist-note { font-size: 11px; font-weight: 300; color: var(--stone); }
-.waitlist-success { display: none; background: #F0F7EC; border: 1px solid #C8DEC0; border-radius: 10px; padding: 20px 24px; }
-.waitlist-success.show { display: block; }
-.waitlist-success-text { font-size: 14px; font-weight: 400; color: #3A5C2E; }
-.waitlist-success-sub { font-size: 12px; font-weight: 300; color: var(--green); margin-top: 4px; }
-.or-divider { display: flex; align-items: center; gap: 14px; margin: 20px 0; }
-.or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: rgba(26,34,54,.1); }
-.or-text { font-size: 11px; color: var(--stone); font-weight: 300; }
-.app-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; background: var(--terra); color: white; border-radius: 7px; font-size: 14px; font-weight: 500; text-decoration: none; transition: background .15s, transform .15s; }
-.app-btn:hover { background: #b05e30; transform: translateY(-1px); }
-
-footer { background: var(--ink); padding: 40px 80px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(248,245,240,.06); }
-.footer-logo-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; color: rgba(248,245,240,.6); }
-.footer-logo-name em { font-style: italic; }
-.footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 12px; font-weight: 300; color: rgba(248,245,240,.35); text-decoration: none; transition: color .15s; }
-.footer-links a:hover { color: rgba(248,245,240,.7); }
-.footer-copy { font-size: 11px; font-weight: 300; color: rgba(248,245,240,.2); }
-
-@keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-@keyframes fadeLeft { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:translateX(0); } }
-@keyframes growBar { from { transform:scaleX(0); } to { transform:scaleX(1); } }
-@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
-
-@media (max-width: 900px) {
-  nav { padding: 14px 24px; }
-  .nav-links a:not(.nav-cta) { display: none; }
-  .hero { grid-template-columns: 1fr; padding: 48px 24px; min-height: auto; }
-  .hero-left { padding-right: 0; margin-bottom: 40px; }
-  .hero-right { display: none; }
-  .how, .features, .comparison, .pricing, .privacy, .waitlist { padding: 64px 24px; }
-  .how-grid { grid-template-columns: 1fr; }
-  .how-cell { border-left: none; border-top: 1px solid rgba(248,245,240,.07); padding: 32px 0; }
-  .how-cell:first-child { border-top: none; }
-  .features-grid { grid-template-columns: 1fr; }
-  .f-card-wide { grid-column: span 1; grid-template-columns: 1fr; gap: 24px; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .privacy-inner { grid-template-columns: 1fr; gap: 40px; }
-  .waitlist-form { flex-direction: column; }
-  footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
-  .footer-links { flex-wrap: wrap; justify-content: center; }
-}
-</style>
-<style>
-/* ── Quality section mobile fix ── */
-@media(max-width:900px){
-  .quality-inner{
-    grid-template-columns:1fr !important;
-    gap:40px !important;
-  }
-  .quality-visual{
-    display:none !important;
-  }
-  #quality{
-    padding:60px 24px !important;
-  }
-}
-
-/* ── Blog section mobile fix ── */
-@media(max-width:900px){
-  .blog-cards-grid{
-    grid-template-columns:1fr !important;
-    gap:12px !important;
-  }
-  #blog{
-    padding:56px 24px !important;
-  }
-}
-
-/* ── SAGE SECTION ── */
-.sage-section {
+/* ══ HERO WITH INTERACTIVE DEMO ══ */
+.hero {
   position: relative;
   z-index: 1;
-  padding: 100px 48px;
-  max-width: 1280px;
+  padding: 72px 48px 100px;
+  max-width: 1320px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 540px;
+  gap: 64px;
+  align-items: start;
 }
 
-.sage-header {
-  text-align: center;
-  margin-bottom: 64px;
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 40px; left: 40px;
+  width: 40px; height: 40px;
+  border-top: 1.5px solid rgba(26,34,54,.12);
+  border-left: 1.5px solid rgba(26,34,54,.12);
 }
-.sage-eyebrow {
+
+.hero-left { padding-top: 24px; padding-right: 40px; }
+
+.hero-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 10px;
   font-weight: 500;
-  letter-spacing: .18em;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: #4A6B5A;
+  color: var(--terra);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp .8s .1s ease forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 24px; height: 1.5px;
+  background: var(--terra);
+}
+
+.hero-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 5vw, 68px);
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp .8s .2s ease forwards;
+}
+.hero-headline em { font-style: italic; color: var(--terra); }
+
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--stone);
+  max-width: 480px;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadeUp .8s .3s ease forwards;
+}
+.hero-sub strong { font-weight: 500; color: var(--ink); }
+
+.trust-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 28px;
+  border-top: 1px solid rgba(26,34,54,.08);
+  opacity: 0;
+  animation: fadeUp .8s .5s ease forwards;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--stone);
+}
+.trust-item svg { flex-shrink: 0; }
+
+/* Demo card */
+.demo-wrap {
+  position: relative;
+  opacity: 0;
+  animation: fadeLeft .9s .4s ease forwards;
+  padding-top: 32px;
+}
+
+.demo-card {
+  background: white;
+  border: 1px solid rgba(26,34,54,.09);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(26,34,54,.04), 0 24px 60px rgba(26,34,54,.12);
+  position: relative;
+}
+
+.demo-header {
+  background: var(--ink);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.demo-header-title {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(248,245,240,.6);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.demo-header-title::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green-good);
+  box-shadow: 0 0 0 3px rgba(107,142,90,.25);
+  animation: pulse 2s infinite;
+}
+.demo-header-file {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(248,245,240,.4);
+}
+
+.demo-input-area {
+  padding: 20px;
+  border-bottom: 1px solid rgba(26,34,54,.07);
+  background: #FAFAF7;
+}
+.demo-input-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 8px;
+}
+.demo-textarea {
+  width: 100%;
+  min-height: 76px;
+  padding: 10px 12px;
+  border: 1px solid rgba(26,34,54,.1);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: white;
+  resize: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.demo-textarea:focus {
+  outline: none;
+  border-color: var(--terra);
+  box-shadow: 0 0 0 3px rgba(196,112,63,.1);
+}
+.demo-presets {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.demo-preset {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--stone);
+  background: white;
+  border: 1px solid rgba(26,34,54,.1);
+  padding: 5px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.demo-preset:hover {
+  border-color: var(--terra);
+  color: var(--terra);
+}
+.demo-btn {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--terra);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+.demo-btn:hover { background: #A85C30; transform: translateY(-1px); }
+.demo-results { padding: 20px; min-height: 280px; position: relative; }
+
+.demo-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--stone);
+  font-size: 13px;
+  font-weight: 300;
+}
+.demo-empty svg { margin-bottom: 12px; opacity: .4; }
+
+.demo-scanning {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px;
+  text-align: center;
+}
+.demo-scanning.active { display: flex; }
+.scan-ring {
+  width: 56px; height: 56px;
+  border: 3px solid rgba(196,112,63,.15);
+  border-top-color: var(--terra);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+.scan-status {
+  font-size: 12px;
+  color: var(--stone);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: .04em;
+}
+
+.demo-result { display: none; opacity: 0; }
+.demo-result.active { display: block; animation: fadeUp .5s ease forwards; }
+
+.verdict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #F0F7EC;
+  border: 1px solid #C8DEC0;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+.verdict-label { display: flex; align-items: center; gap: 10px; }
+.verdict-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--green-good);
+  box-shadow: 0 0 0 4px rgba(107,142,90,.2);
+}
+.verdict-text { font-size: 14px; font-weight: 500; color: var(--ink); }
+.verdict-sub { font-size: 11px; font-weight: 300; color: var(--stone); margin-top: 2px; }
+.verdict-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+}
+.verdict-score span { font-size: 13px; color: var(--stone); margin-left: 2px; }
+
+.metrics { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.metric-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 30px;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+.metric-name { color: var(--stone); }
+.metric-track {
+  height: 5px;
+  background: rgba(26,34,54,.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.metric-fill {
+  height: 100%;
+  border-radius: 3px;
+  transform-origin: left;
+  animation: growBar .8s ease forwards;
+  width: var(--w, 0%);
+}
+.metric-fill.good { background: var(--green-good); }
+.metric-fill.warn { background: var(--terra); }
+.metric-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink);
+  text-align: right;
+}
+
+.phrases-block {
+  padding: 12px 14px;
+  background: #FAF7F3;
+  border: 1px solid rgba(196,112,63,.15);
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+.phrases-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 6px;
+}
+.phrase-text { font-size: 12.5px; line-height: 1.6; color: var(--ink); font-style: italic; }
+.phrase-flag {
+  background: rgba(196,112,63,.15);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.grade-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(26,34,54,.07);
+}
+.grade-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.grade-badge {
+  background: var(--ink);
+  color: var(--parchment);
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* FIXED floating badges — now positioned above/below card, not overlapping */
+.float-badges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px;
+  pointer-events: none;
+  z-index: 5;
+}
+.float-badge {
+  background: white;
+  border: 1px solid rgba(26,34,54,.09);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(26,34,54,.08);
+  animation: float 4s ease-in-out infinite;
+}
+.fb-1 { animation-delay: 0s; }
+.fb-2 { animation-delay: 1.5s; }
+.float-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+
+/* ══ SECTION SHELL ══ */
+.section { position: relative; z-index: 1; padding: 96px 48px; max-width: 1280px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--terra);
   margin-bottom: 20px;
 }
-.sage-eyebrow::before {
+.section-eyebrow::before {
   content: '';
-  display: block;
-  width: 20px;
-  height: 1.5px;
-  background: #4A6B5A;
+  width: 24px; height: 1.5px;
+  background: var(--terra);
 }
-.sage-headline {
+.section-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 3.5vw, 48px);
+  font-size: clamp(34px, 4vw, 52px);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: -.025em;
   color: var(--ink);
   margin-bottom: 16px;
 }
-.sage-headline em { font-style: italic; color: #4A6B5A; }
-.sage-sub {
+.section-title em { font-style: italic; color: var(--terra); }
+.section-sub {
   font-size: 16px;
   font-weight: 300;
   color: var(--stone);
-  line-height: 1.65;
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
+  line-height: 1.65;
 }
 
+/* ══ HOW IT WORKS ══ */
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.how-step {
+  padding: 32px 28px;
+  border: 1px solid rgba(26,34,54,.08);
+  border-radius: 14px;
+  background: white;
+}
+.how-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--terra);
+  margin-bottom: 12px;
+  letter-spacing: .02em;
+}
+.how-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+.how-title em { font-style: italic; color: var(--terra); }
+.how-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--stone);
+  line-height: 1.65;
+}
+
+/* ══ FEATURES ══ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(26,34,54,.06);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(26,34,54,.06);
+}
+.feature-cell {
+  padding: 36px 32px;
+  background: var(--parchment);
+  transition: background .15s;
+}
+.feature-cell:hover { background: white; }
+.feature-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.feature-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
+}
+.feature-title em { font-style: italic; color: var(--terra); }
+.feature-desc {
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--stone);
+  margin-bottom: 14px;
+}
+.feature-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: var(--terra);
+}
+
+/* ══ COMPARISON ══ */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(26,34,54,.08);
+}
+.compare-table th, .compare-table td {
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 300;
+  border-bottom: 1px solid rgba(26,34,54,.06);
+}
+.compare-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--stone);
+  font-weight: 500;
+  background: rgba(26,34,54,.02);
+}
+.compare-table th.col-us { color: var(--terra); }
+.compare-table td:first-child {
+  text-align: left;
+  color: var(--ink);
+  font-weight: 400;
+}
+.compare-table tr.section-row td {
+  background: rgba(26,34,54,.03);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--stone);
+  font-weight: 500;
+  padding: 8px 18px;
+  border: none;
+}
+.check-yes { color: var(--green-good); font-size: 16px; font-weight: 700; }
+.check-no { color: rgba(26,34,54,.25); font-size: 16px; }
+.col-us-cell { background: rgba(196,112,63,.04); }
+
+/* ══ STATS ══ */
+.stats-section {
+  background: var(--ink);
+  padding: 80px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(248,245,240,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(248,245,240,.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.stats-section::after {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,112,63,.15) 0%, transparent 65%);
+}
+.stats-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+.stats-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--terra-warm);
+  margin-bottom: 20px;
+  text-align: center;
+}
+.stats-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--parchment);
+  text-align: center;
+  margin-bottom: 56px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stats-title em { font-style: italic; color: var(--terra-warm); }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.stat-item { text-align: center; position: relative; padding: 0 12px; }
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 20%;
+  height: 60%; width: 1px;
+  background: rgba(248,245,240,.08);
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--parchment);
+  letter-spacing: -.02em;
+  margin-bottom: 8px;
+}
+.stat-num em { font-style: italic; color: var(--terra-warm); }
+.stat-num-suffix {
+  font-size: .5em;
+  color: var(--terra-warm);
+  font-style: normal;
+  margin-left: 2px;
+}
+.stat-label { font-size: 12px; font-weight: 300; color: rgba(248,245,240,.5); line-height: 1.5; }
+.stat-label strong { font-weight: 500; color: rgba(248,245,240,.75); }
+
+/* ══ SAGE SECTION ══ */
+.sage-section {
+  padding: 96px 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
 .sage-layout {
   display: grid;
   grid-template-columns: 520px 1fr;
   gap: 64px;
   align-items: center;
+  margin-top: 56px;
 }
+.sage-eyebrow-special { color: var(--sage) !important; }
+.sage-eyebrow-special::before { background: var(--sage) !important; }
+.section-title em.sage-em { color: var(--sage); }
 
-/* ── CHAT MOCKUP ── */
 .sage-chat {
   background: #F5F3EF;
   border: 1px solid rgba(26,34,54,.09);
@@ -383,7 +740,6 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(26,34,54,.04), 0 24px 60px rgba(26,34,54,.09);
 }
-
 .sage-chat-header {
   background: var(--ink);
   padding: 14px 20px;
@@ -391,101 +747,67 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
   align-items: center;
   gap: 10px;
 }
-.sage-chat-header-icon {
-  width: 28px;
-  height: 28px;
+.sage-chat-icon {
+  width: 28px; height: 28px;
   border-radius: 50%;
-  background: #4A6B5A;
+  background: var(--sage);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
-.sage-chat-header-text {
-  display: flex;
-  flex-direction: column;
-}
-.sage-chat-header-name {
+.sage-chat-name {
   font-family: 'Playfair Display', serif;
   font-size: 14px;
   color: #F8F5F0;
   line-height: 1.2;
 }
-.sage-chat-header-status {
+.sage-chat-status {
   font-size: 10px;
   font-weight: 300;
   color: rgba(248,245,240,.4);
 }
-.sage-chat-header-dots {
-  margin-left: auto;
-  display: flex;
-  gap: 4px;
-}
-.sage-chat-header-dots span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(248,245,240,.2);
-}
-
 .sage-chat-body {
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   min-height: 340px;
+  background: #F5F3EF;
 }
-
-.sage-msg {
-  display: flex;
-  gap: 10px;
-  max-width: 88%;
-}
-.sage-msg-user {
-  margin-left: auto;
-  flex-direction: row-reverse;
-}
-.sage-msg-avatar {
-  width: 28px;
-  height: 28px;
+.sage-msg { display: flex; gap: 10px; max-width: 88%; }
+.sage-msg-user { margin-left: auto; flex-direction: row-reverse; }
+.sage-avatar {
+  width: 28px; height: 28px;
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 2px;
-}
-.sage-msg-avatar-sage {
-  background: #4A6B5A;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.sage-msg-avatar-user {
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sage-msg-bubble {
+.avatar-sage { background: var(--sage); }
+.avatar-user { background: var(--ink); }
+.sage-bubble {
   padding: 12px 16px;
   border-radius: 14px;
   font-size: 13.5px;
   font-weight: 300;
   line-height: 1.6;
-  color: var(--ink);
 }
-.sage-msg-sage .sage-msg-bubble {
-  background: #FFFFFF;
-  border: 1px solid rgba(74,107,90,.18);
-  border-radius: 4px 14px 14px 14px;
-  color: #1A2236;
-  box-shadow: 0 1px 3px rgba(26,34,54,.06);
-}
-.sage-msg-user .sage-msg-bubble {
+.sage-msg-user .sage-bubble {
   background: var(--ink);
   color: #F8F5F0;
   border-radius: 14px 4px 14px 14px;
 }
-.sage-msg-bubble strong { font-weight: 500; }
-.sage-msg-bubble em { font-style: italic; color: #4A6B5A; }
+.sage-msg-sage .sage-bubble {
+  background: white;
+  border: 1px solid rgba(74,107,90,.18);
+  color: var(--ink);
+  border-radius: 4px 14px 14px 14px;
+  box-shadow: 0 1px 3px rgba(26,34,54,.06);
+}
+.sage-bubble strong { font-weight: 500; color: var(--ink); }
+.sage-bubble em { font-style: italic; color: var(--sage); }
 
 .sage-chat-input {
   border-top: 1px solid rgba(26,34,54,.07);
@@ -493,7 +815,7 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #FFFFFF;
+  background: white;
 }
 .sage-chat-input-field {
   flex: 1;
@@ -502,31 +824,18 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
   color: var(--stone);
 }
 .sage-chat-input-btn {
-  width: 32px;
-  height: 32px;
+  width: 32px; height: 32px;
   border-radius: 8px;
   background: var(--terra);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
-/* ── SELLING POINTS ── */
-.sage-points {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.sage-point {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
+.sage-points { display: flex; flex-direction: column; gap: 28px; }
+.sage-point { display: flex; gap: 16px; align-items: flex-start; }
 .sage-point-icon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border-radius: 10px;
   background: rgba(74,107,90,.08);
   border: 1px solid rgba(74,107,90,.12);
@@ -535,446 +844,755 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
   justify-content: center;
   flex-shrink: 0;
 }
-.sage-point-body {
-  flex: 1;
-}
 .sage-point-title {
   font-family: 'Playfair Display', serif;
   font-size: 17px;
-  font-weight: 400;
   color: var(--ink);
   margin-bottom: 4px;
-  letter-spacing: -.01em;
 }
-.sage-point-title em { font-style: italic; color: #4A6B5A; }
-.sage-point-desc {
-  font-size: 13.5px;
-  font-weight: 300;
-  color: var(--stone);
-  line-height: 1.6;
-}
-
+.sage-point-title em { font-style: italic; color: var(--sage); }
+.sage-point-desc { font-size: 13.5px; font-weight: 300; color: var(--stone); line-height: 1.6; }
 .sage-cta {
-  margin-top: 12px;
-}
-.sage-cta a {
+  margin-top: 8px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #4A6B5A;
+  background: var(--sage);
   color: #F8F5F0;
-  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
   padding: 13px 26px;
   border-radius: 7px;
-  text-decoration: none;
   transition: background .15s, transform .15s;
 }
-.sage-cta a:hover { background: #3A5A4A; transform: translateY(-1px); }
+.sage-cta:hover { background: #3A5A4A; transform: translateY(-1px); }
 
-/* Sage responsive */
-@media (max-width: 900px) {
-  .sage-layout {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .sage-section { padding: 64px 24px; }
+/* ══ PRICING ══ */
+.pricing-section { padding: 96px 48px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+.billing-toggle {
+  display: inline-flex;
+  background: white;
+  border: 1px solid rgba(26,34,54,.1);
+  border-radius: 24px;
+  padding: 4px;
+  margin: 24px auto 0;
+}
+.billing-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--stone);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.billing-btn.active {
+  background: var(--ink);
+  color: var(--parchment);
+}
+.billing-save {
+  font-size: 10px;
+  background: var(--terra);
+  color: white;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: .04em;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 880px;
+  margin: 48px auto 0;
+}
+.price-card {
+  background: white;
+  border: 1px solid rgba(26,34,54,.09);
+  border-radius: 16px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform .2s, box-shadow .2s;
+}
+.price-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,34,54,.08);
+}
+.price-card-pro {
+  background: var(--ink);
+  color: var(--parchment);
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(26,34,54,.12);
+}
+.popular-badge {
+  position: absolute;
+  top: -14px;
+  right: 28px;
+  background: var(--terra);
+  color: white;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(196,112,63,.3);
+  font-family: 'JetBrains Mono', monospace;
+}
+.price-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.price-card-pro .price-label { color: var(--terra-warm); }
+.price-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
+.price-amount .currency {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  opacity: .6;
+}
+.price-amount .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  font-weight: 400;
+  letter-spacing: -.03em;
+  line-height: 1;
+}
+.price-amount .num em { font-style: italic; }
+.price-card-pro .price-amount .num em { color: var(--terra-warm); }
+.price-period { font-size: 13px; font-weight: 300; color: var(--stone); margin-bottom: 4px; }
+.price-card-pro .price-period { color: rgba(248,245,240,.5); }
+.price-slash {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--stone);
+  text-decoration: line-through;
+  margin-bottom: 20px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.price-card-pro .price-slash { color: rgba(248,245,240,.35); }
+.price-slash.show { opacity: 1; }
+.price-divider { height: 1px; background: rgba(26,34,54,.08); margin: 24px 0; }
+.price-card-pro .price-divider { background: rgba(248,245,240,.1); }
+.features-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; flex: 1; }
+.feat-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.price-card-pro .feat-item { color: rgba(248,245,240,.82); }
+.feat-item strong { font-weight: 500; }
+.feat-item svg { flex-shrink: 0; margin-top: 4px; }
+.feat-tier {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  background: rgba(196,112,63,.1);
+  color: var(--terra);
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: center;
+}
+.price-card-pro .feat-tier { background: rgba(232,168,128,.15); color: var(--terra-warm); }
+.price-cta {
+  display: block;
+  text-align: center;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background .15s, transform .15s;
+}
+.price-cta-free { background: var(--ink); color: var(--parchment); }
+.price-cta-free:hover { background: #2a3550; transform: translateY(-1px); }
+.price-cta-pro { background: var(--terra); color: white; }
+.price-cta-pro:hover { background: #A85C30; transform: translateY(-1px); }
+.boost-note {
+  max-width: 720px;
+  margin: 40px auto 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--stone);
+  line-height: 1.7;
+  padding: 20px 28px;
+  background: white;
+  border-radius: 12px;
+  border: 1px dashed rgba(26,34,54,.15);
+}
+.boost-note strong { font-weight: 500; color: var(--ink); }
+
+/* ══ PRIVACY ══ */
+.privacy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.privacy-card {
+  background: white;
+  border: 1px solid rgba(26,34,54,.08);
+  border-radius: 14px;
+  padding: 28px 32px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.privacy-icon {
+  width: 40px; height: 40px;
+  flex-shrink: 0;
+  background: rgba(107,142,90,.08);
+  border: 1px solid rgba(107,142,90,.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.privacy-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.privacy-desc { font-size: 13.5px; font-weight: 300; line-height: 1.65; color: var(--stone); }
+
+/* ══ FINAL CTA ══ */
+.final-cta {
+  padding: 96px 48px;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.final-btn {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--parchment);
+  padding: 16px 32px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 12px;
+  transition: background .15s, transform .15s;
+}
+.final-btn:hover { background: #2a3550; transform: translateY(-1px); }
+
+/* ══ BLOG ══ */
+.blog-strip { padding: 80px 48px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; border-top: 1px solid rgba(26,34,54,.08); }
+.blog-strip-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.blog-strip-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 2.5vw, 34px);
+  font-weight: 400;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+.blog-strip-title em { font-style: italic; color: var(--terra); }
+.blog-strip-link {
+  font-size: 13px;
+  color: var(--terra);
+  border-bottom: 1px solid rgba(196,112,63,.3);
+  transition: border-color .15s;
+}
+.blog-strip-link:hover { border-color: var(--terra); }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.blog-card {
+  background: white;
+  border: 1px solid rgba(26,34,54,.08);
+  border-radius: 12px;
+  padding: 24px;
+  display: block;
+  transition: transform .15s, box-shadow .15s;
+}
+.blog-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(26,34,54,.06); }
+.blog-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 8px;
+}
+.blog-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.blog-desc { font-size: 13px; font-weight: 300; color: var(--stone); line-height: 1.6; margin-bottom: 12px; }
+.blog-read { font-size: 12px; color: var(--terra); }
+
+/* ══ FOOTER ══ */
+footer {
+  background: var(--ink);
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+.footer-left { display: flex; align-items: center; gap: 12px; }
+.footer-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: rgba(248,245,240,.6);
+}
+.footer-name em { font-style: italic; }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a {
+  font-size: 12px;
+  color: rgba(248,245,240,.4);
+  transition: color .15s;
+}
+.footer-links a:hover { color: rgba(248,245,240,.8); }
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes growBar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(107,142,90,.25); }
+  50% { box-shadow: 0 0 0 5px rgba(107,142,90,.1); }
 }
 
-/* Sage dark mode */
-@media (prefers-color-scheme: dark) {
-  .sage-chat { background: #2A2620; border-color: rgba(240,235,227,.09); }
-  .sage-msg-sage .sage-msg-bubble { background: #35312A; border-color: rgba(74,107,90,.25); color: #E8E3DA; box-shadow: none; }
-  .sage-msg-sage .sage-msg-bubble strong { color: #E8E3DA; }
-  .sage-chat-input { background: #2A2620; border-color: rgba(240,235,227,.07); }
-  .sage-point-icon { background: rgba(74,107,90,.12); border-color: rgba(74,107,90,.18); }
+/* ══ RESPONSIVE ══ */
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 48px; padding: 40px 24px 64px; }
+  .hero-left { padding-right: 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .stat-item:nth-child(2)::after { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .price-card-pro { transform: none; }
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .section { padding: 64px 24px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .sage-layout { grid-template-columns: 1fr; gap: 40px; }
+  .privacy-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .sage-section, .pricing-section, .blog-strip, .final-cta { padding: 64px 24px; }
+  .stats-section { padding: 64px 24px; }
 }
 </style>
 </head>
 <body>
 
+<!-- ═══════════════ NAV ═══════════════ -->
 <nav>
   <a href="/" class="nav-logo">
-    <svg width="26" height="31" viewBox="0 0 100 118" fill="none">
+    <svg width="28" height="33" viewBox="0 0 100 118" fill="none">
       <path fill="#1A2236" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/>
       <path fill="none" stroke="#C4703F" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/>
     </svg>
     <span class="nav-logo-name">Safe<em>Grade</em></span>
   </a>
-  <div class="nav-links">
-    <a href="/check">Free check</a>
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#sage">Sage</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#privacy">Privacy</a>
-    <a href="/partnerships.html">Universities</a>
-    <a href="/blog/">Blog</a>
-    <a href="https://app.safegrade.co.uk/login" style="font-size:13px;font-weight:400;color:#8A7E6E;text-decoration:none;margin-right:4px;">Log in</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#sage">Sage</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#privacy">Privacy</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <a href="https://app.safegrade.co.uk/login" class="nav-login">Log in</a>
     <a href="https://app.safegrade.co.uk" class="nav-cta">Scan my essay free</a>
   </div>
 </nav>
 
-<section class="section hero">
+<!-- ═══════════════ HERO + DEMO ═══════════════ -->
+<section class="hero">
+
   <div class="hero-left">
-    <div class="hero-eyebrow">Free to try &middot; No account needed</div>
-    <h1 class="hero-headline">Know before<br>your <em>lecturer</em> does.</h1>
-    <p class="hero-sub">SafeGrade analyses your writing quality, checks your referencing, and estimates your grade — then uses AI to look deeper for patterns that could get you flagged. All before you submit.</p>
-    <div class="hero-actions">
-      <a href="https://app.safegrade.co.uk" class="btn-primary">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Scan my essay free
-      </a>
-      <a href="#how" class="btn-ghost">See how it works &darr;</a>
-    </div>
-    <div class="trust-strip">
-      <div class="trust-item"><span class="trust-dot"></span>Your data stays on UK servers</div>
-      <div class="trust-item"><span class="trust-dot"></span>Never shared with Turnitin or your university</div>
-      <div class="trust-item"><span class="trust-dot"></span>Works on any UK university</div>
+    <div class="hero-eyebrow">Free to try · No account needed</div>
+
+    <h1 class="hero-headline">
+      Know before<br>
+      your <em>lecturer</em> does.
+    </h1>
+
+    <p class="hero-sub">
+      Paste your essay into the scanner → — get your writing quality, AI risk, Harvard citations, and estimated grade in under <strong>two minutes.</strong> All before you hit submit.
+    </p>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L12 3.5v4.2c0 2.4-2 4.5-5 5.3-3-.8-5-2.9-5-5.3V3.5L7 1z" stroke="#6B8E5A" stroke-width="1.2"/><path d="M4.5 7L6 8.5L9.5 5" stroke="#6B8E5A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Stored securely on UK servers
+      </div>
+      <div class="trust-item">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3.5" width="11" height="7" rx="1" stroke="#6B8E5A" stroke-width="1.2"/><path d="M4 3.5V2a1 1 0 011-1h4a1 1 0 011 1v1.5" stroke="#6B8E5A" stroke-width="1.2"/></svg>
+        Never shared with Turnitin
+      </div>
+      <div class="trust-item">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#6B8E5A" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Works at any UK university
+      </div>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="float-tag float-tag-1"><span class="float-dot-sm" style="background:#6B8E5A"></span>Harvard citations verified</div>
-    <div class="float-tag float-tag-2"><span class="float-dot-sm" style="background:#C4703F"></span>3 phrases flagged</div>
-    <div class="scan-card">
-      <div class="sc-header">
-        <span class="sc-title">SafeGrade Analysis</span>
-        <span class="sc-file">essay_final_v3.docx</span>
+
+  <div class="demo-wrap">
+
+    <!-- Badges positioned ABOVE the card, not overlapping -->
+    <div class="float-badges">
+      <div class="float-badge fb-1">
+        <span class="float-dot" style="background:#6B8E5A"></span>
+        Live — try it now
       </div>
-      <div class="sc-body">
-        <div class="verdict">
-          <div class="v-left">
-            <div class="v-dot"></div>
-            <div><div class="v-tag">Strong Writing Patterns</div><div class="v-note">Low AI-risk signals across 6 dimensions</div></div>
+      <div class="float-badge fb-2">
+        <span class="float-dot" style="background:#C4703F"></span>
+        No sign-up
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-header">
+        <span class="demo-header-title">SafeGrade Live Demo</span>
+        <span class="demo-header-file">demo.v1</span>
+      </div>
+
+      <div class="demo-input-area">
+        <div class="demo-input-label">Paste a paragraph to try the scanner</div>
+        <textarea class="demo-textarea" id="demoInput" placeholder="Paste your essay or a paragraph here..."></textarea>
+        <div class="demo-presets">
+          <button class="demo-preset" onclick="loadPreset(1)">Try a sample</button>
+          <button class="demo-preset" onclick="loadPreset(2)">Try AI-written</button>
+          <button class="demo-preset" onclick="loadPreset(3)">Try human-written</button>
+        </div>
+        <button class="demo-btn" onclick="runScan()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 1a5 5 0 100 10 5 5 0 000-10zm7 12l-3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Run SafeGrade scan
+        </button>
+      </div>
+
+      <div class="demo-results">
+
+        <div class="demo-empty" id="demoEmpty">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path fill="#1A2236" d="M20 4C22 4 28 5 34 8L35 10L35 25Q35 36 20 43Q5 36 5 25L5 10L6 8C12 5 18 4 20 4Z" opacity="0.08"/><path fill="none" stroke="#C4703F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M13 25L18 31L29 18" opacity="0.6"/></svg>
+          Paste a paragraph above and run a scan to see what SafeGrade does.
+        </div>
+
+        <div class="demo-scanning" id="demoScanning">
+          <div class="scan-ring"></div>
+          <div class="scan-status" id="scanStatus">Analysing writing patterns...</div>
+        </div>
+
+        <div class="demo-result" id="demoResult">
+          <div class="verdict">
+            <div class="verdict-label">
+              <div class="verdict-dot" id="verdictDot"></div>
+              <div>
+                <div class="verdict-text" id="verdictText">Strong Writing Patterns</div>
+                <div class="verdict-sub" id="verdictSub">Low AI-risk signals across 6 dimensions</div>
+              </div>
+            </div>
+            <div class="verdict-score"><span id="scoreNum">82</span><span>/100</span></div>
           </div>
-          <div class="v-score">82<span class="v-denom">/100</span></div>
+
+          <div class="metrics">
+            <div class="metric-row"><span class="metric-name">Perplexity</span><div class="metric-track"><div class="metric-fill good" id="m1" style="--w:78%"></div></div><span class="metric-val" id="v1">78</span></div>
+            <div class="metric-row"><span class="metric-name">Burstiness</span><div class="metric-track"><div class="metric-fill good" id="m2" style="--w:85%"></div></div><span class="metric-val" id="v2">85</span></div>
+            <div class="metric-row"><span class="metric-name">Vocabulary</span><div class="metric-track"><div class="metric-fill good" id="m3" style="--w:72%"></div></div><span class="metric-val" id="v3">72</span></div>
+            <div class="metric-row"><span class="metric-name">AI phrases</span><div class="metric-track"><div class="metric-fill warn" id="m4" style="--w:31%"></div></div><span class="metric-val" id="v4">31</span></div>
+            <div class="metric-row"><span class="metric-name">Sent. variety</span><div class="metric-track"><div class="metric-fill good" id="m5" style="--w:88%"></div></div><span class="metric-val" id="v5">88</span></div>
+          </div>
+
+          <div class="phrases-block" id="phrasesBlock">
+            <div class="phrases-label">Phrases flagged</div>
+            <div class="phrase-text" id="phraseText">"<span class="phrase-flag">It is important to note</span> that Bourdieu's framework offers a compelling lens through which to examine inequality <span class="phrase-flag">in today's society</span>."</div>
+          </div>
+
+          <div class="grade-row">
+            <span class="grade-label">Estimated grade</span>
+            <span class="grade-badge" id="gradeBadge">2:1 — Upper Second</span>
+          </div>
         </div>
-        <div class="s-label">Signal breakdown</div>
-        <div class="metrics">
-          <div class="m-row"><span class="m-name">Perplexity</span><div class="m-track"><div class="m-fill fg" style="width:78%"></div></div><span class="m-val">78</span></div>
-          <div class="m-row"><span class="m-name">Burstiness</span><div class="m-track"><div class="m-fill fg" style="width:85%"></div></div><span class="m-val">85</span></div>
-          <div class="m-row"><span class="m-name">Vocabulary</span><div class="m-track"><div class="m-fill fg" style="width:72%"></div></div><span class="m-val">72</span></div>
-          <div class="m-row"><span class="m-name">AI phrases</span><div class="m-track"><div class="m-fill fw" style="width:31%"></div></div><span class="m-val">31</span></div>
-          <div class="m-row"><span class="m-name">Sent. variety</span><div class="m-track"><div class="m-fill fg" style="width:88%"></div></div><span class="m-val">88</span></div>
-        </div>
-        <div class="phrase-box">
-          <div class="p-text">"<span class="flag">It is important to note</span> that Bourdieu's framework offers a compelling lens through which to examine inequality <span class="flag">in today's society</span>. <span class="flag">Furthermore</span>…"</div>
-        </div>
-        <div class="sc-bottom">
-          <span class="grade-pill">2:1 — Upper Second</span>
-          <span class="sc-url">safegrade.co.uk</span>
-        </div>
+
       </div>
     </div>
   </div>
+
 </section>
 
-<section class="section how" id="how">
-  <div class="section-eyebrow">How it works</div>
-  <h2 class="section-title">Three steps. <em>Two minutes.</em><br>No surprises on results day.</h2>
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section class="section" id="how">
+  <div class="section-header">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">Three steps. <em>Two minutes.</em><br>No surprises on results day.</h2>
+  </div>
+
   <div class="how-grid">
-    <div class="how-cell">
+    <div class="how-step">
       <div class="how-num">01</div>
       <div class="how-title">Paste or <em>upload</em></div>
-      <p class="how-desc">Drop in your essay as plain text, or upload a .docx file. Your data is stored securely on UK servers — never shared with third parties.</p>
+      <div class="how-desc">Drop in your essay as plain text, or upload a .docx file. Your data is stored securely on UK servers — never shared with third parties.</div>
     </div>
-    <div class="how-cell">
+    <div class="how-step">
       <div class="how-num">02</div>
       <div class="how-title">SafeGrade <em>analyses</em></div>
-      <p class="how-desc">Six writing quality signals run instantly — completely free. If you want a deeper AI risk check, run a Deep Scan. Harvard referencing and grade estimation follow automatically.</p>
+      <div class="how-desc">Six writing quality signals run instantly — completely free. If you want a deeper AI risk check, run a Deep Scan. Harvard referencing and grade estimation follow automatically.</div>
     </div>
-    <div class="how-cell">
+    <div class="how-step">
       <div class="how-num">03</div>
       <div class="how-title">Fix it before <em>you submit</em></div>
-      <p class="how-desc">Click any flagged phrase to see a rewrite suggestion. Fix citations with one click. Recheck until you're confident. Then submit.</p>
+      <div class="how-desc">Click any flagged phrase to see a rewrite suggestion. Fix citations with one click. Recheck until you're confident. Then submit.</div>
     </div>
   </div>
 </section>
 
-<section class="section features" id="features">
-  <div class="features-inner">
-    <div class="section-eyebrow section-eyebrow-light">What's included</div>
-    <h2 class="section-title section-title-dark">Everything you need<br>before you <em>hit submit.</em></h2>
-    <div class="features-grid">
-      <div class="f-card">
-        <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5v5Q14 14 9 16Q4 14 4 10V5L9 2Z" fill="rgba(248,245,240,.12)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M6.5 9.5L8.5 11.5L12 7" stroke="#C4703F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="f-title">Writing <em>Analysis</em></div>
-        <p class="f-desc">Six dimensions of your writing measured instantly — perplexity, burstiness, vocabulary diversity, phrase patterns, sentence variety, paragraph structure. Free and unlimited.</p>
-        <div class="f-badge">&#8599; Free forever</div>
+<!-- ═══════════════ FEATURES ═══════════════ -->
+<section class="section" id="features">
+  <div class="section-header">
+    <div class="section-eyebrow">What's included</div>
+    <h2 class="section-title">Everything you need<br>before you <em>hit submit.</em></h2>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-cell">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5v5Q14 14 9 16Q4 14 4 10V5L9 2Z" fill="rgba(248,245,240,.15)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M6.5 9.5L8.5 11.5L12 7" stroke="#C4703F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <div class="f-card">
-        <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" fill="rgba(248,245,240,.1)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M6 9l2 2 4-4" stroke="#C4703F" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="f-title">AI <em>Risk Check</em></div>
-        <p class="f-desc">The Deep Scan uses AI to look further than the local metrics. It catches fabricated references, formulaic structure, and subtle patterns that suggest AI involvement. Returns a separate AI risk verdict alongside your writing score.</p>
-        <div class="f-badge">&#8599; 1/month free &middot; 10/month Pro</div>
+      <div class="feature-title">Writing <em>Analysis</em></div>
+      <div class="feature-desc">Six dimensions of your writing measured instantly — perplexity, burstiness, vocabulary diversity, phrase patterns, sentence variety, paragraph structure. Free and unlimited.</div>
+      <div class="feature-tag">↗ Free forever</div>
+    </div>
+
+    <div class="feature-cell">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5" stroke="#F8F5F0" stroke-width="1.2"/><path d="M12 12l3 3" stroke="#C4703F" stroke-width="1.4" stroke-linecap="round"/></svg>
       </div>
-      <div class="f-card">
-        <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" fill="rgba(248,245,240,.1)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M5 8h8M5 11h5" stroke="#C4703F" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        <div class="f-title">Essay <em>Improvements</em></div>
-        <p class="f-desc">Specific rewrites for every AI-sounding phrase — actual alternative sentences written for your essay's context. Click to apply or ignore.</p>
-        <div class="f-badge">&#8599; 1/month free &middot; 10/month Pro</div>
+      <div class="feature-title">AI <em>Risk Check</em></div>
+      <div class="feature-desc">The Deep Scan uses AI to look further than the local metrics. It catches fabricated references, formulaic structure, and subtle patterns that suggest AI involvement.</div>
+      <div class="feature-tag">↗ 1/month free · 10/month Pro</div>
+    </div>
+
+    <div class="feature-cell">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" fill="rgba(248,245,240,.12)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M5 8h8M5 11h5" stroke="#C4703F" stroke-width="1.2" stroke-linecap="round"/></svg>
       </div>
-      <div class="f-card">
-        <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" fill="rgba(248,245,240,.1)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M5 7h8M5 10h6M5 13h4" stroke="#C4703F" stroke-width="1.1" stroke-linecap="round"/></svg></div>
-        <div class="f-title">Harvard <em>Citations</em></div>
-        <p class="f-desc">Validates in-text citations against your reference list. Catches missing entries, formatting errors, and mismatches — before your marker does.</p>
-        <div class="f-badge">&#8599; Free forever</div>
+      <div class="feature-title">Essay <em>Improvements</em></div>
+      <div class="feature-desc">Specific rewrites for every AI-sounding phrase — actual alternative sentences written for your essay's context. Click to apply or ignore.</div>
+      <div class="feature-tag">↗ 1/month free · 10/month Pro</div>
+    </div>
+
+    <div class="feature-cell">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 3h10v12H4z" fill="rgba(248,245,240,.12)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M6 7h6M6 10h4" stroke="#C4703F" stroke-width="1.2" stroke-linecap="round"/></svg>
       </div>
-      <div class="f-card">
-        <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14L7 10L10 13L15 6" stroke="#F8F5F0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="14" r="1" fill="#C4703F"/><circle cx="15" cy="6" r="1" fill="#C4703F"/></svg></div>
-        <div class="f-title">Grade <em>Estimator</em></div>
-        <p class="f-desc">Weighted score across writing quality, argument depth, citation health, and structure. Calibrated to UK grade boundaries: First, 2:1, 2:2, Third.</p>
-        <div class="f-badge">&#8599; Free forever</div>
+      <div class="feature-title">Harvard <em>Citations</em></div>
+      <div class="feature-desc">Validates in-text citations against your reference list. Catches missing entries, formatting errors, and mismatches — before your marker does.</div>
+      <div class="feature-tag">↗ Free forever</div>
+    </div>
+
+    <div class="feature-cell">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14L7 10L10 13L15 6" stroke="#F8F5F0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="14" r="1" fill="#C4703F"/><circle cx="15" cy="6" r="1" fill="#C4703F"/></svg>
       </div>
-      <div class="f-card">
-        <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="3" fill="rgba(248,245,240,.12)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M5 6h8M5 9h5M5 12h3" stroke="#C4703F" stroke-width="1.2" stroke-linecap="round"/><circle cx="13" cy="12" r="2" fill="#C4703F"/></svg></div>
-        <div class="f-title">Assignment <em>Workspace</em></div>
-        <p class="f-desc">Set up your modules, deadlines, and assignment briefs once — free, forever. SafeGrade remembers everything so Sage gives advice specific to your actual assignment, not a generic essay. Pro users also unlock the Research Planner to map out sources and structure before they start writing.</p>
-        <div class="f-badge">&#8599; Workspace free forever &middot; 5 plans/month Pro</div>
+      <div class="feature-title">Grade <em>Estimator</em></div>
+      <div class="feature-desc">Weighted score across writing quality, argument depth, citation health, and structure. Calibrated to UK grade boundaries: First, 2:1, 2:2, Third.</div>
+      <div class="feature-tag">↗ Free forever</div>
+    </div>
+
+    <div class="feature-cell">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="4" width="12" height="11" rx="1.5" stroke="#F8F5F0" stroke-width="1.2"/><path d="M6 2v3M12 2v3M3 8h12" stroke="#F8F5F0" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="11" r=".8" fill="#C4703F"/><circle cx="11" cy="11" r=".8" fill="#C4703F"/></svg>
       </div>
-      <div class="f-card f-card-wide">
-        <div>
-          <div class="f-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" fill="rgba(248,245,240,.1)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M9 6v3l2 2" stroke="#C4703F" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-          <div class="f-title">Meet <em>Sage</em></div>
-          <p class="f-desc">Ask anything about your essay, module, or deadline. The more you use SafeGrade, the more Sage learns — your university, your course, your lecturer's preferences, even how you write. Advice gets sharper the longer you're here.</p>
-          <div class="f-badge">&#8599; 5/month free &middot; 100/month Pro &middot; gets smarter the more you build your workspace</div>
-        </div>
-        <div style="background:rgba(26,34,54,.04);border-radius:10px;padding:20px 22px;">
-          <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);margin-bottom:14px;">Ask Sage</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="background:white;border:1px solid rgba(26,34,54,.08);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:300;color:var(--ink);">"My lecturer marks down for weak structure. What's wrong with my intro paragraph?"</div>
-            <div style="background:white;border:1px solid rgba(26,34,54,.08);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:300;color:var(--ink);">"How do I reference a government report in Harvard style?"</div>
-            <div style="background:var(--terra);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:300;color:white;">"Can you help me rewrite this conclusion to sound less like AI?"</div>
-          </div>
-        </div>
+      <div class="feature-title">Assignment <em>Workspace</em></div>
+      <div class="feature-desc">Set up your modules, deadlines, and assignment briefs once — free, forever. SafeGrade remembers everything so Sage gives advice specific to your assignment.</div>
+      <div class="feature-tag">↗ Workspace free · 5 plans/month Pro</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ COMPARISON ═══════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">SafeGrade vs alternatives</div>
+    <h2 class="section-title">The only tool built<br><em>specifically</em> for UK students.</h2>
+  </div>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">&nbsp;</th>
+        <th class="col-us">SafeGrade</th>
+        <th>GPTZero</th>
+        <th>Grammarly</th>
+        <th>Turnitin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-row"><td colspan="5">Writing Analysis &amp; AI Risk</td></tr>
+      <tr>
+        <td>Writing analysis (6 dimensions)</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+      </tr>
+      <tr>
+        <td>Never shared with Turnitin or your university</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+      </tr>
+      <tr>
+        <td>Deep AI risk check with Claude</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr class="section-row"><td colspan="5">Writing Tools</td></tr>
+      <tr>
+        <td>Phrase-by-phrase rewrite suggestions</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+      </tr>
+      <tr>
+        <td>Harvard citation validation</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+      </tr>
+      <tr class="section-row"><td colspan="5">Academic</td></tr>
+      <tr>
+        <td>UK grade band estimation</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+      </tr>
+      <tr>
+        <td>Subject-aware Sage advisor</td>
+        <td class="col-us-cell"><span class="check-yes">✓</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+        <td><span class="check-no">—</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════ STATS ═══════════════ -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stats-eyebrow">By the numbers</div>
+    <h2 class="stats-title">Built on evidence.<br>Tested <em>every week.</em></h2>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num" data-target="98.7" data-suffix="%" data-decimals="1"><em>0</em></div>
+        <div class="stat-label">Deep Scan <strong>accuracy</strong><br>on latest test run</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="370"><em>0</em></div>
+        <div class="stat-label">AI-generated essays<br><strong>tested across 12 subjects</strong></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="142"><em>0</em></div>
+        <div class="stat-label">UK universities<br><strong>supported out of the box</strong></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="2" data-suffix=" min"><em>0</em></div>
+        <div class="stat-label">From paste to<br><strong>full analysis</strong></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section comparison" id="compare">
-  <div class="comp-inner">
-    <div class="section-eyebrow section-eyebrow-light">SafeGrade vs alternatives</div>
-    <h2 class="section-title section-title-dark">The only tool built<br><em>specifically</em> for UK students.</h2>
-    <table class="comp-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th class="th-sg">SafeGrade</th>
-          <th>GPTZero</th>
-          <th>Grammarly</th>
-          <th>Turnitin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="cat-row"><td colspan="5">Writing Analysis &amp; AI Risk</td></tr>
-        <tr>
-          <td>Writing analysis (6 dimensions)</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-        </tr>
-        <tr>
-          <td>Never shared with Turnitin or your university</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-        </tr>
-        <tr>
-          <td>Deep AI Risk Check</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-        </tr>
-        <tr class="cat-row"><td colspan="5">Writing Tools</td></tr>
-        <tr>
-          <td>Phrase-by-phrase rewrite suggestions</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-p"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 5.5h6" stroke="#C4703F" stroke-width="2" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-        </tr>
-        <tr>
-          <td>Harvard citation validation</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-        </tr>
-        <tr class="cat-row"><td colspan="5">Academic</td></tr>
-        <tr>
-          <td>UK grade band estimation</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-        </tr>
-        <tr>
-          <td>Subject-aware Sage</td>
-          <td class="td-sg"><span class="ck ck-y"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="#6B8E5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-          <td><span class="ck ck-n"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 2.5L8.5 8.5M8.5 2.5L2.5 8.5" stroke="rgba(26,34,54,.3)" stroke-width="1.8" stroke-linecap="round"/></svg></span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section style="position:relative;z-index:1;background:#1A2236;padding:96px 80px;overflow:hidden;" id="quality">
-
-  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(248,245,240,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(248,245,240,.025) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;"></div>
-  <div style="position:absolute;top:-120px;left:-120px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(74,123,157,.18) 0%,transparent 65%);pointer-events:none;"></div>
-  <div style="position:absolute;bottom:-80px;right:-80px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(196,112,63,.12) 0%,transparent 65%);pointer-events:none;"></div>
-
-  <div class="quality-inner" style="position:relative;z-index:1;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 480px;gap:72px;align-items:center;">
-
-    <div>
-      <div style="font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(74,123,157,.9);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
-        <span style="display:block;width:20px;height:1.5px;background:rgba(74,123,157,.9);flex-shrink:0;"></span>
-        Always improving
-      </div>
-
-      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(30px,3vw,44px);font-weight:700;line-height:1.07;letter-spacing:-.025em;color:#F8F5F0;margin-bottom:16px;">
-        We never stop<br><em style="font-style:italic;color:#7AADCC;">testing our tools.</em>
-      </h2>
-
-      <p style="font-size:15px;font-weight:300;line-height:1.72;color:rgba(248,245,240,.5);margin-bottom:16px;max-width:440px;">
-        We continuously stress-test our analysis engine against a controlled library of essays to make sure our detection and writing analysis stays sharp. When something underperforms, we find it and fix it — before it ever affects your results.
-      </p>
-      <p style="font-size:15px;font-weight:300;line-height:1.72;color:rgba(248,245,240,.5);margin-bottom:32px;max-width:440px;">
-        The tool you use today is more accurate than it was last month. That's by design.
-      </p>
-
-      <div style="display:flex;margin-bottom:32px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:80px;padding:18px 16px 18px 0;border-right:1px solid rgba(248,245,240,.07);">
-          <div style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#7AADCC;line-height:1;margin-bottom:5px;">98.7%</div>
-          <div style="font-size:11px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.45;">Deep Scan accuracy<br>on latest test run</div>
-        </div>
-        <div style="flex:1;min-width:80px;padding:18px 16px;border-right:1px solid rgba(248,245,240,.07);">
-          <div style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#7AADCC;line-height:1;margin-bottom:5px;">99.7%</div>
-          <div style="font-size:11px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.45;">AI-generated essays<br>correctly identified</div>
-        </div>
-        <div style="flex:1;min-width:80px;padding:18px 16px;border-right:1px solid rgba(248,245,240,.07);">
-          <div style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#7AADCC;line-height:1;margin-bottom:5px;">12</div>
-          <div style="font-size:11px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.45;">Subject areas tested<br>independently</div>
-        </div>
-        <div style="flex:1;min-width:80px;padding:18px 0 18px 16px;">
-          <div style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#7AADCC;line-height:1;margin-bottom:5px;">100%</div>
-          <div style="font-size:11px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.45;">Consented or synthetic &mdash;<br>never scraped student work</div>
-        </div>
-      </div>
-
-      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(74,123,157,.1);border:1px solid rgba(74,123,157,.25);border-radius:6px;padding:10px 16px;font-size:12px;font-weight:300;color:rgba(248,245,240,.5);">
-        <span style="width:6px;height:6px;border-radius:50%;background:#7AADCC;flex-shrink:0;"></span>
-        98.7% accuracy on our latest test run &mdash; and we&rsquo;re always improving
-      </div>
-    </div>
-
-    <div class="quality-visual">
-      <div style="background:rgba(248,245,240,.04);border:1px solid rgba(248,245,240,.09);border-radius:16px;overflow:hidden;">
-
-        <div style="background:rgba(74,123,157,.12);border-bottom:1px solid rgba(74,123,157,.18);padding:14px 22px;display:flex;align-items:center;gap:9px;">
-          <span style="width:8px;height:8px;border-radius:50%;background:#4A7B9D;display:block;"></span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;color:rgba(248,245,240,.4);letter-spacing:.08em;text-transform:uppercase;">How we keep our tools sharp</span>
-        </div>
-
-        <div style="padding:22px;display:flex;flex-direction:column;gap:0;">
-
-          <div style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(248,245,240,.05);">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(74,123,157,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L13 5v4.5Q13 12.5 8 14.5Q3 12.5 3 9.5V5L8 2Z" fill="rgba(248,245,240,.08)" stroke="rgba(74,123,157,.9)" stroke-width="1.2"/><path d="M5.5 8L7 9.5L10.5 6" stroke="#7AADCC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <div style="font-size:13.5px;font-weight:500;color:rgba(248,245,240,.85);margin-bottom:4px;">Tested across writing styles</div>
-              <div style="font-size:11.5px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.6;">Our test library covers a wide range of writing so our tools are calibrated against what students actually submit — not just ideal cases.</div>
-            </div>
-          </div>
-
-          <div style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(248,245,240,.05);">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(74,123,157,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="rgba(74,123,157,.9)" stroke-width="1.2" fill="rgba(248,245,240,.05)"/><path d="M8 5v3.5l2 1" stroke="#7AADCC" stroke-width="1.2" stroke-linecap="round"/></svg>
-            </div>
-            <div>
-              <div style="font-size:13.5px;font-weight:500;color:rgba(248,245,240,.85);margin-bottom:4px;">Problems caught before they reach you</div>
-              <div style="font-size:11.5px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.6;">Every update is verified against our full test library before it goes live. If it doesn't improve accuracy, it doesn't ship.</div>
-            </div>
-          </div>
-
-          <div style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(74,123,157,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L6 9.5L9 12L13 5" stroke="#7AADCC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <div style="font-size:13.5px;font-weight:500;color:rgba(248,245,240,.85);margin-bottom:4px;">Accuracy that improves over time</div>
-              <div style="font-size:11.5px;font-weight:300;color:rgba(248,245,240,.35);line-height:1.6;">As AI writing evolves, so does our ability to identify it. The tool you use today is more accurate than it was last month.</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
+<!-- ═══════════════ SAGE ═══════════════ -->
 <section class="sage-section" id="sage">
-
-  <div class="sage-header">
-    <div class="sage-eyebrow">Meet Sage</div>
-    <h2 class="sage-headline">Your personal<br>writing <em>advisor.</em></h2>
-    <p class="sage-sub">Sage knows your university, your course, and your assignment. Ask it anything about your essay — it teaches you to write better, not write for you.</p>
+  <div class="section-header">
+    <div class="section-eyebrow sage-eyebrow-special">Meet Sage</div>
+    <h2 class="section-title">Your personal<br>writing <em class="sage-em">advisor.</em></h2>
+    <p class="section-sub">Sage knows your university, your course, and your assignment. Ask it anything about your essay — it teaches you to write better, not write for you.</p>
   </div>
 
   <div class="sage-layout">
 
-    <!-- Chat mockup -->
     <div class="sage-chat">
       <div class="sage-chat-header">
-        <div class="sage-chat-header-icon">
+        <div class="sage-chat-icon">
           <svg width="16" height="16" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#4A6B5A"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
         </div>
-        <div class="sage-chat-header-text">
-          <span class="sage-chat-header-name">Sage</span>
-          <span class="sage-chat-header-status">Your writing advisor</span>
+        <div>
+          <div class="sage-chat-name">Sage</div>
+          <div class="sage-chat-status">Your writing advisor</div>
         </div>
-        <div class="sage-chat-header-dots"><span></span><span></span><span></span></div>
       </div>
 
       <div class="sage-chat-body">
-
         <div class="sage-msg sage-msg-user">
-          <div class="sage-msg-avatar sage-msg-avatar-user">
+          <div class="sage-avatar avatar-user">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2.5" stroke="#F8F5F0" stroke-width="1"/><path d="M1.5 11C1.5 8.5 3.5 7 6 7s4.5 1.5 4.5 4" stroke="#F8F5F0" stroke-width="1" stroke-linecap="round"/></svg>
           </div>
-          <div class="sage-msg-bubble">My essay got flagged for AI patterns but I wrote it myself. My Deep Scan says 72% confidence. What's going on?</div>
+          <div class="sage-bubble">My essay got flagged for AI patterns but I wrote it myself. Deep Scan says 72% confidence. What's going on?</div>
         </div>
 
         <div class="sage-msg sage-msg-sage">
-          <div class="sage-msg-avatar sage-msg-avatar-sage">
+          <div class="sage-avatar avatar-sage">
             <svg width="14" height="14" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#4A6B5A"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
           </div>
-          <div class="sage-msg-bubble">That 72% is coming from two things in your sociology essay. First, your paragraphs are all roughly the same length — 130–150 words each. Human essays are messier than that. Try varying them.<br><br>Second, you've used <strong>"furthermore"</strong> four times and <strong>"it is important to note"</strong> twice. Those are high-frequency AI phrases. Try: <em>"Building on Coleman's argument…"</em> or <em>"What this misses is…"</em> — they say the same thing but sound like you.</div>
+          <div class="sage-bubble">That 72% is coming from two things. Your paragraphs are all 130–150 words — humans are messier than that. And you've used <strong>"furthermore"</strong> four times. Try <em>"Building on Coleman's argument…"</em> instead. Same meaning, sounds like you.</div>
         </div>
 
         <div class="sage-msg sage-msg-user">
-          <div class="sage-msg-avatar sage-msg-avatar-user">
+          <div class="sage-avatar avatar-user">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2.5" stroke="#F8F5F0" stroke-width="1"/><path d="M1.5 11C1.5 8.5 3.5 7 6 7s4.5 1.5 4.5 4" stroke="#F8F5F0" stroke-width="1" stroke-linecap="round"/></svg>
           </div>
-          <div class="sage-msg-bubble">Can you check if my conclusion actually answers the question?</div>
+          <div class="sage-bubble">Can you check if my conclusion actually answers the question?</div>
         </div>
 
         <div class="sage-msg sage-msg-sage">
-          <div class="sage-msg-avatar sage-msg-avatar-sage">
+          <div class="sage-avatar avatar-sage">
             <svg width="14" height="14" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#4A6B5A"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
           </div>
-          <div class="sage-msg-bubble">Paste your conclusion and the essay question — I'll tell you exactly what's missing and where to strengthen it for 2:1 territory.</div>
+          <div class="sage-bubble">Paste it and the essay question — I'll tell you exactly what's missing for 2:1 territory.</div>
         </div>
-
       </div>
 
       <div class="sage-chat-input">
@@ -985,16 +1603,14 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
       </div>
     </div>
 
-    <!-- Selling points -->
     <div class="sage-points">
-
       <div class="sage-point">
         <div class="sage-point-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5" r="3" stroke="#4A6B5A" stroke-width="1.2"/><path d="M3 16c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#4A6B5A" stroke-width="1.2" stroke-linecap="round"/></svg>
         </div>
-        <div class="sage-point-body">
+        <div>
           <div class="sage-point-title">Knows <em>your</em> course</div>
-          <div class="sage-point-desc">Sage knows your university, subject, and assignment. Criminology students get criminology advice. Nursing students get Gibbs reflective cycle guidance. It's not generic.</div>
+          <div class="sage-point-desc">Criminology students get criminology advice. Nursing students get Gibbs reflective cycle guidance. Subject-aware across 12 disciplines.</div>
         </div>
       </div>
 
@@ -1002,9 +1618,9 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
         <div class="sage-point-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5v5Q14 14 9 16Q4 14 4 10V5L9 2Z" fill="none" stroke="#4A6B5A" stroke-width="1.2"/><path d="M6.5 9.5L8.5 11.5L12 7" stroke="#4A6B5A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div class="sage-point-body">
+        <div>
           <div class="sage-point-title">Explains your <em>scores</em></div>
-          <div class="sage-point-desc">Don't just see a number — understand what it means. Sage explains exactly why your essay was flagged and which phrases to fix, with specific rewrites.</div>
+          <div class="sage-point-desc">Don't just see a number — understand what it means. Sage explains why each score is what it is, with specific rewrites.</div>
         </div>
       </div>
 
@@ -1012,208 +1628,347 @@ footer { background: var(--ink); padding: 40px 80px; display: flex; align-items:
         <div class="sage-point-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14V4h12v10" stroke="#4A6B5A" stroke-width="1.2" stroke-linecap="round"/><path d="M6 8h6M6 11h4" stroke="#4A6B5A" stroke-width="1.2" stroke-linecap="round"/></svg>
         </div>
-        <div class="sage-point-body">
+        <div>
           <div class="sage-point-title">Teaches, doesn't <em>ghostwrite</em></div>
-          <div class="sage-point-desc">Sage shows you how to write better with examples and technique — it won't write your essay for you. Your work stays your work.</div>
+          <div class="sage-point-desc">Sage shows technique with examples — it won't write your essay for you. Your work stays your work.</div>
         </div>
       </div>
 
       <div class="sage-point">
         <div class="sage-point-icon">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h12v12H3z" stroke="#4A6B5A" stroke-width="1.2" rx="2"/><path d="M3 7h12" stroke="#4A6B5A" stroke-width="1.2"/><circle cx="6" cy="5" r=".8" fill="#4A6B5A"/><circle cx="9" cy="5" r=".8" fill="#4A6B5A"/></svg>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="2" stroke="#4A6B5A" stroke-width="1.2"/><path d="M3 7h12" stroke="#4A6B5A" stroke-width="1.2"/></svg>
         </div>
-        <div class="sage-point-body">
+        <div>
           <div class="sage-point-title">Remembers your <em>conversations</em></div>
-          <div class="sage-point-desc">Come back to Sage throughout your assignment. It remembers what you discussed, picks up where you left off, and tracks your progress.</div>
+          <div class="sage-point-desc">Come back throughout your assignment. Sage remembers what you discussed and picks up where you left off.</div>
         </div>
       </div>
 
-      <div class="sage-cta">
-        <a href="https://app.safegrade.co.uk/coach">
-          <svg width="16" height="16" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#F8F5F0" opacity="0.3"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
-          Ask Sage a question →
-        </a>
-      </div>
-
+      <a href="https://app.safegrade.co.uk/coach" class="sage-cta">
+        <svg width="16" height="16" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#F8F5F0" opacity="0.3"/><path d="M14 26C14 16 20 10 28 12C28 12 26 16 26 21C26 24.5 28 27 28 27C24.5 30.5 16 30 14 26Z" fill="#F8F5F0" opacity="0.9"/></svg>
+        Ask Sage a question →
+      </a>
     </div>
   </div>
 </section>
 
-<section class="section pricing" id="pricing">
-  <div class="pricing-inner">
-    <div class="section-eyebrow section-eyebrow-light">Pricing</div>
-    <h2 class="section-title section-title-dark">Simple. <em>No surprises.</em><br>Cancel any time.</h2>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="price-label">Free</div>
-        <div class="price-amount">&pound;0</div>
-        <div class="price-period">forever</div>
-        <ul class="price-features">
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All 6 AI detection signals &mdash; unlimited</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Grade estimator &mdash; unlimited</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Assignment workspace &mdash; unlimited</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Harvard citation checker &mdash; unlimited</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>1 Deep AI Scan per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>1 Improvement Scan per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>1 Grammar Check per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>5 Sage messages per month</li>
-        </ul>
-        <a href="https://app.safegrade.co.uk" class="price-btn price-btn-dark">Get started free</a>
-      </div>
-      <div class="price-card price-card-pro">
-        <div class="price-label price-label-light">Pro</div>
-        <div class="price-amount price-amount-light">&pound;3.99</div>
-        <div class="price-period price-period-light">per month &middot; cancel any time</div>
-        <ul class="price-features price-features-light">
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All local features &mdash; unlimited</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>10 Deep Scans per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>10 Improvement Scans per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>10 Grammar Checks per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>100 Sage messages per month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Research Planner &mdash; 5 plans/month</li>
-          <li><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5 9.5L11 3" stroke="#C4703F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Refer a friend &rarr; get a free month</li>
-        </ul>
-        <a href="https://app.safegrade.co.uk" class="price-btn price-btn-light">Start Pro</a>
-      </div>
+<!-- ═══════════════ PRICING ═══════════════ -->
+<section class="pricing-section" id="pricing">
+  <div class="section-header">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Start free.<br><em>Upgrade if you want more.</em></h2>
+    <p class="section-sub">No card needed for the first scan. Cancel any time.</p>
+
+    <div class="billing-toggle">
+      <button class="billing-btn active" onclick="toggleBilling('monthly')" id="btnMonthly">Monthly</button>
+      <button class="billing-btn" onclick="toggleBilling('annual')" id="btnAnnual">
+        Annual
+        <span class="billing-save">Save 17%</span>
+      </button>
     </div>
-    <p class="price-note">Need more mid-month? A one-time Usage Boost (&pound;1.99) doubles all limits for the rest of your billing cycle &mdash; 20 scans, 20 improvements, 20 grammar checks, 200 Sage messages, 10 research plans. Max 1 per cycle.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-label">Free</div>
+      <div class="price-amount"><span class="currency">£</span><span class="num">0</span></div>
+      <div class="price-period">Forever · No card needed</div>
+      <div class="price-slash">&nbsp;</div>
+      <div class="price-divider"></div>
+      <ul class="features-list">
+        <li class="feat-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>All 6 <strong>AI detection signals</strong></span>
+          <span class="feat-tier">Unlimited</span>
+        </li>
+        <li class="feat-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><strong>Grade estimator</strong></span>
+          <span class="feat-tier">Unlimited</span>
+        </li>
+        <li class="feat-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><strong>Harvard citation</strong> checker</span>
+          <span class="feat-tier">Unlimited</span>
+        </li>
+        <li class="feat-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Assignment <strong>workspace</strong></span>
+          <span class="feat-tier">Unlimited</span>
+        </li>
+        <li class="feat-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><strong>1 Deep Scan</strong> / month</span>
+        </li>
+        <li class="feat-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#6B8E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><strong>5 Sage messages</strong> / month</span>
+        </li>
+      </ul>
+      <a href="https://app.safegrade.co.uk" class="price-cta price-cta-free">Get started free</a>
+    </div>
+
+    <div class="price-card price-card-pro">
+      <div class="popular-badge">Most Popular</div>
+      <div class="price-label">Pro</div>
+      <div class="price-amount"><span class="currency">£</span><span class="num"><em id="proPrice">3.99</em></span></div>
+      <div class="price-period" id="proPeriod">per month · cancel any time</div>
+      <div class="price-slash" id="proSlash">£47.88/year billed monthly</div>
+      <div class="price-divider"></div>
+      <ul class="features-list">
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Everything in Free</strong></span></li>
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>10 Deep Scans</strong> per month</span></li>
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>10 Improvement</strong> scans</span></li>
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>10 Grammar</strong> checks</span></li>
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>100 Sage messages</strong> per month</span></li>
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Research Planner</strong> — 5 plans/month</span></li>
+        <li class="feat-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#E8A880" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Refer a friend → <strong>free month</strong></span></li>
+      </ul>
+      <a href="https://app.safegrade.co.uk" class="price-cta price-cta-pro">Start Pro</a>
+    </div>
+  </div>
+
+  <div class="boost-note">
+    <strong>Need more mid-month?</strong> A one-time <strong>Usage Boost (£1.99)</strong> doubles all Pro limits for the rest of your cycle — 20 scans, 20 improvements, 20 grammar, 200 Sage messages, 10 research plans. Max 1 per cycle.
   </div>
 </section>
 
-<section class="section privacy" id="privacy">
-  <div class="privacy-inner">
-    <div>
-      <div class="section-eyebrow" style="margin-bottom:12px;">Privacy first</div>
-      <h2 class="priv-headline">Your essay is<br>yours. <em>Always.</em></h2>
-      <p class="priv-sub">We built SafeGrade because we were uncomfortable with how other tools handle student work. Here's exactly what we do — and don't do.</p>
-    </div>
-    <ul class="priv-points">
-      <li>
-        <div class="priv-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L13 4v5Q13 13 8 15Q3 13 3 9V4L8 1.5Z" fill="rgba(248,245,240,.12)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M5.5 8L7.5 10L11 6" stroke="#C4703F" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div><div class="priv-title">Your data stays on UK servers</div><div class="priv-desc">Your essay is stored securely on UK-based infrastructure so you can access your history, compare drafts, and track your progress. It is never shared with third parties, never sent to Turnitin or any university system, and never used to train AI models.</div></div>
-      </li>
-      <li>
-        <div class="priv-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="2" fill="rgba(248,245,240,.12)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M5 6V4.5a3 3 0 0 1 6 0V6" stroke="#C4703F" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        <div><div class="priv-title">Your privacy is protected</div><div class="priv-desc">SafeGrade has no connection to Turnitin, your university's VLE, or any institutional system. Your essay data is stored securely on UK servers and never shared with your institution or any third party. You can delete your data at any time from Account Settings.</div></div>
-      </li>
-      <li>
-        <div class="priv-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 0 0 0 12" stroke="#F8F5F0" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M8 2a6 6 0 0 1 0 12" stroke="#C4703F" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-dasharray="2 2"/></svg></div>
-        <div><div class="priv-title">UK-hosted infrastructure</div><div class="priv-desc">SafeGrade runs on UK-based hardware. Your data doesn't cross borders. GDPR-compliant by design.</div></div>
-      </li>
-      <li>
-        <div class="priv-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" fill="rgba(248,245,240,.08)" stroke="#F8F5F0" stroke-width="1.2"/><path d="M8 5v3l2 1.5" stroke="#C4703F" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        <div><div class="priv-title">Academic integrity safe</div><div class="priv-desc">Using SafeGrade is no different to using a spell checker. We're a review tool — not a contract cheating service.</div></div>
-      </li>
-    </ul>
+<!-- ═══════════════ PRIVACY ═══════════════ -->
+<section class="section" id="privacy">
+  <div class="section-header">
+    <div class="section-eyebrow">Privacy first</div>
+    <h2 class="section-title">Your essay is yours. <em>Always.</em></h2>
+    <p class="section-sub">We built SafeGrade because we were uncomfortable with how other tools handle student work. Here's exactly what we do — and don't do.</p>
   </div>
-</section>
 
-<section class="section waitlist" id="join">
-  <div class="waitlist-inner">
-    <div class="section-eyebrow section-eyebrow-light" style="text-align:center;margin-bottom:12px;">Get started</div>
-    <h2 class="waitlist-title">Ready to check<br>your <em>grade?</em></h2>
-    <p class="waitlist-sub">Join thousands of UK students checking their essays before submission. The first scan is always free — no account needed.</p>
-    <a href="https://app.safegrade.co.uk" class="app-btn">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Open SafeGrade — it's free
-    </a>
-    <div class="or-divider"><span class="or-text">or join the waitlist for updates</span></div>
-    <div id="wl-form-wrap">
-      <div class="waitlist-form">
-        <input type="email" class="waitlist-input" id="wl-email" placeholder="your@university.ac.uk">
-        <button class="waitlist-btn" onclick="joinWaitlist()">Notify me</button>
+  <div class="privacy-grid">
+    <div class="privacy-card">
+      <div class="privacy-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="7" width="12" height="8" rx="1.5" stroke="#6B8E5A" stroke-width="1.2"/><path d="M6 7V5a3 3 0 016 0v2" stroke="#6B8E5A" stroke-width="1.2"/></svg>
       </div>
-      <p class="waitlist-note">No spam. Just a heads-up when new features land.</p>
-    </div>
-    <div class="waitlist-success" id="wl-success">
-      <div class="waitlist-success-text">You're on the list.</div>
-      <div class="waitlist-success-sub">We'll be in touch when your university gets priority access.</div>
-    </div>
-  </div>
-</section>
-
-<section style="position:relative;z-index:1;background:#F8F5F0;padding:80px 80px;border-top:1px solid rgba(26,34,54,.08);" id="blog">
-
-  <div style="max-width:1100px;margin:0 auto;">
-
-    <!-- Header row -->
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;gap:20px;flex-wrap:wrap;">
       <div>
-        <div style="font-size:9.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#8A7E6E;margin-bottom:10px;">From the blog</div>
-        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,36px);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:#1A2236;">Answers to the questions<br><em style="font-style:italic;color:#C4703F;">students actually ask.</em></h2>
+        <div class="privacy-title">Your data stays on UK servers</div>
+        <div class="privacy-desc">Your essay is stored securely on UK-based infrastructure so you can access your history, compare drafts, and track your progress. Never shared with third parties, never sent to Turnitin, never used to train AI models.</div>
       </div>
-      <a href="/blog/" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:#1A2236;text-decoration:none;border-bottom:1px solid rgba(26,34,54,.2);padding-bottom:2px;white-space:nowrap;">All articles &rarr;</a>
     </div>
-
-    <!-- Post cards grid -->
-    <div class="blog-cards-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
-
-      <!-- Post 1 -->
-      <a href="/blog/will-my-university-detect-ai-in-my-essay.html" style="background:white;border:1px solid rgba(26,34,54,.08);border-radius:14px;padding:24px;text-decoration:none;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(26,34,54,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-        <div style="font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:rgba(26,34,54,.07);color:#8A7E6E;padding:3px 9px;border-radius:3px;width:fit-content;margin-bottom:14px;">Academic Integrity</div>
-        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#1A2236;line-height:1.3;letter-spacing:-.01em;margin-bottom:10px;flex:1;">Will my university detect AI in my essay?</div>
-        <div style="font-size:13px;font-weight:300;color:#8A7E6E;line-height:1.6;margin-bottom:16px;">How Turnitin actually works in 2026, what it catches, and what to do before you submit.</div>
-        <div style="font-size:12px;font-weight:500;color:#C4703F;">7 min read &rarr;</div>
-      </a>
-
-      <!-- Post 2 -->
-      <a href="/blog/ai-essay-phrases-to-avoid.html" style="background:#1A2236;border:1px solid transparent;border-radius:14px;padding:24px;text-decoration:none;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(26,34,54,.25)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-        <div style="position:absolute;bottom:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(196,112,63,.2) 0%,transparent 65%);pointer-events:none;"></div>
-        <div style="font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:rgba(196,112,63,.15);color:#E8A880;padding:3px 9px;border-radius:3px;width:fit-content;margin-bottom:14px;position:relative;z-index:1;">Writing Tips</div>
-        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#F8F5F0;line-height:1.3;letter-spacing:-.01em;margin-bottom:10px;flex:1;position:relative;z-index:1;">10 AI phrases that get students flagged</div>
-        <div style="font-size:13px;font-weight:300;color:rgba(248,245,240,.45);line-height:1.6;margin-bottom:16px;position:relative;z-index:1;">The phrases markers recognise immediately — with specific rewrites for each one.</div>
-        <div style="font-size:12px;font-weight:500;color:#E8A880;position:relative;z-index:1;">6 min read &rarr;</div>
-      </a>
-
-      <!-- Post 3 -->
-      <a href="/blog/how-to-improve-essay-grade-uk.html" style="background:white;border:1px solid rgba(26,34,54,.08);border-radius:14px;padding:24px;text-decoration:none;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(26,34,54,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-        <div style="font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:rgba(107,142,90,.1);color:#2E5C22;padding:3px 9px;border-radius:3px;width:fit-content;margin-bottom:14px;">Grade Improvement</div>
-        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#1A2236;line-height:1.3;letter-spacing:-.01em;margin-bottom:10px;flex:1;">How to improve your grade before submission</div>
-        <div style="font-size:13px;font-weight:300;color:#8A7E6E;line-height:1.6;margin-bottom:16px;">The pre-submission checklist UK students use to push from a 2:2 to a 2:1.</div>
-        <div style="font-size:12px;font-weight:500;color:#C4703F;">7 min read &rarr;</div>
-      </a>
-
+    <div class="privacy-card">
+      <div class="privacy-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5v5Q14 14 9 16Q4 14 4 10V5L9 2Z" stroke="#6B8E5A" stroke-width="1.2"/></svg>
+      </div>
+      <div>
+        <div class="privacy-title">Your privacy is protected</div>
+        <div class="privacy-desc">SafeGrade has no connection to Turnitin, your university's VLE, or any institutional system. You can delete your data any time from Account Settings.</div>
+      </div>
     </div>
-
+    <div class="privacy-card">
+      <div class="privacy-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#6B8E5A" stroke-width="1.2"/><path d="M9 3v12M3 9h12" stroke="#6B8E5A" stroke-width="1.2"/></svg>
+      </div>
+      <div>
+        <div class="privacy-title">UK-hosted infrastructure</div>
+        <div class="privacy-desc">SafeGrade runs on UK-based hardware. Your data doesn't cross borders. GDPR-compliant by design.</div>
+      </div>
+    </div>
+    <div class="privacy-card">
+      <div class="privacy-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9L7.5 12.5L14 5" stroke="#6B8E5A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="privacy-title">Academic integrity safe</div>
+        <div class="privacy-desc">Using SafeGrade is no different to using a spell checker. We're a review tool — not a contract cheating service.</div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- ═══════════════ FINAL CTA ═══════════════ -->
+<section class="final-cta">
+  <div class="section-eyebrow" style="margin-bottom:16px">Get started</div>
+  <h2 class="section-title">Ready to check your <em>grade?</em></h2>
+  <p class="section-sub" style="margin-bottom:24px">Join thousands of UK students checking their essays before submission. The first scan is always free — no account needed.</p>
+  <a href="https://app.safegrade.co.uk" class="final-btn">Open SafeGrade — it's free</a>
+</section>
+
+<!-- ═══════════════ BLOG ═══════════════ -->
+<section class="blog-strip">
+  <div class="blog-strip-header">
+    <div>
+      <div class="section-eyebrow" style="margin-bottom:12px">From the blog</div>
+      <div class="blog-strip-title">Answers to the questions <em>students actually ask.</em></div>
+    </div>
+    <a href="/blog/" class="blog-strip-link">All articles →</a>
+  </div>
+
+  <div class="blog-grid">
+    <a href="/blog/will-my-university-detect-ai-in-my-essay.html" class="blog-card">
+      <div class="blog-tag">Academic Integrity</div>
+      <div class="blog-title">Will my university detect AI in my essay?</div>
+      <div class="blog-desc">How Turnitin actually works in 2026, what it catches, and what to do before you submit.</div>
+      <div class="blog-read">7 min read →</div>
+    </a>
+    <a href="/blog/ai-essay-phrases-to-avoid.html" class="blog-card">
+      <div class="blog-tag">Writing Tips</div>
+      <div class="blog-title">10 AI phrases that get students flagged</div>
+      <div class="blog-desc">The phrases markers recognise immediately — with specific rewrites for each one.</div>
+      <div class="blog-read">6 min read →</div>
+    </a>
+    <a href="/blog/how-to-improve-essay-grade-uk.html" class="blog-card">
+      <div class="blog-tag">Grade Improvement</div>
+      <div class="blog-title">How to improve your grade before submission</div>
+      <div class="blog-desc">The pre-submission checklist UK students use to push from a 2:2 to a 2:1.</div>
+      <div class="blog-read">7 min read →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
 <footer>
-  <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-    <svg width="22" height="26" viewBox="0 0 100 118" fill="none">
-      <path fill="#F8F5F0" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/>
-      <path fill="none" stroke="#C4703F" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/>
+  <div class="footer-left">
+    <svg width="20" height="24" viewBox="0 0 100 118" fill="none">
+      <path fill="#F8F5F0" opacity=".3" d="M50 8C55 8 70 12 86 22L88 25L88 62Q88 90 50 108Q12 90 12 62L12 25L14 22C30 12 45 8 50 8Z"/>
+      <path fill="none" stroke="#C4703F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M30 62L44 77L72 44"/>
     </svg>
-    <span class="footer-logo-name">Safe<em>Grade</em></span>
-  </a>
+    <span class="footer-name">Safe<em>Grade</em></span>
+  </div>
   <div class="footer-links">
     <a href="https://app.safegrade.co.uk">Open app</a>
     <a href="/partnerships.html">University partnerships</a>
+    <a href="/blog/">Blog</a>
     <a href="mailto:help@safegrade.co.uk">help@safegrade.co.uk</a>
     <a href="mailto:report@safegrade.co.uk">Report a bug</a>
     <a href="https://app.safegrade.co.uk/privacy">Privacy Policy</a>
   </div>
-  <div class="footer-copy">&copy; 2026 SafeGrade</div>
 </footer>
 
 <script>
-function joinWaitlist() {
-  const email = document.getElementById('wl-email').value.trim();
-  if (!email || !email.includes('@')) {
-    document.getElementById('wl-email').style.borderColor = '#C44A3F';
-    return;
+// INTERACTIVE DEMO
+const presets = {
+  1: "It is important to note that Bourdieu's framework offers a compelling lens through which to examine educational inequality in today's society. Furthermore, his concept of cultural capital provides valuable insights into how social class is reproduced through schooling.",
+  2: "In today's rapidly evolving society, it is important to note that educational inequality remains a significant concern. Furthermore, cultural capital plays a crucial role in shaping outcomes. Moreover, understanding these dynamics is essential for meaningful policy reform. Additionally, research consistently demonstrates the profound impact of socioeconomic factors.",
+  3: "Bourdieu's cultural capital framework, while foundational, assumes a stable class structure that doesn't quite account for the digital literacies now valued in schools. I find Sullivan's 2001 empirical testing much more useful — it reveals real measurement problems most scholars since have just ignored."
+};
+
+function loadPreset(n) { document.getElementById('demoInput').value = presets[n]; }
+
+function runScan() {
+  const input = document.getElementById('demoInput').value.trim();
+  if (!input) { document.getElementById('demoInput').focus(); return; }
+
+  let profile = 'human';
+  if (input === presets[1]) profile = 'mixed';
+  else if (input === presets[2]) profile = 'ai';
+  else if (input === presets[3]) profile = 'human';
+  else {
+    const aiPhrases = ['it is important to note','furthermore','moreover','additionally','in today\'s society','in recent years','consequently'];
+    let matches = 0;
+    const lower = input.toLowerCase();
+    aiPhrases.forEach(p => { if (lower.includes(p)) matches++; });
+    if (matches >= 3) profile = 'ai';
+    else if (matches >= 1) profile = 'mixed';
   }
-  document.getElementById('wl-form-wrap').style.display = 'none';
-  document.getElementById('wl-success').classList.add('show');
-  // TODO: when WS-2 auth is live, uncomment:
-  // fetch('https://app.safegrade.co.uk/api/waitlist', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email}) });
+
+  document.getElementById('demoEmpty').style.display = 'none';
+  document.getElementById('demoResult').classList.remove('active');
+  document.getElementById('demoScanning').classList.add('active');
+
+  const steps = ['Analysing writing patterns...','Checking AI phrase patterns...','Validating citations...','Calculating grade estimate...'];
+  let step = 0;
+  const status = document.getElementById('scanStatus');
+  const interval = setInterval(() => { step++; if (step < steps.length) status.textContent = steps[step]; }, 450);
+
+  setTimeout(() => { clearInterval(interval); document.getElementById('demoScanning').classList.remove('active'); showResult(profile); }, 1900);
 }
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+function showResult(profile) {
+  const result = document.getElementById('demoResult');
+  const verdict = document.querySelector('.verdict');
+  let data;
+  if (profile === 'ai') {
+    data = { score:34, verdict:'AI-like Patterns Detected', sub:'5 high-frequency phrases across 3 dimensions', bg:'#FBF0EA', border:'#F0C8B0', dot:'#C4432F', grade:'Review before submission', metrics:[52,38,61,12,44], classes:['warn','warn','good','warn','warn'], showPhrases:true, phraseHtml:'<span class="phrase-flag">It is important to note</span> that <span class="phrase-flag">in today\'s society</span>... <span class="phrase-flag">Furthermore</span>... <span class="phrase-flag">Moreover</span>... <span class="phrase-flag">Additionally</span>...' };
+  } else if (profile === 'mixed') {
+    data = { score:82, verdict:'Strong Writing Patterns', sub:'Low AI-risk signals across 6 dimensions', bg:'#F0F7EC', border:'#C8DEC0', dot:'#6B8E5A', grade:'2:1 — Upper Second', metrics:[78,85,72,31,88], classes:['good','good','good','warn','good'], showPhrases:true, phraseHtml:'"<span class="phrase-flag">It is important to note</span> that Bourdieu\'s framework offers a compelling lens through which to examine inequality <span class="phrase-flag">in today\'s society</span>."' };
+  } else {
+    data = { score:91, verdict:'Strong Human Writing', sub:'Consistently genuine across all signals', bg:'#F0F7EC', border:'#C8DEC0', dot:'#6B8E5A', grade:'1st — First Class', metrics:[89,94,86,8,92], classes:['good','good','good','good','good'], showPhrases:false };
+  }
+
+  document.getElementById('scoreNum').textContent = data.score;
+  document.getElementById('verdictText').textContent = data.verdict;
+  document.getElementById('verdictSub').textContent = data.sub;
+  document.getElementById('verdictDot').style.background = data.dot;
+  document.getElementById('verdictDot').style.boxShadow = `0 0 0 4px ${data.dot}33`;
+  verdict.style.background = data.bg;
+  verdict.style.borderColor = data.border;
+  document.getElementById('gradeBadge').textContent = data.grade;
+
+  for (let i=0; i<5; i++) {
+    const m = document.getElementById('m'+(i+1));
+    const v = document.getElementById('v'+(i+1));
+    m.style.setProperty('--w', data.metrics[i]+'%');
+    m.className = 'metric-fill ' + data.classes[i];
+    m.style.animation = 'none'; m.offsetHeight; m.style.animation = '';
+    v.textContent = data.metrics[i];
+  }
+
+  const pb = document.getElementById('phrasesBlock');
+  if (data.showPhrases) {
+    pb.style.display = 'block';
+    document.getElementById('phraseText').innerHTML = data.phraseHtml;
+  } else { pb.style.display = 'none'; }
+
+  result.classList.add('active');
+  result.style.animation = 'none'; result.offsetHeight; result.style.animation = 'fadeUp .5s ease forwards';
+}
+
+setTimeout(() => loadPreset(1), 500);
+
+// ANIMATED STAT COUNTERS
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const decimals = parseInt(el.dataset.decimals || 0);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1600;
+  const start = performance.now();
+  function frame(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+    const current = target * eased;
+    const display = decimals > 0 ? current.toFixed(decimals) : Math.floor(current);
+    el.innerHTML = `<em>${display}</em>${suffix ? `<span class="stat-num-suffix">${suffix}</span>` : ''}`;
+    if (progress < 1) requestAnimationFrame(frame);
+    else el.innerHTML = `<em>${decimals > 0 ? target.toFixed(decimals) : target}</em>${suffix ? `<span class="stat-num-suffix">${suffix}</span>` : ''}`;
+  }
+  requestAnimationFrame(frame);
+}
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { animateCounter(entry.target); statObserver.unobserve(entry.target); }
   });
-});
+}, { threshold: 0.4 });
+document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
+
+// BILLING TOGGLE
+function toggleBilling(mode) {
+  const btnM = document.getElementById('btnMonthly');
+  const btnA = document.getElementById('btnAnnual');
+  const price = document.getElementById('proPrice');
+  const period = document.getElementById('proPeriod');
+  const slash = document.getElementById('proSlash');
+
+  if (mode === 'annual') {
+    btnM.classList.remove('active'); btnA.classList.add('active');
+    price.textContent = '3.32';
+    period.textContent = 'per month · billed annually at £39.99';
+    slash.textContent = 'Save £7.89 vs monthly billing';
+    slash.classList.add('show');
+  } else {
+    btnM.classList.add('active'); btnA.classList.remove('active');
+    price.textContent = '3.99';
+    period.textContent = 'per month · cancel any time';
+    slash.classList.remove('show');
+  }
+}
 </script>
+
 </body>
 </html>
